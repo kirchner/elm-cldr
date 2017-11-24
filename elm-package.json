@@ -1,13 +1,15 @@
 {
     "version": "1.0.0",
-    "summary": "helpful summary of your project, less than 80 characters",
-    "repository": "https://github.com/user/project.git",
-    "license": "BSD3",
+    "summary": "use the i18n and l11n data from cldr.unicode.org",
+    "repository": "https://github.com/kirchner/elm-cldr.git",
+    "license": "Apache License, version 2.0",
     "source-directories": [
         "src",
         "demo"
     ],
-    "exposed-modules": [],
+    "exposed-modules": [
+        "Localized"
+    ],
     "dependencies": {
         "NoRedInk/elm-decode-pipeline": "3.0.0 <= v < 4.0.0",
         "elm-community/string-extra": "1.4.0 <= v < 2.0.0",
