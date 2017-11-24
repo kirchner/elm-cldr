@@ -165,8 +165,21 @@ generateLocaleModule code locale =
             , exposed =
                 [ "cardinalSelector"
                 , "ordinalSelector"
+                , "cardinal"
+                , "ordinal"
                 ]
             }
+        , [ "import Internal.Localized exposing (..)"
+          , "import Localized exposing (..)"
+          ]
+            |> String.join "\n"
+        , generatePlural "cardinal" locale.cardinalRules
+        , case locale.ordinalRules of
+            Just ordinalRules ->
+                generatePlural "ordinal" ordinalRules
+
+            Nothing ->
+                "ordinal = cardinal"
         , generateSelector "cardinal" locale.cardinalRules
         , case locale.ordinalRules of
             Just ordinalRules ->
@@ -177,6 +190,100 @@ generateLocaleModule code locale =
         ]
             |> String.join "\n\n"
     }
+
+
+generatePlural : String -> PluralRules -> String
+generatePlural kind pluralRules =
+    let
+        body =
+            [ "customPlural accessor"
+            , [ "(toString >> " ++ kind ++ "Selector)"
+              , pluralCasesAssignment
+              ]
+                |> String.concat
+                |> Generate.indent
+            ]
+                |> String.join "\n"
+
+        pluralCasesAssignment =
+            [ "{"
+            , [ pluralCaseAssignment "zero" pluralRules.zero
+              , pluralCaseAssignment "one" pluralRules.one
+              , pluralCaseAssignment "two" pluralRules.two
+              , pluralCaseAssignment "few" pluralRules.few
+              , pluralCaseAssignment "many" pluralRules.many
+              , "other = other"
+              ]
+                |> String.join "\n ,"
+            , "\n}"
+            ]
+                |> String.concat
+
+        pluralCaseAssignment name rule =
+            if rule == Nothing then
+                name ++ " = []"
+            else
+                name ++ " = " ++ name
+
+        pluralCasesType =
+            [ "{"
+            , [ pluralCaseType "zero" pluralRules.zero
+              , pluralCaseType "one" pluralRules.one
+              , pluralCaseType "two" pluralRules.two
+              , pluralCaseType "few" pluralRules.few
+              , pluralCaseType "many" pluralRules.many
+              , Just "other : List (Part args)"
+              ]
+                |> List.filterMap identity
+                |> String.join "\n ,"
+            , "\n}"
+            ]
+                |> String.concat
+
+        pluralCaseType name maybeRule =
+            case maybeRule of
+                Just _ ->
+                    [ name
+                    , " : List (Part args)"
+                    ]
+                        |> String.concat
+                        |> Just
+
+                Nothing ->
+                    Nothing
+
+        pluralCasesNames =
+            [ "{"
+            , [ pluralCaseName "zero" pluralRules.zero
+              , pluralCaseName "one" pluralRules.one
+              , pluralCaseName "two" pluralRules.two
+              , pluralCaseName "few" pluralRules.few
+              , pluralCaseName "many" pluralRules.many
+              , Just "other"
+              ]
+                |> List.filterMap identity
+                |> String.join " ,"
+            , "}"
+            ]
+                |> String.concat
+
+        pluralCaseName name maybeRule =
+            case maybeRule of
+                Just _ ->
+                    Just name
+
+                Nothing ->
+                    Nothing
+    in
+    Generate.function
+        { name = kind
+        , arguments =
+            [ ( "(args -> Float)", "accessor" )
+            , ( pluralCasesType, pluralCasesNames )
+            ]
+        , returnType = "Part args"
+        , body = body
+        }
 
 
 generateSelector : String -> PluralRules -> String
@@ -206,7 +313,7 @@ generateSelector kind pluralRules =
     Generate.function
         { name = kind ++ "Selector"
         , arguments = [ ( "String", "count" ) ]
-        , returnType = "String"
+        , returnType = "PluralCase"
         , body = generateBody pluralRules
         }
 
@@ -324,7 +431,8 @@ generateExpression expression =
 
 generateOperand : String -> PluralOperand -> String
 generateOperand decimal pluralOperand =
-    String.concat <|
+    [ "("
+    , String.concat <|
         case pluralOperand of
             AbsoluteValue ->
                 [ "absoluteValue "
@@ -361,6 +469,9 @@ generateOperand decimal pluralOperand =
                 , withTrailingZeros |> toString
                 , " count"
                 ]
+    , ")"
+    ]
+        |> String.concat
 
 
 
