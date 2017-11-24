@@ -12,9 +12,20 @@ module Localized
         , string
         )
 
+{-|
+
+@docs Part, print
+
+@docs s, string, customPlural, count, customDecimal
+
+@docs NumberSymbols, NumberFormat, NumberPattern
+
+-}
+
 import Internal.Localized exposing (..)
 
 
+{-| -}
 type Part args
     = Verbatim String
     | String (args -> String)
@@ -33,6 +44,7 @@ type alias AllPluralCases args =
     }
 
 
+{-| -}
 type alias NumberSymbols =
     { decimal : String
     , group : String
@@ -49,12 +61,14 @@ type alias NumberSymbols =
     }
 
 
+{-| -}
 type alias NumberFormat =
     { positivePattern : NumberPattern
     , negativePattern : Maybe NumberPattern
     }
 
 
+{-| -}
 type alias NumberPattern =
     { prefix : String
     , suffix : String
@@ -70,21 +84,25 @@ type alias NumberPattern =
 ---- SHARED PARTS
 
 
+{-| -}
 s : String -> Part args
 s text =
     Verbatim text
 
 
+{-| -}
 string : (args -> String) -> Part args
 string accessor =
     String accessor
 
 
+{-| -}
 count : Part args
 count =
     Count
 
 
+{-| -}
 customDecimal : (args -> Float) -> NumberSymbols -> NumberFormat -> Part args
 customDecimal accessor numberSymbols numberFormat =
     let
@@ -191,6 +209,7 @@ digitsHelper digits num =
         (num % 10) :: digitsHelper digits (num // 10)
 
 
+{-| -}
 customPlural :
     (args -> Float)
     -> (Float -> PluralCase)
@@ -211,6 +230,7 @@ customPlural accessor selector cases =
 ---- PRINT
 
 
+{-| -}
 print : args -> List (Part args) -> String
 print args parts =
     parts
