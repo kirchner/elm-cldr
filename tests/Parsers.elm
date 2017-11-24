@@ -174,13 +174,9 @@ suite =
                                     , suffix = ""
                                     , primaryGroupingSize = Nothing
                                     , secondaryGroupingSize = Nothing
-                                    , integerPattern =
-                                        [ HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , ZeroPattern
-                                        ]
-                                    , fractionalPattern = []
+                                    , minimalIntegerCount = 1
+                                    , minimalFractionCount = 0
+                                    , maximalFractionCount = 0
                                     }
                                 , negativePattern = Nothing
                                 }
@@ -196,14 +192,9 @@ suite =
                                     , suffix = ""
                                     , primaryGroupingSize = Just 4
                                     , secondaryGroupingSize = Nothing
-                                    , integerPattern =
-                                        [ HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , ZeroPattern
-                                        ]
-                                    , fractionalPattern = []
+                                    , minimalIntegerCount = 1
+                                    , minimalFractionCount = 0
+                                    , maximalFractionCount = 0
                                     }
                                 , negativePattern = Nothing
                                 }
@@ -219,15 +210,9 @@ suite =
                                     , suffix = ""
                                     , primaryGroupingSize = Just 4
                                     , secondaryGroupingSize = Just 1
-                                    , integerPattern =
-                                        [ HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , ZeroPattern
-                                        ]
-                                    , fractionalPattern = []
+                                    , minimalIntegerCount = 1
+                                    , minimalFractionCount = 0
+                                    , maximalFractionCount = 0
                                     }
                                 , negativePattern = Nothing
                                 }
@@ -243,16 +228,9 @@ suite =
                                     , suffix = ""
                                     , primaryGroupingSize = Just 3
                                     , secondaryGroupingSize = Nothing
-                                    , integerPattern =
-                                        [ HashPattern
-                                        , HashPattern
-                                        , HashPattern
-                                        , ZeroPattern
-                                        ]
-                                    , fractionalPattern =
-                                        [ HashPattern
-                                        , HashPattern
-                                        ]
+                                    , minimalIntegerCount = 1
+                                    , minimalFractionCount = 0
+                                    , maximalFractionCount = 2
                                     }
                                 , negativePattern = Nothing
                                 }

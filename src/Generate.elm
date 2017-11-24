@@ -6,6 +6,7 @@ module Generate
         , indent
         , list
         , moduIe
+        , record
         , recordPatternMatch
         , recordType
         , string
@@ -125,6 +126,25 @@ tvpe { name, constructors } =
       ]
         |> String.concat
         |> indent
+    ]
+        |> String.concat
+
+
+record : List ( String, String ) -> String
+record fields =
+    let
+        field ( key, value ) =
+            [ key
+            , " = "
+            , value
+            ]
+                |> String.concat
+    in
+    [ "{ "
+    , fields
+        |> List.map field
+        |> String.join "\n, "
+    , "\n}"
     ]
         |> String.concat
 

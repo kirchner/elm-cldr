@@ -10,6 +10,12 @@ import Dict exposing (Dict)
 import Generate
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline as Decode
+import Localized
+    exposing
+        ( NumberFormat
+        , NumberPattern
+        , NumberSymbols
+        )
 import Parser exposing (..)
 import String.Extra as String
 
@@ -92,6 +98,13 @@ numberFormatsDecoder code =
             [ "main"
             , code
             , "numbers"
+            , "symbols-numberSystem-latn"
+            ]
+            numberSymbolsDecoder
+        |> Decode.requiredAt
+            [ "main"
+            , code
+            , "numbers"
             , "decimalFormats-numberSystem-latn"
             , "standard"
             ]
@@ -112,6 +125,23 @@ numberFormatsDecoder code =
             , "standard"
             ]
             numberFormatDecoder
+
+
+numberSymbolsDecoder : Decoder NumberSymbols
+numberSymbolsDecoder =
+    Decode.decode NumberSymbols
+        |> Decode.required "decimal" Decode.string
+        |> Decode.required "group" Decode.string
+        |> Decode.required "list" Decode.string
+        |> Decode.required "percentSign" Decode.string
+        |> Decode.required "plusSign" Decode.string
+        |> Decode.required "minusSign" Decode.string
+        |> Decode.required "exponential" Decode.string
+        |> Decode.required "superscriptingExponent" Decode.string
+        |> Decode.required "perMille" Decode.string
+        |> Decode.required "infinity" Decode.string
+        |> Decode.required "nan" Decode.string
+        |> Decode.required "timeSeparator" Decode.string
 
 
 numberFormatDecoder : Decoder NumberFormat
@@ -145,31 +175,11 @@ ordinalRulesDecoder =
 
 
 type alias NumberFormats =
-    { standard : NumberFormat
+    { symbols : NumberSymbols
+    , standard : NumberFormat
     , percent : NumberFormat
     , scientific : NumberFormat
     }
-
-
-type alias NumberFormat =
-    { positivePattern : NumberPattern
-    , negativePattern : Maybe NumberPattern
-    }
-
-
-type alias NumberPattern =
-    { prefix : String
-    , suffix : String
-    , primaryGroupingSize : Maybe Int
-    , secondaryGroupingSize : Maybe Int
-    , integerPattern : List DigitPattern
-    , fractionalPattern : List DigitPattern
-    }
-
-
-type DigitPattern
-    = ZeroPattern
-    | HashPattern
 
 
 numberFormat : String -> Result String NumberFormat
@@ -238,22 +248,12 @@ numberPattern pattern =
             , suffix = ""
             , primaryGroupingSize = primaryGroupingSize
             , secondaryGroupingSize = secondaryGroupingSize
-            , integerPattern =
+            , minimalIntegerCount =
                 integerPattern
-                    |> String.toList
-                    |> List.filterMap
-                        (\char ->
-                            case char of
-                                '#' ->
-                                    Just HashPattern
-
-                                '0' ->
-                                    Just ZeroPattern
-
-                                _ ->
-                                    Nothing
-                        )
-            , fractionalPattern = []
+                    |> String.filter (\char -> char == '0')
+                    |> String.length
+            , minimalFractionCount = 0
+            , maximalFractionCount = 0
             }
                 |> Ok
 
@@ -287,36 +287,17 @@ numberPattern pattern =
             , suffix = ""
             , primaryGroupingSize = primaryGroupingSize
             , secondaryGroupingSize = secondaryGroupingSize
-            , integerPattern =
+            , minimalIntegerCount =
                 integerPattern
-                    |> String.toList
-                    |> List.filterMap
-                        (\char ->
-                            case char of
-                                '#' ->
-                                    Just HashPattern
-
-                                '0' ->
-                                    Just ZeroPattern
-
-                                _ ->
-                                    Nothing
-                        )
-            , fractionalPattern =
+                    |> String.filter (\char -> char == '0')
+                    |> String.length
+            , minimalFractionCount =
                 fractionalPattern
-                    |> String.toList
-                    |> List.filterMap
-                        (\char ->
-                            case char of
-                                '#' ->
-                                    Just HashPattern
-
-                                '0' ->
-                                    Just ZeroPattern
-
-                                _ ->
-                                    Nothing
-                        )
+                    |> String.filter (\char -> char == '0')
+                    |> String.length
+            , maximalFractionCount =
+                fractionalPattern
+                    |> String.length
             }
                 |> Ok
 
@@ -425,6 +406,7 @@ generateLocaleModule code locale =
                 , "ordinalSelector"
                 , "cardinal"
                 , "ordinal"
+                , "decimal"
                 ]
             }
         , [ "import Internal.Localized exposing (..)"
@@ -453,9 +435,11 @@ generateLocaleModule code locale =
 
 generateNumberFormats : NumberFormats -> String
 generateNumberFormats numberFormats =
-    [ generateNumberFormat "standard" numberFormats.standard
+    [ generateNumberSymbols numberFormats.symbols
+    , generateNumberFormat "standard" numberFormats.standard
     , generateNumberFormat "percent" numberFormats.percent
     , generateNumberFormat "scientific" numberFormats.scientific
+    , generateDecimal
     ]
         |> String.join "\n\n"
 
@@ -463,14 +447,92 @@ generateNumberFormats numberFormats =
 generateNumberFormat : String -> NumberFormat -> String
 generateNumberFormat kind numberFormat =
     let
-        body =
-            "Debug.crash \"TODO\""
+        numberPattern pattern =
+            [ ( "prefix"
+              , pattern.prefix
+                    |> Generate.string
+              )
+            , ( "suffix"
+              , pattern.suffix
+                    |> Generate.string
+              )
+            , ( "primaryGroupingSize"
+              , pattern.primaryGroupingSize
+                    |> toString
+              )
+            , ( "secondaryGroupingSize"
+              , pattern.secondaryGroupingSize
+                    |> toString
+              )
+            , ( "minimalIntegerCount"
+              , pattern.minimalIntegerCount
+                    |> toString
+              )
+            , ( "minimalFractionCount"
+              , pattern.minimalFractionCount
+                    |> toString
+              )
+            , ( "maximalFractionCount"
+              , pattern.maximalFractionCount
+                    |> toString
+              )
+            ]
+                |> Generate.record
     in
+    [ kind ++ "NumberFormat : NumberFormat\n"
+    , kind ++ "NumberFormat =\n"
+    , [ ( "positivePattern", numberPattern numberFormat.positivePattern )
+      , ( "negativePattern"
+        , case numberFormat.negativePattern of
+            Just negativePattern ->
+                [ "Just ("
+                , numberPattern negativePattern
+                , ")"
+                ]
+                    |> String.concat
+
+            Nothing ->
+                "Nothing"
+        )
+      ]
+        |> Generate.record
+        |> Generate.indent
+    ]
+        |> String.concat
+
+
+generateNumberSymbols : NumberSymbols -> String
+generateNumberSymbols symbols =
+    [ "numberSymbols : NumberSymbols\n"
+    , "numberSymbols =\n"
+    , [ ( "decimal", symbols.decimal )
+      , ( "group", symbols.group )
+      , ( "list", symbols.list )
+      , ( "percentSign", symbols.percentSign )
+      , ( "plusSign", symbols.plusSign )
+      , ( "minusSign", symbols.minusSign )
+      , ( "exponential", symbols.exponential )
+      , ( "superscriptingExponent", symbols.superscriptingExponent )
+      , ( "perMille", symbols.perMille )
+      , ( "infinity", symbols.infinity )
+      , ( "nan", symbols.nan )
+      , ( "timeSeparator", symbols.timeSeparator )
+      ]
+        |> List.map (Tuple.mapSecond Generate.string)
+        |> Generate.record
+        |> Generate.indent
+    ]
+        |> String.concat
+
+
+generateDecimal : String
+generateDecimal =
     Generate.function
-        { name = kind ++ "NumberFormatter"
-        , arguments = [ ( "Float", "num" ) ]
-        , returnType = "String"
-        , body = body
+        { name = "decimal"
+        , arguments = [ ( "(args -> Float)", "accessor" ) ]
+        , returnType = "Part args"
+        , body =
+            "customDecimal accessor numberSymbols standardNumberFormat"
         }
 
 
