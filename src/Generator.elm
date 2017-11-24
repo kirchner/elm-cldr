@@ -12,7 +12,8 @@ port exportResult : Value -> Cmd msg
 
 
 type alias Flags =
-    { cardinalsJson : String
+    { numberFormatsJsons : List ( String, String )
+    , cardinalsJson : String
     , ordinalsJson : String
     }
 
@@ -28,7 +29,14 @@ main =
 
 init : Flags -> ( {}, Cmd Never )
 init flags =
-    ( {}, exportCldr (cldr flags.cardinalsJson flags.ordinalsJson) )
+    ( {}
+    , exportCldr
+        (cldr
+            (flags.numberFormatsJsons |> Dict.fromList)
+            flags.cardinalsJson
+            flags.ordinalsJson
+        )
+    )
 
 
 

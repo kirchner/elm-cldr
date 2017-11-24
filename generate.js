@@ -9,6 +9,33 @@ const child_process = require("child_process");
 
 const currentDir = process.cwd();
 
+let numberFormats = []
+
+fs
+  .readdirSync(
+    path.join(
+      currentDir,
+      "cldr-numbers-full",
+      "main"
+    )
+  )
+  .forEach(function(localeCode) {
+    numberFormats.push([ 
+      localeCode,
+      fs
+        .readFileSync(
+          path.join(
+            currentDir,
+            "cldr-numbers-full",
+            "main",
+            localeCode,
+            "numbers.json"
+          )
+        )
+        .toString()
+    ]);
+  });
+
 let cardinals =
   fs
     .readFileSync(
@@ -35,6 +62,7 @@ let ordinals =
 
 
 let worker = Elm.Generator.worker({
+  "numberFormatsJsons": numberFormats,
   "cardinalsJson": cardinals,
   "ordinalsJson": ordinals,
 });

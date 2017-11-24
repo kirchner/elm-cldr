@@ -162,6 +162,102 @@ suite =
                         |> run intParser
                         |> Expect.equal (Ok (int ^ 2))
             ]
+        , describe "NumerFormats"
+            [ test "with integer part" <|
+                \_ ->
+                    "###0"
+                        |> numberFormat
+                        |> Expect.equal
+                            (Ok
+                                { positivePattern =
+                                    { prefix = ""
+                                    , suffix = ""
+                                    , primaryGroupingSize = Nothing
+                                    , secondaryGroupingSize = Nothing
+                                    , integerPattern =
+                                        [ HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , ZeroPattern
+                                        ]
+                                    , fractionalPattern = []
+                                    }
+                                , negativePattern = Nothing
+                                }
+                            )
+            , test "with integer part and primary group" <|
+                \_ ->
+                    "#,###0"
+                        |> numberFormat
+                        |> Expect.equal
+                            (Ok
+                                { positivePattern =
+                                    { prefix = ""
+                                    , suffix = ""
+                                    , primaryGroupingSize = Just 4
+                                    , secondaryGroupingSize = Nothing
+                                    , integerPattern =
+                                        [ HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , ZeroPattern
+                                        ]
+                                    , fractionalPattern = []
+                                    }
+                                , negativePattern = Nothing
+                                }
+                            )
+            , test "with integer part, primary group and secondary group" <|
+                \_ ->
+                    "#,#,###0"
+                        |> numberFormat
+                        |> Expect.equal
+                            (Ok
+                                { positivePattern =
+                                    { prefix = ""
+                                    , suffix = ""
+                                    , primaryGroupingSize = Just 4
+                                    , secondaryGroupingSize = Just 1
+                                    , integerPattern =
+                                        [ HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , ZeroPattern
+                                        ]
+                                    , fractionalPattern = []
+                                    }
+                                , negativePattern = Nothing
+                                }
+                            )
+            , test "with integer and fractional part" <|
+                \_ ->
+                    "#,##0.##"
+                        |> numberFormat
+                        |> Expect.equal
+                            (Ok
+                                { positivePattern =
+                                    { prefix = ""
+                                    , suffix = ""
+                                    , primaryGroupingSize = Just 3
+                                    , secondaryGroupingSize = Nothing
+                                    , integerPattern =
+                                        [ HashPattern
+                                        , HashPattern
+                                        , HashPattern
+                                        , ZeroPattern
+                                        ]
+                                    , fractionalPattern =
+                                        [ HashPattern
+                                        , HashPattern
+                                        ]
+                                    }
+                                , negativePattern = Nothing
+                                }
+                            )
+            ]
         ]
 
 

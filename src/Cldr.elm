@@ -14,8 +14,23 @@ import Parser exposing (..)
 import String.Extra as String
 
 
-cldr : String -> String -> Cldr
-cldr cardinalsJson ordinalsJson =
+cldr : Dict String String -> String -> String -> Cldr
+cldr numberFormatsJsons cardinalsJson ordinalsJson =
+    let
+        numberFormats =
+            numberFormatsJsons
+                |> Dict.toList
+                |> List.map
+                    (\( code, json ) ->
+                        case json |> Decode.decodeString (numberFormatsDecoder code) of
+                            Ok numberFormats ->
+                                ( code |> String.camelize, numberFormats )
+
+                            Err error ->
+                                Debug.crash (toString error)
+                    )
+                |> Dict.fromList
+    in
     case
         ( cardinalsJson |> Decode.decodeString cardinalRulesDecoder
         , ordinalsJson |> Decode.decodeString ordinalRulesDecoder
@@ -26,14 +41,29 @@ cldr cardinalsJson ordinalsJson =
                 allCardinalRules
                     |> Dict.map
                         (\code cardinalRules ->
+                            let
+                                defaultNumberFormats =
+                                    case Dict.get "en" numberFormats of
+                                        Just enNumberFormats ->
+                                            enNumberFormats
+
+                                        Nothing ->
+                                            Debug.crash "en number formats not available"
+
+                                saveNumberFormats =
+                                    Dict.get code numberFormats
+                                        |> Maybe.withDefault defaultNumberFormats
+                            in
                             case Dict.get code allOrdinalRules of
                                 Just ordinalRules ->
-                                    { cardinalRules = cardinalRules
+                                    { numberFormats = saveNumberFormats
+                                    , cardinalRules = cardinalRules
                                     , ordinalRules = Just ordinalRules
                                     }
 
                                 Nothing ->
-                                    { cardinalRules = cardinalRules
+                                    { numberFormats = saveNumberFormats
+                                    , cardinalRules = cardinalRules
                                     , ordinalRules = Nothing
                                     }
                         )
@@ -49,18 +79,53 @@ type alias Cldr =
 
 
 type alias Locale =
-    { cardinalRules : PluralRules
+    { numberFormats : NumberFormats
+    , cardinalRules : PluralRules
     , ordinalRules : Maybe PluralRules
     }
 
 
-type alias PluralRules =
-    { zero : Maybe Or
-    , one : Maybe Or
-    , two : Maybe Or
-    , few : Maybe Or
-    , many : Maybe Or
-    }
+numberFormatsDecoder : String -> Decoder NumberFormats
+numberFormatsDecoder code =
+    Decode.decode NumberFormats
+        |> Decode.requiredAt
+            [ "main"
+            , code
+            , "numbers"
+            , "decimalFormats-numberSystem-latn"
+            , "standard"
+            ]
+            numberFormatDecoder
+        |> Decode.requiredAt
+            [ "main"
+            , code
+            , "numbers"
+            , "percentFormats-numberSystem-latn"
+            , "standard"
+            ]
+            numberFormatDecoder
+        |> Decode.requiredAt
+            [ "main"
+            , code
+            , "numbers"
+            , "scientificFormats-numberSystem-latn"
+            , "standard"
+            ]
+            numberFormatDecoder
+
+
+numberFormatDecoder : Decoder NumberFormat
+numberFormatDecoder =
+    Decode.string
+        |> Decode.andThen
+            (\format ->
+                case numberFormat format of
+                    Ok format ->
+                        Decode.succeed format
+
+                    Err error ->
+                        Decode.fail error
+            )
 
 
 cardinalRulesDecoder : Decoder (Dict String PluralRules)
@@ -73,6 +138,203 @@ ordinalRulesDecoder : Decoder (Dict String PluralRules)
 ordinalRulesDecoder =
     Decode.at [ "supplemental", "plurals-type-ordinal" ]
         (Decode.dict pluralRulesDecoder)
+
+
+
+---- NUMBERS
+
+
+type alias NumberFormats =
+    { standard : NumberFormat
+    , percent : NumberFormat
+    , scientific : NumberFormat
+    }
+
+
+type alias NumberFormat =
+    { positivePattern : NumberPattern
+    , negativePattern : Maybe NumberPattern
+    }
+
+
+type alias NumberPattern =
+    { prefix : String
+    , suffix : String
+    , primaryGroupingSize : Maybe Int
+    , secondaryGroupingSize : Maybe Int
+    , integerPattern : List DigitPattern
+    , fractionalPattern : List DigitPattern
+    }
+
+
+type DigitPattern
+    = ZeroPattern
+    | HashPattern
+
+
+numberFormat : String -> Result String NumberFormat
+numberFormat pattern =
+    case pattern |> String.split ";" of
+        positivePattern :: [] ->
+            case numberPattern positivePattern of
+                Ok positivePattern ->
+                    { positivePattern = positivePattern
+                    , negativePattern = Nothing
+                    }
+                        |> Ok
+
+                Err error ->
+                    Err ("bad positive pattern: " ++ error)
+
+        positivePattern :: negativePattern :: [] ->
+            case
+                ( numberPattern positivePattern
+                , numberPattern negativePattern
+                )
+            of
+                ( Ok positivePattern, Ok negativePattern ) ->
+                    { positivePattern = positivePattern
+                    , negativePattern = Just negativePattern
+                    }
+                        |> Ok
+
+                _ ->
+                    Err "bad positive or negative pattern"
+
+        _ ->
+            Err "bad number format"
+
+
+numberPattern : String -> Result String NumberPattern
+numberPattern pattern =
+    case pattern |> String.split "." of
+        integerPattern :: [] ->
+            let
+                ( primaryGroupingSize, secondaryGroupingSize ) =
+                    case integerPattern |> String.split "," of
+                        firstGroup :: [] ->
+                            ( Nothing, Nothing )
+
+                        firstGroup :: secondGroup :: [] ->
+                            ( secondGroup
+                                |> String.length
+                                |> Just
+                            , Nothing
+                            )
+
+                        firstGroup :: secondGroup :: thirdGroup :: [] ->
+                            ( thirdGroup
+                                |> String.length
+                                |> Just
+                            , secondGroup
+                                |> String.length
+                                |> Just
+                            )
+
+                        _ ->
+                            Debug.crash "their is an error in your number pattern"
+            in
+            { prefix = ""
+            , suffix = ""
+            , primaryGroupingSize = primaryGroupingSize
+            , secondaryGroupingSize = secondaryGroupingSize
+            , integerPattern =
+                integerPattern
+                    |> String.toList
+                    |> List.filterMap
+                        (\char ->
+                            case char of
+                                '#' ->
+                                    Just HashPattern
+
+                                '0' ->
+                                    Just ZeroPattern
+
+                                _ ->
+                                    Nothing
+                        )
+            , fractionalPattern = []
+            }
+                |> Ok
+
+        integerPattern :: fractionalPattern :: [] ->
+            let
+                ( primaryGroupingSize, secondaryGroupingSize ) =
+                    case integerPattern |> String.split "," of
+                        firstGroup :: [] ->
+                            ( Nothing, Nothing )
+
+                        firstGroup :: secondGroup :: [] ->
+                            ( secondGroup
+                                |> String.length
+                                |> Just
+                            , Nothing
+                            )
+
+                        firstGroup :: secondGroup :: thirdGroup :: [] ->
+                            ( thirdGroup
+                                |> String.length
+                                |> Just
+                            , secondGroup
+                                |> String.length
+                                |> Just
+                            )
+
+                        _ ->
+                            Debug.crash "their is an error in your number pattern"
+            in
+            { prefix = ""
+            , suffix = ""
+            , primaryGroupingSize = primaryGroupingSize
+            , secondaryGroupingSize = secondaryGroupingSize
+            , integerPattern =
+                integerPattern
+                    |> String.toList
+                    |> List.filterMap
+                        (\char ->
+                            case char of
+                                '#' ->
+                                    Just HashPattern
+
+                                '0' ->
+                                    Just ZeroPattern
+
+                                _ ->
+                                    Nothing
+                        )
+            , fractionalPattern =
+                fractionalPattern
+                    |> String.toList
+                    |> List.filterMap
+                        (\char ->
+                            case char of
+                                '#' ->
+                                    Just HashPattern
+
+                                '0' ->
+                                    Just ZeroPattern
+
+                                _ ->
+                                    Nothing
+                        )
+            }
+                |> Ok
+
+        _ ->
+            Err "bad pattern"
+
+
+
+---- PLURAL RULE
+
+
+type alias PluralRules =
+    { zero : Maybe Or
+    , one : Maybe Or
+    , two : Maybe Or
+    , few : Maybe Or
+    , many : Maybe Or
+    }
 
 
 pluralRulesDecoder : Decoder PluralRules
@@ -105,10 +367,6 @@ maybeAt fieldName decoder =
             [ Decode.field fieldName (decoder |> Decode.map Just)
             , Decode.succeed Nothing
             ]
-
-
-
----- PLURAL RULE
 
 
 type Or
@@ -173,6 +431,7 @@ generateLocaleModule code locale =
           , "import Localized exposing (..)"
           ]
             |> String.join "\n"
+        , generateNumberFormats locale.numberFormats
         , generatePlural "cardinal" locale.cardinalRules
         , case locale.ordinalRules of
             Just ordinalRules ->
@@ -190,6 +449,29 @@ generateLocaleModule code locale =
         ]
             |> String.join "\n\n"
     }
+
+
+generateNumberFormats : NumberFormats -> String
+generateNumberFormats numberFormats =
+    [ generateNumberFormat "standard" numberFormats.standard
+    , generateNumberFormat "percent" numberFormats.percent
+    , generateNumberFormat "scientific" numberFormats.scientific
+    ]
+        |> String.join "\n\n"
+
+
+generateNumberFormat : String -> NumberFormat -> String
+generateNumberFormat kind numberFormat =
+    let
+        body =
+            "Debug.crash \"TODO\""
+    in
+    Generate.function
+        { name = kind ++ "NumberFormatter"
+        , arguments = [ ( "Float", "num" ) ]
+        , returnType = "String"
+        , body = body
+        }
 
 
 generatePlural : String -> PluralRules -> String
