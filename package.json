@@ -1,0 +1,9 @@
+{
+    "name": "generate-i18n",
+    "version": "1.0.0",
+    "description": "TODO",
+    "main": "generate.js",
+    "dependencies": {
+        "fs-extra": "^2.1.2"
+    }
+}

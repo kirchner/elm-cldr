@@ -1,0 +1,3 @@
+[submodule "cldr-core"]
+	path = cldr-core
+	url = https://github.com/unicode-cldr/cldr-core
