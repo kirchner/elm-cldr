@@ -1,8 +1,9 @@
-module Parsers exposing (..)
+module CldrTests exposing (..)
 
 import Cldr exposing (..)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
+import Localized exposing (..)
 import Parser exposing (..)
 import Test exposing (..)
 
@@ -11,13 +12,7 @@ suite : Test
 suite =
     describe "parse"
         [ describe "Relation"
-            [ fuzz relationFuzzer "random relation" <|
-                \relation ->
-                    relation
-                        |> printRelation
-                        |> run relationParser
-                        |> Expect.equal (Ok relation)
-            , test "Equal" <|
+            [ test "Equal" <|
                 \_ ->
                     "n = 1"
                         |> run relationParser
@@ -58,13 +53,14 @@ suite =
                     |> Expect.equal
                         (Ok
                             (And
-                                [ Equal
+                                (Equal
                                     (Modulo AbsoluteValue 10)
                                     [ Single 0 ]
-                                , NotEqual
+                                )
+                                (NotEqual
                                     (Simple AbsoluteValue)
                                     [ Single 100 ]
-                                ]
+                                )
                             )
                         )
         , test "Or" <|
@@ -74,17 +70,62 @@ suite =
                     |> Expect.equal
                         (Ok
                             (Or
-                                [ And
-                                    [ NotEqual
-                                        (Modulo AbsoluteValue 5)
-                                        [ Single 2 ]
-                                    ]
-                                , And
-                                    [ Equal
-                                        (Simple AbsoluteValue)
-                                        [ Single 1 ]
-                                    ]
-                                ]
+                                (NotEqual
+                                    (Modulo AbsoluteValue 5)
+                                    [ Single 2 ]
+                                )
+                                (Equal
+                                    (Simple AbsoluteValue)
+                                    [ Single 1 ]
+                                )
+                            )
+                        )
+
+        --, test "en ordinal" <|
+        --    \_ ->
+        --        "n % 10 = 1 and n % 100 != 11"
+        --            |> run orParser
+        --            |> Expect.equal
+        , test "fil cardinal" <|
+            \_ ->
+                "v = 0 and i = 1,2,3 or v = 0 and i % 10 != 4,6,9 or v != 0 and f % 10 != 4,6,9"
+                    |> run orParser
+                    |> Expect.equal
+                        (Ok
+                            (Or
+                                (And
+                                    (Equal
+                                        (Simple (FractionDigitCount WithTrailingZeros))
+                                        [ Single 0 ]
+                                    )
+                                    (Equal (Simple IntegerDigits)
+                                        [ Single 1, Single 2, Single 3 ]
+                                    )
+                                )
+                                (Or
+                                    (And
+                                        (Equal
+                                            (Simple
+                                                (FractionDigitCount WithTrailingZeros)
+                                            )
+                                            [ Single 0 ]
+                                        )
+                                        (NotEqual (Modulo IntegerDigits 10)
+                                            [ Single 4, Single 6, Single 9 ]
+                                        )
+                                    )
+                                    (And
+                                        (NotEqual
+                                            (Simple
+                                                (FractionDigitCount WithTrailingZeros)
+                                            )
+                                            [ Single 0 ]
+                                        )
+                                        (NotEqual (Modulo (FractionDigits WithTrailingZeros) 10)
+                                            [ Single 4, Single 6, Single 9 ]
+                                        )
+                                    )
+                                )
                             )
                         )
         , describe "Expression"
@@ -110,11 +151,11 @@ suite =
                     "n"
                         |> run pluralOperandParser
                         |> Expect.equal (Ok AbsoluteValue)
-            , test "IntegerDigitCount" <|
+            , test "IntegerDigits" <|
                 \_ ->
                     "i"
                         |> run pluralOperandParser
-                        |> Expect.equal (Ok IntegerDigitCount)
+                        |> Expect.equal (Ok IntegerDigits)
             ]
         , describe "Range"
             [ test "a range" <|
@@ -243,20 +284,18 @@ suite =
 ---- FUZZER
 
 
-orFuzzer : Fuzzer Or
-orFuzzer =
-    Fuzz.map2 (::) andFuzzer (Fuzz.list andFuzzer)
-        |> Fuzz.map Or
-
-
-andFuzzer : Fuzzer And
-andFuzzer =
-    Fuzz.map2 (::) relationFuzzer (Fuzz.list relationFuzzer)
-        |> Fuzz.map And
-
-
 relationFuzzer : Fuzzer Relation
 relationFuzzer =
+    Fuzz.oneOf
+        [ Fuzz.map2 Equal expressionFuzzer rangesFuzzer
+        , Fuzz.map2 NotEqual expressionFuzzer rangesFuzzer
+        , Fuzz.map2 Or relationFuzzer2 relationFuzzer2
+        , Fuzz.map2 And relationFuzzer2 relationFuzzer2
+        ]
+
+
+relationFuzzer2 : Fuzzer Relation
+relationFuzzer2 =
     Fuzz.oneOf
         [ Fuzz.map2 Equal expressionFuzzer rangesFuzzer
         , Fuzz.map2 NotEqual expressionFuzzer rangesFuzzer
@@ -277,7 +316,7 @@ pluralOperandFuzzer =
         [ Fuzz.constant AbsoluteValue
         , Fuzz.constant (FractionDigits WithTrailingZeros)
         , Fuzz.constant (FractionDigits WithoutTrailingZeros)
-        , Fuzz.constant IntegerDigitCount
+        , Fuzz.constant IntegerDigits
         , Fuzz.constant (FractionDigitCount WithTrailingZeros)
         , Fuzz.constant (FractionDigitCount WithoutTrailingZeros)
         ]

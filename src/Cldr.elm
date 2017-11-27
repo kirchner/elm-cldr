@@ -10,14 +10,21 @@ import Dict exposing (Dict)
 import Generate
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline as Decode
-import Localized
-    exposing
-        ( NumberFormat
-        , NumberPattern
-        , NumberSymbols
-        )
+import Localized exposing (..)
 import Parser exposing (..)
 import String.Extra as String
+
+
+type alias Cldr =
+    { locales : Dict String Locale
+    }
+
+
+type alias Locale =
+    { numberFormats : NumberFormats
+    , cardinalRules : PluralRules
+    , ordinalRules : Maybe PluralRules
+    }
 
 
 cldr : Dict String String -> String -> String -> Cldr
@@ -79,16 +86,61 @@ cldr numberFormatsJsons cardinalsJson ordinalsJson =
             Debug.crash "could not parse CLDR data"
 
 
-type alias Cldr =
-    { locales : Dict String Locale
-    }
+
+---- DECODER
 
 
-type alias Locale =
-    { numberFormats : NumberFormats
-    , cardinalRules : PluralRules
-    , ordinalRules : Maybe PluralRules
-    }
+cardinalRulesDecoder : Decoder (Dict String PluralRules)
+cardinalRulesDecoder =
+    Decode.at [ "supplemental", "plurals-type-cardinal" ]
+        (Decode.dict pluralRulesDecoder)
+
+
+ordinalRulesDecoder : Decoder (Dict String PluralRules)
+ordinalRulesDecoder =
+    Decode.at [ "supplemental", "plurals-type-ordinal" ]
+        (Decode.dict pluralRulesDecoder)
+
+
+pluralRulesDecoder : Decoder PluralRules
+pluralRulesDecoder =
+    Decode.decode PluralRules
+        |> maybeAt "pluralRule-count-zero" pluralRuleDecoder
+        |> maybeAt "pluralRule-count-one" pluralRuleDecoder
+        |> maybeAt "pluralRule-count-two" pluralRuleDecoder
+        |> maybeAt "pluralRule-count-few" pluralRuleDecoder
+        |> maybeAt "pluralRule-count-many" pluralRuleDecoder
+
+
+pluralRuleDecoder : Decoder Relation
+pluralRuleDecoder =
+    Decode.string
+        |> Decode.andThen
+            (\pluralRule ->
+                case run orParser pluralRule of
+                    Ok rule ->
+                        Decode.succeed rule
+
+                    Err _ ->
+                        Decode.fail "not a proper plural rule"
+            )
+
+
+numberSymbolsDecoder : Decoder NumberSymbols
+numberSymbolsDecoder =
+    Decode.decode NumberSymbols
+        |> Decode.required "decimal" Decode.string
+        |> Decode.required "group" Decode.string
+        |> Decode.required "list" Decode.string
+        |> Decode.required "percentSign" Decode.string
+        |> Decode.required "plusSign" Decode.string
+        |> Decode.required "minusSign" Decode.string
+        |> Decode.required "exponential" Decode.string
+        |> Decode.required "superscriptingExponent" Decode.string
+        |> Decode.required "perMille" Decode.string
+        |> Decode.required "infinity" Decode.string
+        |> Decode.required "nan" Decode.string
+        |> Decode.required "timeSeparator" Decode.string
 
 
 numberFormatsDecoder : String -> Decoder NumberFormats
@@ -127,23 +179,6 @@ numberFormatsDecoder code =
             numberFormatDecoder
 
 
-numberSymbolsDecoder : Decoder NumberSymbols
-numberSymbolsDecoder =
-    Decode.decode NumberSymbols
-        |> Decode.required "decimal" Decode.string
-        |> Decode.required "group" Decode.string
-        |> Decode.required "list" Decode.string
-        |> Decode.required "percentSign" Decode.string
-        |> Decode.required "plusSign" Decode.string
-        |> Decode.required "minusSign" Decode.string
-        |> Decode.required "exponential" Decode.string
-        |> Decode.required "superscriptingExponent" Decode.string
-        |> Decode.required "perMille" Decode.string
-        |> Decode.required "infinity" Decode.string
-        |> Decode.required "nan" Decode.string
-        |> Decode.required "timeSeparator" Decode.string
-
-
 numberFormatDecoder : Decoder NumberFormat
 numberFormatDecoder =
     Decode.string
@@ -158,28 +193,9 @@ numberFormatDecoder =
             )
 
 
-cardinalRulesDecoder : Decoder (Dict String PluralRules)
-cardinalRulesDecoder =
-    Decode.at [ "supplemental", "plurals-type-cardinal" ]
-        (Decode.dict pluralRulesDecoder)
 
-
-ordinalRulesDecoder : Decoder (Dict String PluralRules)
-ordinalRulesDecoder =
-    Decode.at [ "supplemental", "plurals-type-ordinal" ]
-        (Decode.dict pluralRulesDecoder)
-
-
-
----- NUMBERS
-
-
-type alias NumberFormats =
-    { symbols : NumberSymbols
-    , standard : NumberFormat
-    , percent : NumberFormat
-    , scientific : NumberFormat
-    }
+---- PARSER
+-- NUMBERS
 
 
 numberFormat : String -> Result String NumberFormat
@@ -306,266 +322,130 @@ numberPattern pattern =
 
 
 
----- PLURAL RULE
+-- PLURAL RULES
 
 
-type alias PluralRules =
-    { zero : Maybe Or
-    , one : Maybe Or
-    , two : Maybe Or
-    , few : Maybe Or
-    , many : Maybe Or
-    }
-
-
-pluralRulesDecoder : Decoder PluralRules
-pluralRulesDecoder =
-    Decode.decode PluralRules
-        |> maybeAt "pluralRule-count-zero" orDecoder
-        |> maybeAt "pluralRule-count-one" orDecoder
-        |> maybeAt "pluralRule-count-two" orDecoder
-        |> maybeAt "pluralRule-count-few" orDecoder
-        |> maybeAt "pluralRule-count-many" orDecoder
-
-
-orDecoder : Decoder Or
-orDecoder =
-    Decode.string
-        |> Decode.andThen
-            (\pluralRule ->
-                case run orParser pluralRule of
-                    Ok rule ->
-                        Decode.succeed rule
-
-                    Err _ ->
-                        Decode.fail "not a proper plural rule"
+orParser : Parser Relation
+orParser =
+    andParser
+        |> andThen
+            (\and ->
+                oneOf
+                    [ delayedCommit (spaces |. symbol "or")
+                        (succeed (\or -> Or and or)
+                            |. spaces
+                            |= orParser
+                        )
+                    , succeed and
+                    ]
             )
 
 
-maybeAt fieldName decoder =
-    Decode.custom <|
-        Decode.oneOf
-            [ Decode.field fieldName (decoder |> Decode.map Just)
-            , Decode.succeed Nothing
+andParser : Parser Relation
+andParser =
+    relationParser
+        |> andThen
+            (\relation ->
+                oneOf
+                    [ delayedCommit (spaces |. symbol "and")
+                        (succeed (\and -> And relation and)
+                            |. spaces
+                            |= andParser
+                        )
+                    , succeed relation
+                    ]
+            )
+
+
+relationParser : Parser Relation
+relationParser =
+    succeed identity
+        |= oneOf
+            [ delayedCommitMap Equal
+                (expressionParser
+                    |. spaces
+                    |. symbol "="
+                )
+                (succeed identity
+                    |. spaces
+                    |= rangesParser
+                )
+            , delayedCommitMap NotEqual
+                (expressionParser
+                    |. spaces
+                    |. symbol "!="
+                )
+                (succeed identity
+                    |. spaces
+                    |= rangesParser
+                )
             ]
 
 
-type Or
-    = Or (List And)
+expressionParser : Parser Expression
+expressionParser =
+    oneOf
+        [ delayedCommitMap Modulo
+            (pluralOperandParser
+                |. spaces
+                |. symbol "%"
+            )
+            (succeed identity
+                |. spaces
+                |= intParser
+            )
+        , succeed Simple
+            |= pluralOperandParser
+        ]
 
 
-type And
-    = And (List Relation)
-
-
-type Relation
-    = Equal Expression (List Range)
-    | NotEqual Expression (List Range)
-
-
-type Expression
-    = Simple PluralOperand
-    | Modulo PluralOperand Int
-
-
-type PluralOperand
-    = AbsoluteValue
-    | FractionDigits WithTrailingZeros
-    | IntegerDigitCount
-    | FractionDigitCount WithTrailingZeros
-
-
-type WithTrailingZeros
-    = WithTrailingZeros
-    | WithoutTrailingZeros
-
-
-type Range
-    = Single Int
-    | Range Int Int
-
-
-
----- CHECK CONDITION
-
-
-checkOr : Char -> String -> Or -> Bool
-checkOr decimal num (Or ands) =
-    ands |> List.any (checkAnd decimal num)
-
-
-checkAnd : Char -> String -> And -> Bool
-checkAnd decimal num (And relations) =
-    relations |> List.all (checkRelation decimal num)
-
-
-checkRelation : Char -> String -> Relation -> Bool
-checkRelation decimal num relation =
-    case relation of
-        Equal expression ranges ->
-            ranges |> List.all (checkExpression decimal num expression)
-
-        NotEqual expression ranges ->
-            ranges |> List.all (checkExpression decimal num expression >> not)
-
-
-checkExpression : Char -> String -> Expression -> Range -> Bool
-checkExpression decimal num expression range =
+pluralOperandParser : Parser PluralOperand
+pluralOperandParser =
     let
-        value pluralOperand =
-            case pluralOperand of
-                AbsoluteValue ->
-                    absoluteValue decimal num
-
-                FractionDigits withTrailingZeros ->
-                    fractionDigits decimal withTrailingZeros num
-
-                IntegerDigitCount ->
-                    integerDigitCount decimal num
-
-                FractionDigitCount withTrailingZeros ->
-                    fractionDigitCount decimal withTrailingZeros num
-
-        inRange int =
-            case range of
-                Single a ->
-                    a == int
-
-                Range a b ->
-                    (a <= int) && (int <= b)
+        parser ( operand, sym ) =
+            succeed operand |. symbol sym
     in
-    case expression of
-        Simple pluralOperand ->
-            pluralOperand
-                |> value
-                |> inRange
-
-        Modulo pluralOperand modulo ->
-            ((pluralOperand |> value) % modulo)
-                |> inRange
-
-
-absoluteValue : Char -> String -> Int
-absoluteValue decimal num =
-    case
-        num
-            |> String.map
-                (\c ->
-                    if c == decimal then
-                        '.'
-                    else
-                        c
-                )
-            |> String.toFloat
-            |> Result.toMaybe
-            |> Maybe.map (floor >> abs)
-    of
-        Just i ->
-            i
-
-        Nothing ->
-            Debug.crash "absoluteValue failed"
+    [ ( AbsoluteValue, "n" )
+    , ( IntegerDigits, "i" )
+    , ( FractionDigitCount WithTrailingZeros, "v" )
+    , ( FractionDigitCount WithoutTrailingZeros, "w" )
+    , ( FractionDigits WithTrailingZeros, "f" )
+    , ( FractionDigits WithoutTrailingZeros, "t" )
+    ]
+        |> List.map parser
+        |> oneOf
 
 
-integerDigitCount : Char -> String -> Int
-integerDigitCount decimal num =
-    case num |> String.split (String.fromChar decimal) of
-        integerString :: _ ->
-            if integerString |> String.all Char.isDigit then
-                integerString
-                    |> String.length
-            else
-                0
-
-        _ ->
-            0
-
-
-fractionDigits : Char -> WithTrailingZeros -> String -> Int
-fractionDigits decimal withTrailingZeros num =
-    case withTrailingZeros of
-        WithTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    case
-                        fractionString
-                            |> String.toInt
-                            |> Result.toMaybe
-                    of
-                        Just i ->
-                            i
-
-                        Nothing ->
-                            Debug.crash "fraction digits failed"
-
-                _ ->
-                    Debug.crash "fraction digits failed"
-
-        WithoutTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    case
-                        fractionString
-                            |> chompTrailingZeros
-                            |> String.toInt
-                            |> Result.toMaybe
-                    of
-                        Just i ->
-                            i
-
-                        Nothing ->
-                            Debug.crash "fraction digits failed"
-
-                _ ->
-                    Debug.crash "fraction digits failed"
+rangesParser : Parser (List Range)
+rangesParser =
+    rangeParser
+        |> andThen
+            (\range ->
+                oneOf
+                    [ delayedCommit (symbol ",")
+                        (succeed (\ranges -> range :: ranges)
+                            |= rangesParser
+                        )
+                    , succeed [ range ]
+                    ]
+            )
 
 
-fractionDigitCount : Char -> WithTrailingZeros -> String -> Int
-fractionDigitCount decimal withTrailingZeros num =
-    case withTrailingZeros of
-        WithTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    if fractionString |> String.all Char.isDigit then
-                        fractionString
-                            |> String.length
-                    else
-                        0
-
-                _ ->
-                    0
-
-        WithoutTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    if fractionString |> String.all Char.isDigit then
-                        fractionString
-                            |> chompTrailingZeros
-                            |> String.length
-                    else
-                        0
-
-                _ ->
-                    0
-
-
-chompTrailingZeros : String -> String
-chompTrailingZeros string =
-    let
-        chompTrailingZero nextChar ( chomp, sum ) =
-            if nextChar == '0' && chomp then
-                ( True, sum )
-            else
-                ( False, nextChar :: sum )
-    in
-    string
-        |> String.foldr chompTrailingZero ( True, [] )
-        |> Tuple.second
-        |> String.fromList
+rangeParser : Parser Range
+rangeParser =
+    oneOf
+        [ delayedCommitMap Range
+            (intParser
+                |. keyword ".."
+            )
+            intParser
+        , succeed Single
+            |= intParser
+        ]
 
 
 
----- CODE GEN
+---- CODE GENERATION
 
 
 generateLocaleModule : String -> Locale -> { filename : String, content : String }
@@ -588,9 +468,7 @@ generateLocaleModule code locale =
                 , "decimal"
                 ]
             }
-        , [ "import Internal.Localized exposing (..)"
-          , "import Localized exposing (..)"
-          ]
+        , [ "import Localized exposing (..)" ]
             |> String.join "\n"
         , generateNumberFormats locale.numberFormats
         , generatePlural "cardinal" locale.cardinalRules
@@ -831,40 +709,34 @@ generateSelector kind pluralRules =
                         |> Generate.ifThenElseChain "Other"
 
         generateCondition pluralType pluralRule =
-            ( generatePluralRule pluralRule, pluralType )
+            ( generateRelation pluralRule, pluralType )
     in
-    Generate.function
+    [ Generate.function
+        { name = kind ++ "PluralRules"
+        , arguments = []
+        , returnType = "PluralRules"
+        , body =
+            pluralRules
+                |> toString
+                |> String.split "("
+                |> String.join "(\n"
+        }
+    , Generate.function
         { name = kind ++ "Selector"
         , arguments = [ ( "String", "count" ) ]
         , returnType = "PluralCase"
         , body = generateBody pluralRules
         }
-
-
-generatePluralRule : Or -> String
-generatePluralRule (Or ands) =
-    ands
-        |> List.map generateAnd
-        |> String.join "\n|| "
-
-
-generateAnd : And -> String
-generateAnd (And relations) =
-    [ "(\n"
-    , relations
-        |> List.map generateRelation
-        |> String.join "\n&& "
-        |> Generate.indent
-    , "\n)"
     ]
-        |> String.concat
+        |> String.join "\n"
 
 
 generateRelation : Relation -> String
 generateRelation relation =
     case relation of
         Equal expression ranges ->
-            ranges
+            [ "("
+            , ranges
                 |> List.map
                     (\range ->
                         case range of
@@ -898,10 +770,14 @@ generateRelation relation =
                                 ]
                                     |> String.concat
                     )
-                |> String.join " && "
+                |> String.join "\n|| "
+            , "\n)"
+            ]
+                |> String.concat
 
         NotEqual expression ranges ->
-            ranges
+            [ "("
+            , ranges
                 |> List.map
                     (\range ->
                         case range of
@@ -935,7 +811,28 @@ generateRelation relation =
                                 ]
                                     |> String.concat
                     )
-                |> String.join " && "
+                |> String.join "\n&& "
+            , "\n)"
+            ]
+                |> String.concat
+
+        And relationA relationB ->
+            [ "("
+            , generateRelation relationA
+            , "\n && "
+            , generateRelation relationB
+            , ")"
+            ]
+                |> String.concat
+
+        Or relationA relationB ->
+            [ "("
+            , generateRelation relationA
+            , "\n || "
+            , generateRelation relationB
+            , ")"
+            ]
+                |> String.concat
 
 
 generateExpression : Expression -> String
@@ -945,7 +842,10 @@ generateExpression expression =
             generateOperand "." pluralOperand
 
         Modulo pluralOperand modulo ->
-            [ generateOperand "." pluralOperand
+            [ "("
+            , generateOperand "." pluralOperand
+            , " |> floor"
+            , ")"
             , " % "
             , toString modulo
             ]
@@ -975,8 +875,8 @@ generateOperand decimal pluralOperand =
                 , " count"
                 ]
 
-            IntegerDigitCount ->
-                [ "integerDigitCount "
+            IntegerDigits ->
+                [ "integerDigits "
                 , "'"
                 , decimal
                 , "'"
@@ -1001,20 +901,6 @@ generateOperand decimal pluralOperand =
 ---- PRINTER
 
 
-printOr : Or -> String
-printOr (Or or) =
-    or
-        |> List.map printAnd
-        |> String.join " or "
-
-
-printAnd : And -> String
-printAnd (And and) =
-    and
-        |> List.map printRelation
-        |> String.join " and "
-
-
 printRelation : Relation -> String
 printRelation relation =
     case relation of
@@ -1033,6 +919,20 @@ printRelation relation =
             , ranges
                 |> List.map printRange
                 |> String.join ","
+            ]
+                |> String.concat
+
+        Or relationA relationB ->
+            [ printRelation relationA
+            , " or "
+            , printRelation relationB
+            ]
+                |> String.concat
+
+        And relationA relationB ->
+            [ printRelation relationA
+            , " and "
+            , printRelation relationB
             ]
                 |> String.concat
 
@@ -1057,14 +957,14 @@ printPluralOperand pluralOperand =
         AbsoluteValue ->
             "n"
 
+        IntegerDigits ->
+            "i"
+
         FractionDigits WithTrailingZeros ->
             "f"
 
         FractionDigits WithoutTrailingZeros ->
             "t"
-
-        IntegerDigitCount ->
-            "i"
 
         FractionDigitCount WithTrailingZeros ->
             "v"
@@ -1088,126 +988,16 @@ printRange range =
 
 
 
----- PARSER
+---- DECODER HELPER
 
 
-orParser : Parser Or
-orParser =
-    andParser
-        |> andThen
-            (\and ->
-                oneOf
-                    [ delayedCommit (spaces |. symbol "or")
-                        (succeed (\(Or ands) -> Or (and :: ands))
-                            |. spaces
-                            |= orParser
-                        )
-                    , succeed (Or [ and ])
-                    ]
-            )
-
-
-andParser : Parser And
-andParser =
-    relationParser
-        |> andThen
-            (\relation ->
-                oneOf
-                    [ delayedCommit (spaces |. symbol "and")
-                        (succeed (\(And relations) -> And (relation :: relations))
-                            |. spaces
-                            |= andParser
-                        )
-                    , succeed (And [ relation ])
-                    ]
-            )
-
-
-relationParser : Parser Relation
-relationParser =
-    succeed identity
-        |= oneOf
-            [ delayedCommitMap Equal
-                (expressionParser
-                    |. spaces
-                    |. symbol "="
-                )
-                (succeed identity
-                    |. spaces
-                    |= rangesParser
-                )
-            , delayedCommitMap NotEqual
-                (expressionParser
-                    |. spaces
-                    |. symbol "!="
-                )
-                (succeed identity
-                    |. spaces
-                    |= rangesParser
-                )
+maybeAt : String -> Decoder a -> Decoder (Maybe a -> b) -> Decoder b
+maybeAt fieldName decoder =
+    Decode.custom <|
+        Decode.oneOf
+            [ Decode.field fieldName (decoder |> Decode.map Just)
+            , Decode.succeed Nothing
             ]
-
-
-expressionParser : Parser Expression
-expressionParser =
-    oneOf
-        [ delayedCommitMap Modulo
-            (pluralOperandParser
-                |. spaces
-                |. symbol "%"
-            )
-            (succeed identity
-                |. spaces
-                |= intParser
-            )
-        , succeed Simple
-            |= pluralOperandParser
-        ]
-
-
-pluralOperandParser : Parser PluralOperand
-pluralOperandParser =
-    let
-        parser ( operand, sym ) =
-            succeed operand |. symbol sym
-    in
-    [ ( AbsoluteValue, "n" )
-    , ( FractionDigits WithTrailingZeros, "f" )
-    , ( FractionDigits WithoutTrailingZeros, "t" )
-    , ( IntegerDigitCount, "i" )
-    , ( FractionDigitCount WithTrailingZeros, "v" )
-    , ( FractionDigitCount WithoutTrailingZeros, "w" )
-    ]
-        |> List.map parser
-        |> oneOf
-
-
-rangesParser : Parser (List Range)
-rangesParser =
-    rangeParser
-        |> andThen
-            (\range ->
-                oneOf
-                    [ delayedCommit (symbol ",")
-                        (succeed (\ranges -> range :: ranges)
-                            |= rangesParser
-                        )
-                    , succeed [ range ]
-                    ]
-            )
-
-
-rangeParser : Parser Range
-rangeParser =
-    oneOf
-        [ delayedCommitMap Range
-            (intParser
-                |. keyword ".."
-            )
-            intParser
-        , succeed Single
-            |= intParser
-        ]
 
 
 

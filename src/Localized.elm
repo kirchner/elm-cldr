@@ -1,74 +1,152 @@
-module Localized
-    exposing
-        ( NumberFormat
-        , NumberPattern
-        , NumberSymbols
-        , Part
-        , count
-        , customDecimal
-        , customPlural
-        , print
-        , s
-        , string
-        )
-
-{-|
-
-@docs Part, print
-
-@docs s, string, customPlural, count, customDecimal
-
-@docs NumberSymbols, NumberFormat, NumberPattern
-
--}
+module Localized exposing (..)
 
 import Char
-import Internal.Localized exposing (..)
 
 
-{-| -}
 type Part args
     = Verbatim String
     | String (args -> String)
     | Float (args -> Float) (Float -> String)
     | Plural (args -> Float) (Float -> PluralCase) (AllPluralCases args)
-    | DynamicPlural (args -> Float) (List ( Or, PluralCase )) (AllPluralCases args)
+    | DynamicPlural (args -> Float) PluralRules (AllPluralCases args)
     | Count
 
 
-type Or
-    = Or (List And)
+s : String -> Part args
+s text =
+    Verbatim text
 
 
-type And
-    = And (List Relation)
+string : (args -> String) -> Part args
+string accessor =
+    String accessor
 
 
-type Relation
-    = Equal Expression (List Range)
-    | NotEqual Expression (List Range)
+count : Part args
+count =
+    Count
 
 
-type Expression
-    = Simple PluralOperand
-    | Modulo PluralOperand Int
+customPlural :
+    (args -> Float)
+    -> (Float -> PluralCase)
+    -> AllPluralCases args
+    -> Part args
+customPlural accessor selector cases =
+    Plural accessor selector cases
 
 
-type PluralOperand
-    = AbsoluteValue
-    | FractionDigits WithTrailingZeros
-    | IntegerDigitCount
-    | FractionDigitCount WithTrailingZeros
+dynamicPlural :
+    (args -> Float)
+    -> PluralRules
+    -> AllPluralCases args
+    -> Part args
+dynamicPlural accessor pluralRules pluralCases =
+    DynamicPlural accessor pluralRules pluralCases
 
 
-type WithTrailingZeros
-    = WithTrailingZeros
-    | WithoutTrailingZeros
+
+---- PRINT
 
 
-type Range
-    = Single Int
-    | Range Int Int
+print : List (Part {}) -> String
+print parts =
+    parts
+        |> printWith {}
+
+
+printWith : args -> List (Part args) -> String
+printWith args parts =
+    parts
+        |> List.map (printPart Nothing args)
+        |> String.concat
+
+
+printPart : Maybe String -> args -> Part args -> String
+printPart maybeCount args part =
+    case part of
+        Verbatim text ->
+            text
+
+        String accessor ->
+            accessor args
+
+        Float accessor printer ->
+            args |> accessor |> printer
+
+        Plural accessor selector cases ->
+            let
+                nextCount =
+                    -- TODO: insert actual number printing
+                    args |> accessor |> toString
+            in
+            String.concat <|
+                List.map (printPart (Just nextCount) args) <|
+                    case args |> accessor |> selector of
+                        Zero ->
+                            cases.zero
+
+                        One ->
+                            cases.one
+
+                        Two ->
+                            cases.two
+
+                        Few ->
+                            cases.few
+
+                        Many ->
+                            cases.many
+
+                        Other ->
+                            cases.other
+
+        DynamicPlural accessor pluralRules pluralCases ->
+            let
+                nextCount =
+                    -- TODO: insert actual number printing
+                    args |> accessor |> toString
+            in
+            [ ( pluralRules.zero, pluralCases.zero )
+            , ( pluralRules.one, pluralCases.one )
+            , ( pluralRules.two, pluralCases.two )
+            , ( pluralRules.few, pluralCases.few )
+            , ( pluralRules.many, pluralCases.many )
+            ]
+                |> List.filterMap
+                    (\( maybeRule, nextParts ) ->
+                        case maybeRule |> Maybe.map (checkRelation '.' nextCount) of
+                            Just True ->
+                                Just nextParts
+
+                            _ ->
+                                Nothing
+                    )
+                |> List.head
+                |> Maybe.withDefault pluralCases.other
+                |> List.map (printPart (Just nextCount) args)
+                |> String.concat
+
+        Count ->
+            case maybeCount of
+                Just count ->
+                    count
+
+                Nothing ->
+                    Debug.crash "no count given"
+
+
+
+---- PLURALIZATION
+
+
+type PluralCase
+    = Zero
+    | One
+    | Two
+    | Few
+    | Many
+    | Other
 
 
 type alias AllPluralCases args =
@@ -81,7 +159,226 @@ type alias AllPluralCases args =
     }
 
 
-{-| -}
+type alias PluralRules =
+    { zero : Maybe Relation
+    , one : Maybe Relation
+    , two : Maybe Relation
+    , few : Maybe Relation
+    , many : Maybe Relation
+    }
+
+
+type Relation
+    = Equal Expression (List Range)
+    | NotEqual Expression (List Range)
+    | Or Relation Relation
+    | And Relation Relation
+
+
+type Expression
+    = Simple PluralOperand
+    | Modulo PluralOperand Int
+
+
+type PluralOperand
+    = AbsoluteValue
+    | IntegerDigits
+    | FractionDigitCount WithTrailingZeros
+    | FractionDigits WithTrailingZeros
+
+
+type WithTrailingZeros
+    = WithTrailingZeros
+    | WithoutTrailingZeros
+
+
+type Range
+    = Single Int
+    | Range Int Int
+
+
+checkRelation : Char -> String -> Relation -> Bool
+checkRelation decimal num relation =
+    case relation of
+        Equal expression ranges ->
+            ranges |> List.all (checkExpression decimal num expression)
+
+        NotEqual expression ranges ->
+            ranges |> List.all (checkExpression decimal num expression >> not)
+
+        Or relationA relationB ->
+            checkRelation decimal num relationA
+                || checkRelation decimal num relationB
+
+        And relationA relationB ->
+            checkRelation decimal num relationA
+                && checkRelation decimal num relationB
+
+
+checkExpression : Char -> String -> Expression -> Range -> Bool
+checkExpression decimal num expression range =
+    let
+        value pluralOperand =
+            case pluralOperand of
+                AbsoluteValue ->
+                    absoluteValue decimal num
+
+                FractionDigits withTrailingZeros ->
+                    fractionDigits decimal withTrailingZeros num
+                        |> toFloat
+
+                IntegerDigits ->
+                    integerDigits decimal num
+                        |> toFloat
+
+                FractionDigitCount withTrailingZeros ->
+                    fractionDigitCount decimal withTrailingZeros num
+                        |> toFloat
+
+        inRange float =
+            case range of
+                Single a ->
+                    toFloat a == float
+
+                Range a b ->
+                    (toFloat a <= float) && (float <= toFloat b)
+    in
+    case expression of
+        Simple pluralOperand ->
+            pluralOperand
+                |> value
+                |> inRange
+
+        Modulo pluralOperand modulo ->
+            ((pluralOperand |> value |> floor) % modulo)
+                |> toFloat
+                |> inRange
+
+
+absoluteValue : Char -> String -> Float
+absoluteValue decimal num =
+    case
+        num
+            |> String.map
+                (\c ->
+                    if c == decimal then
+                        '.'
+                    else
+                        c
+                )
+            |> String.toFloat
+            |> Result.toMaybe
+    of
+        Just float ->
+            float
+
+        Nothing ->
+            Debug.crash "absoluteValue failed"
+
+
+integerDigits : Char -> String -> Int
+integerDigits decimal num =
+    case num |> String.split (String.fromChar decimal) of
+        integerString :: _ ->
+            if integerString |> String.all Char.isDigit then
+                integerString
+                    |> String.toInt
+                    |> Result.toMaybe
+                    |> Maybe.withDefault 0
+            else
+                0
+
+        _ ->
+            0
+
+
+fractionDigits : Char -> WithTrailingZeros -> String -> Int
+fractionDigits decimal withTrailingZeros num =
+    case withTrailingZeros of
+        WithTrailingZeros ->
+            case num |> String.split (String.fromChar decimal) of
+                _ :: fractionString :: [] ->
+                    case
+                        fractionString
+                            |> String.toInt
+                            |> Result.toMaybe
+                    of
+                        Just i ->
+                            i
+
+                        Nothing ->
+                            Debug.crash "fraction digits failed"
+
+                _ ->
+                    Debug.crash "fraction digits failed"
+
+        WithoutTrailingZeros ->
+            case num |> String.split (String.fromChar decimal) of
+                _ :: fractionString :: [] ->
+                    case
+                        fractionString
+                            |> chompTrailingZeros
+                            |> String.toInt
+                            |> Result.toMaybe
+                    of
+                        Just i ->
+                            i
+
+                        Nothing ->
+                            Debug.crash "fraction digits failed"
+
+                _ ->
+                    Debug.crash "fraction digits failed"
+
+
+fractionDigitCount : Char -> WithTrailingZeros -> String -> Int
+fractionDigitCount decimal withTrailingZeros num =
+    case withTrailingZeros of
+        WithTrailingZeros ->
+            case num |> String.split (String.fromChar decimal) of
+                _ :: fractionString :: [] ->
+                    if fractionString |> String.all Char.isDigit then
+                        fractionString
+                            |> String.length
+                    else
+                        0
+
+                _ ->
+                    0
+
+        WithoutTrailingZeros ->
+            case num |> String.split (String.fromChar decimal) of
+                _ :: fractionString :: [] ->
+                    if fractionString |> String.all Char.isDigit then
+                        fractionString
+                            |> chompTrailingZeros
+                            |> String.length
+                    else
+                        0
+
+                _ ->
+                    0
+
+
+chompTrailingZeros : String -> String
+chompTrailingZeros string =
+    let
+        chompTrailingZero nextChar ( chomp, sum ) =
+            if nextChar == '0' && chomp then
+                ( True, sum )
+            else
+                ( False, nextChar :: sum )
+    in
+    string
+        |> String.foldr chompTrailingZero ( True, [] )
+        |> Tuple.second
+        |> String.fromList
+
+
+
+---- NUMBER FORMATTING
+
+
 type alias NumberSymbols =
     { decimal : String
     , group : String
@@ -98,14 +395,20 @@ type alias NumberSymbols =
     }
 
 
-{-| -}
+type alias NumberFormats =
+    { symbols : NumberSymbols
+    , standard : NumberFormat
+    , percent : NumberFormat
+    , scientific : NumberFormat
+    }
+
+
 type alias NumberFormat =
     { positivePattern : NumberPattern
     , negativePattern : Maybe NumberPattern
     }
 
 
-{-| -}
 type alias NumberPattern =
     { prefix : String
     , suffix : String
@@ -119,24 +422,6 @@ type alias NumberPattern =
 
 
 ---- SHARED PARTS
-
-
-{-| -}
-s : String -> Part args
-s text =
-    Verbatim text
-
-
-{-| -}
-string : (args -> String) -> Part args
-string accessor =
-    String accessor
-
-
-{-| -}
-count : Part args
-count =
-    Count
 
 
 {-| -}
@@ -244,380 +529,3 @@ digitsHelper digits num =
         num :: digits
     else
         (num % 10) :: digitsHelper digits (num // 10)
-
-
-{-| -}
-customPlural :
-    (args -> Float)
-    -> (Float -> PluralCase)
-    ->
-        { zero : List (Part args)
-        , one : List (Part args)
-        , two : List (Part args)
-        , few : List (Part args)
-        , many : List (Part args)
-        , other : List (Part args)
-        }
-    -> Part args
-customPlural accessor selector cases =
-    Plural accessor selector cases
-
-
-
----- PRINT
-
-
-{-| -}
-print : args -> List (Part args) -> String
-print args parts =
-    parts
-        |> List.map (printPart args)
-        |> String.concat
-
-
-printWithCount : String -> args -> List (Part args) -> String
-printWithCount count args parts =
-    parts
-        |> List.map (printPartWithCount count args)
-        |> String.concat
-
-
-printPart : args -> Part args -> String
-printPart args part =
-    case part of
-        Verbatim text ->
-            text
-
-        String accessor ->
-            accessor args
-
-        Float accessor printer ->
-            args |> accessor |> printer
-
-        Plural accessor selector cases ->
-            let
-                count =
-                    -- TODO: insert actual number printing
-                    args |> accessor |> toString
-            in
-            case args |> accessor |> selector of
-                Zero ->
-                    cases.zero
-                        |> printWithCount count args
-
-                One ->
-                    cases.one
-                        |> printWithCount count args
-
-                Two ->
-                    cases.two
-                        |> printWithCount count args
-
-                Few ->
-                    cases.few
-                        |> printWithCount count args
-
-                Many ->
-                    cases.many
-                        |> printWithCount count args
-
-                Other ->
-                    cases.other
-                        |> printWithCount count args
-
-        DynamicPlural accessor pluralRules pluralCases ->
-            let
-                count =
-                    -- TODO: insert actual number printing
-                    args |> accessor |> toString
-
-                check ( or, pluralCase ) maybeParts =
-                    if checkOr '.' count or then
-                        case pluralCase of
-                            Zero ->
-                                Just pluralCases.zero
-
-                            One ->
-                                Just pluralCases.one
-
-                            Two ->
-                                Just pluralCases.two
-
-                            Few ->
-                                Just pluralCases.few
-
-                            Many ->
-                                Just pluralCases.many
-
-                            Other ->
-                                Just pluralCases.other
-                    else
-                        maybeParts
-            in
-            pluralRules
-                |> List.foldl check Nothing
-                |> Maybe.withDefault pluralCases.other
-                |> printWithCount count args
-
-        Count ->
-            Debug.crash "no count given"
-
-
-printPartWithCount : String -> args -> Part args -> String
-printPartWithCount count args part =
-    case part of
-        Verbatim text ->
-            text
-
-        String accessor ->
-            accessor args
-
-        Float accessor printer ->
-            args |> accessor |> printer
-
-        Plural accessor selector cases ->
-            let
-                count =
-                    -- TODO: insert actual number printing
-                    args |> accessor |> toString
-            in
-            case args |> accessor |> selector of
-                Zero ->
-                    cases.zero
-                        |> printWithCount count args
-
-                One ->
-                    cases.one
-                        |> printWithCount count args
-
-                Two ->
-                    cases.two
-                        |> printWithCount count args
-
-                Few ->
-                    cases.few
-                        |> printWithCount count args
-
-                Many ->
-                    cases.many
-                        |> printWithCount count args
-
-                Other ->
-                    cases.other
-                        |> printWithCount count args
-
-        DynamicPlural accessor pluralRules pluralCases ->
-            let
-                count =
-                    -- TODO: insert actual number printing
-                    args |> accessor |> toString
-
-                check ( or, pluralCase ) maybeParts =
-                    if checkOr '.' count or then
-                        case pluralCase of
-                            Zero ->
-                                Just pluralCases.zero
-
-                            One ->
-                                Just pluralCases.one
-
-                            Two ->
-                                Just pluralCases.two
-
-                            Few ->
-                                Just pluralCases.few
-
-                            Many ->
-                                Just pluralCases.many
-
-                            Other ->
-                                Just pluralCases.other
-                    else
-                        maybeParts
-            in
-            pluralRules
-                |> List.foldl check Nothing
-                |> Maybe.withDefault pluralCases.other
-                |> printWithCount count args
-
-        Count ->
-            count
-
-
-
----- CHECK CONDITION
-
-
-checkOr : Char -> String -> Or -> Bool
-checkOr decimal num (Or ands) =
-    ands |> List.any (checkAnd decimal num)
-
-
-checkAnd : Char -> String -> And -> Bool
-checkAnd decimal num (And relations) =
-    relations |> List.all (checkRelation decimal num)
-
-
-checkRelation : Char -> String -> Relation -> Bool
-checkRelation decimal num relation =
-    case relation of
-        Equal expression ranges ->
-            ranges |> List.all (checkExpression decimal num expression)
-
-        NotEqual expression ranges ->
-            ranges |> List.all (checkExpression decimal num expression >> not)
-
-
-checkExpression : Char -> String -> Expression -> Range -> Bool
-checkExpression decimal num expression range =
-    let
-        value pluralOperand =
-            case pluralOperand of
-                AbsoluteValue ->
-                    absoluteValue decimal num
-
-                FractionDigits withTrailingZeros ->
-                    fractionDigits decimal withTrailingZeros num
-
-                IntegerDigitCount ->
-                    integerDigitCount decimal num
-
-                FractionDigitCount withTrailingZeros ->
-                    fractionDigitCount decimal withTrailingZeros num
-
-        inRange int =
-            case range of
-                Single a ->
-                    a == int
-
-                Range a b ->
-                    (a <= int) && (int <= b)
-    in
-    case expression of
-        Simple pluralOperand ->
-            pluralOperand
-                |> value
-                |> inRange
-
-        Modulo pluralOperand modulo ->
-            ((pluralOperand |> value) % modulo)
-                |> inRange
-
-
-absoluteValue : Char -> String -> Int
-absoluteValue decimal num =
-    case
-        num
-            |> String.map
-                (\c ->
-                    if c == decimal then
-                        '.'
-                    else
-                        c
-                )
-            |> String.toFloat
-            |> Result.toMaybe
-            |> Maybe.map (floor >> abs)
-    of
-        Just i ->
-            i
-
-        Nothing ->
-            Debug.crash "absoluteValue failed"
-
-
-integerDigitCount : Char -> String -> Int
-integerDigitCount decimal num =
-    case num |> String.split (String.fromChar decimal) of
-        integerString :: _ ->
-            if integerString |> String.all Char.isDigit then
-                integerString
-                    |> String.length
-            else
-                0
-
-        _ ->
-            0
-
-
-fractionDigits : Char -> WithTrailingZeros -> String -> Int
-fractionDigits decimal withTrailingZeros num =
-    case withTrailingZeros of
-        WithTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    case
-                        fractionString
-                            |> String.toInt
-                            |> Result.toMaybe
-                    of
-                        Just i ->
-                            i
-
-                        Nothing ->
-                            Debug.crash "fraction digits failed"
-
-                _ ->
-                    Debug.crash "fraction digits failed"
-
-        WithoutTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    case
-                        fractionString
-                            |> chompTrailingZeros
-                            |> String.toInt
-                            |> Result.toMaybe
-                    of
-                        Just i ->
-                            i
-
-                        Nothing ->
-                            Debug.crash "fraction digits failed"
-
-                _ ->
-                    Debug.crash "fraction digits failed"
-
-
-fractionDigitCount : Char -> WithTrailingZeros -> String -> Int
-fractionDigitCount decimal withTrailingZeros num =
-    case withTrailingZeros of
-        WithTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    if fractionString |> String.all Char.isDigit then
-                        fractionString
-                            |> String.length
-                    else
-                        0
-
-                _ ->
-                    0
-
-        WithoutTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    if fractionString |> String.all Char.isDigit then
-                        fractionString
-                            |> chompTrailingZeros
-                            |> String.length
-                    else
-                        0
-
-                _ ->
-                    0
-
-
-chompTrailingZeros : String -> String
-chompTrailingZeros string =
-    let
-        chompTrailingZero nextChar ( chomp, sum ) =
-            if nextChar == '0' && chomp then
-                ( True, sum )
-            else
-                ( False, nextChar :: sum )
-    in
-    string
-        |> String.foldr chompTrailingZero ( True, [] )
-        |> Tuple.second
-        |> String.fromList
