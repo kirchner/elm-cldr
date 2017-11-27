@@ -461,9 +461,7 @@ generateLocaleModule code locale =
         [ Generate.moduIe
             { name = "Localized." ++ sanitizedLocaleCode
             , exposed =
-                [ "cardinalSelector"
-                , "ordinalSelector"
-                , "cardinal"
+                [ "cardinal"
                 , "ordinal"
                 , "cardinalDynamic"
                 , "ordinalDynamic"
