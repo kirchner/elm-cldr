@@ -696,7 +696,8 @@ generatePlural kind pluralRules =
         , returnType = "Part args"
         , body =
             [ "dynamicPlural accessor"
-            , kind ++ "PluralRules"
+            , kind
+                ++ "PluralRules"
                 |> Generate.indent
             , pluralCasesAssignment
                 |> Generate.indent
@@ -859,12 +860,11 @@ generateExpression : Expression -> String
 generateExpression expression =
     case expression of
         Simple pluralOperand ->
-            generateOperand "." pluralOperand
+            generateOperand False "." pluralOperand
 
         Modulo pluralOperand modulo ->
             [ "("
-            , generateOperand "." pluralOperand
-            , " |> floor"
+            , generateOperand True "." pluralOperand
             , ")"
             , " % "
             , toString modulo
@@ -872,18 +872,26 @@ generateExpression expression =
                 |> String.concat
 
 
-generateOperand : String -> PluralOperand -> String
-generateOperand decimal pluralOperand =
+generateOperand : Bool -> String -> PluralOperand -> String
+generateOperand round decimal pluralOperand =
     [ "("
     , String.concat <|
         case pluralOperand of
             AbsoluteValue ->
-                [ "absoluteValue "
-                , "'"
-                , decimal
-                , "'"
-                , " count"
-                ]
+                if round then
+                    [ "floor (absoluteValue "
+                    , "'"
+                    , decimal
+                    , "'"
+                    , " count)"
+                    ]
+                else
+                    [ "absoluteValue "
+                    , "'"
+                    , decimal
+                    , "'"
+                    , " count"
+                    ]
 
             FractionDigits withTrailingZeros ->
                 [ "fractionDigits "
