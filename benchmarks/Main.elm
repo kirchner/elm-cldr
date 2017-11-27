@@ -3,14 +3,12 @@ module Main exposing (main)
 import Benchmark exposing (..)
 import Benchmark.Runner exposing (BenchmarkProgram, program)
 import Localized exposing (..)
-import Localized.En exposing (..)
+import Localized.Fil exposing (..)
 
 
 staticMessage args =
-    [ ordinal .count
+    [ cardinal .count
         { one = [ s "one" ]
-        , two = [ s "two" ]
-        , few = [ s "few" ]
         , other = [ s "other" ]
         }
     ]
@@ -18,10 +16,8 @@ staticMessage args =
 
 
 dynamicMessage args =
-    [ ordinalDynamic .count
+    [ cardinalDynamic .count
         { one = [ s "one" ]
-        , two = [ s "two" ]
-        , few = [ s "few" ]
         , other = [ s "other" ]
         }
     ]
