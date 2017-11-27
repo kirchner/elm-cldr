@@ -465,6 +465,8 @@ generateLocaleModule code locale =
                 , "ordinalSelector"
                 , "cardinal"
                 , "ordinal"
+                , "cardinalDynamic"
+                , "ordinalDynamic"
                 , "decimal"
                 ]
             }
@@ -676,7 +678,7 @@ generatePlural kind pluralRules =
                 Nothing ->
                     Nothing
     in
-    Generate.function
+    [ Generate.function
         { name = kind
         , arguments =
             [ ( "(args -> Float)", "accessor" )
@@ -685,6 +687,24 @@ generatePlural kind pluralRules =
         , returnType = "Part args"
         , body = body
         }
+    , Generate.function
+        { name = kind ++ "Dynamic"
+        , arguments =
+            [ ( "(args -> Float)", "accessor" )
+            , ( pluralCasesType, pluralCasesNames )
+            ]
+        , returnType = "Part args"
+        , body =
+            [ "dynamicPlural accessor"
+            , kind ++ "PluralRules"
+                |> Generate.indent
+            , pluralCasesAssignment
+                |> Generate.indent
+            ]
+                |> String.join "\n"
+        }
+    ]
+        |> String.join "\n\n"
 
 
 generateSelector : String -> PluralRules -> String
