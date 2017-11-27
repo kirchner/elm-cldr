@@ -4,8 +4,7 @@
     "repository": "https://github.com/kirchner/elm-cldr.git",
     "license": "Apache License, version 2.0",
     "source-directories": [
-        "src",
-        "demo"
+        "src"
     ],
     "exposed-modules": [
     ],
