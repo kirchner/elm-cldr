@@ -587,7 +587,7 @@ generateDecimal =
     Generate.function
         { name = "decimal"
         , arguments = [ ( "(args -> Float)", "accessor" ) ]
-        , returnType = "Part args"
+        , returnType = "Part args msg"
         , body =
             "customDecimal accessor numberSymbols standardNumberFormat"
         }
@@ -633,7 +633,7 @@ generatePlural kind pluralRules =
               , pluralCaseType "two" pluralRules.two
               , pluralCaseType "few" pluralRules.few
               , pluralCaseType "many" pluralRules.many
-              , Just "other : List (Part args)"
+              , Just "other : List (Part args msg)"
               ]
                 |> List.filterMap identity
                 |> String.join "\n ,"
@@ -645,7 +645,7 @@ generatePlural kind pluralRules =
             case maybeRule of
                 Just _ ->
                     [ name
-                    , " : List (Part args)"
+                    , " : List (Part args msg)"
                     ]
                         |> String.concat
                         |> Just
@@ -682,7 +682,7 @@ generatePlural kind pluralRules =
             [ ( "(args -> Float)", "accessor" )
             , ( pluralCasesType, pluralCasesNames )
             ]
-        , returnType = "Part args"
+        , returnType = "Part args msg"
         , body = body
         }
     , Generate.function
@@ -691,7 +691,7 @@ generatePlural kind pluralRules =
             [ ( "(args -> Float)", "accessor" )
             , ( pluralCasesType, pluralCasesNames )
             ]
-        , returnType = "Part args"
+        , returnType = "Part args msg"
         , body =
             [ "dynamicPlural accessor"
             , kind

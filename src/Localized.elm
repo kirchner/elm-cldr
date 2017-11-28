@@ -1,28 +1,38 @@
 module Localized exposing (..)
 
 import Char
+import VirtualDom exposing (Node)
 
 
-type Part args
+type Part args msg
     = Verbatim String
+    | NodePart (args -> (List (Node msg) -> Node msg)) (List (Part args msg))
     | String (args -> String)
     | Float (args -> Float) (Float -> String)
-    | Plural (args -> Float) (Float -> PluralCase) (AllPluralCases args)
-    | DynamicPlural (args -> Float) PluralRules (AllPluralCases args)
+    | Plural (args -> Float) (Float -> PluralCase) (AllPluralCases args msg)
+    | DynamicPlural (args -> Float) PluralRules (AllPluralCases args msg)
     | Count
 
 
-s : String -> Part args
+s : String -> Part args msg
 s text =
     Verbatim text
 
 
-string : (args -> String) -> Part args
+node :
+    (args -> (List (Node msg) -> Node msg))
+    -> List (Part args msg)
+    -> Part args msg
+node accessor nextParts =
+    NodePart accessor nextParts
+
+
+string : (args -> String) -> Part args msg
 string accessor =
     String accessor
 
 
-count : Part args
+count : Part args msg
 count =
     Count
 
@@ -30,8 +40,8 @@ count =
 customPlural :
     (args -> Float)
     -> (Float -> PluralCase)
-    -> AllPluralCases args
-    -> Part args
+    -> AllPluralCases args msg
+    -> Part args msg
 customPlural accessor selector cases =
     Plural accessor selector cases
 
@@ -39,8 +49,8 @@ customPlural accessor selector cases =
 dynamicPlural :
     (args -> Float)
     -> PluralRules
-    -> AllPluralCases args
-    -> Part args
+    -> AllPluralCases args msg
+    -> Part args msg
 dynamicPlural accessor pluralRules pluralCases =
     DynamicPlural accessor pluralRules pluralCases
 
@@ -49,24 +59,29 @@ dynamicPlural accessor pluralRules pluralCases =
 ---- PRINT
 
 
-print : List (Part {}) -> String
+print : List (Part {} msg) -> String
 print parts =
     parts
         |> printWith {}
 
 
-printWith : args -> List (Part args) -> String
+printWith : args -> List (Part args msg) -> String
 printWith args parts =
     parts
         |> List.map (printPart Nothing args)
         |> String.concat
 
 
-printPart : Maybe String -> args -> Part args -> String
+printPart : Maybe String -> args -> Part args msg -> String
 printPart maybeCount args part =
     case part of
         Verbatim text ->
             text
+
+        NodePart accessor nextParts ->
+            nextParts
+                |> List.map (printPart maybeCount args)
+                |> String.concat
 
         String accessor ->
             accessor args
@@ -136,6 +151,102 @@ printPart maybeCount args part =
                     Debug.crash "no count given"
 
 
+nodes : args -> List (Part args msg) -> List (Node msg)
+nodes args parts =
+    let
+        toNodes : Maybe String -> Part args msg -> List (Node msg)
+        toNodes maybeCount part =
+            case part of
+                Verbatim text ->
+                    [ VirtualDom.text text ]
+
+                NodePart accessor nextParts ->
+                    [ nextParts
+                        |> List.map (toNodes maybeCount)
+                        |> List.concat
+                        |> accessor args
+                    ]
+
+                String accessor ->
+                    [ args
+                        |> accessor
+                        |> VirtualDom.text
+                    ]
+
+                Float accessor printer ->
+                    [ args
+                        |> accessor
+                        |> printer
+                        |> VirtualDom.text
+                    ]
+
+                Plural accessor selector cases ->
+                    let
+                        nextCount =
+                            -- TODO: insert actual number printing
+                            args |> accessor |> toString
+                    in
+                    (case args |> accessor |> selector of
+                        Zero ->
+                            cases.zero
+
+                        One ->
+                            cases.one
+
+                        Two ->
+                            cases.two
+
+                        Few ->
+                            cases.few
+
+                        Many ->
+                            cases.many
+
+                        Other ->
+                            cases.other
+                    )
+                        |> List.map (toNodes (Just nextCount))
+                        |> List.concat
+
+                DynamicPlural accessor pluralRules pluralCases ->
+                    let
+                        nextCount =
+                            -- TODO: insert actual number printing
+                            args |> accessor |> toString
+                    in
+                    [ ( pluralRules.zero, pluralCases.zero )
+                    , ( pluralRules.one, pluralCases.one )
+                    , ( pluralRules.two, pluralCases.two )
+                    , ( pluralRules.few, pluralCases.few )
+                    , ( pluralRules.many, pluralCases.many )
+                    ]
+                        |> List.filterMap
+                            (\( maybeRule, nextParts ) ->
+                                case maybeRule |> Maybe.map (checkRelation '.' nextCount) of
+                                    Just True ->
+                                        Just nextParts
+
+                                    _ ->
+                                        Nothing
+                            )
+                        |> List.head
+                        |> Maybe.withDefault pluralCases.other
+                        |> List.map (toNodes (Just nextCount))
+                        |> List.concat
+
+                Count ->
+                    case maybeCount of
+                        Just count ->
+                            [ VirtualDom.text count ]
+
+                        Nothing ->
+                            Debug.crash "no count given"
+    in
+    parts
+        |> List.map (toNodes Nothing)
+        |> List.concat
+
+
 
 ---- PLURALIZATION
 
@@ -149,13 +260,13 @@ type PluralCase
     | Other
 
 
-type alias AllPluralCases args =
-    { zero : List (Part args)
-    , one : List (Part args)
-    , two : List (Part args)
-    , few : List (Part args)
-    , many : List (Part args)
-    , other : List (Part args)
+type alias AllPluralCases args msg =
+    { zero : List (Part args msg)
+    , one : List (Part args msg)
+    , two : List (Part args msg)
+    , few : List (Part args msg)
+    , many : List (Part args msg)
+    , other : List (Part args msg)
     }
 
 
@@ -425,7 +536,7 @@ type alias NumberPattern =
 
 
 {-| -}
-customDecimal : (args -> Float) -> NumberSymbols -> NumberFormat -> Part args
+customDecimal : (args -> Float) -> NumberSymbols -> NumberFormat -> Part args msg
 customDecimal accessor numberSymbols numberFormat =
     let
         printer num =

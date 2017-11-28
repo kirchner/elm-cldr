@@ -74,7 +74,7 @@ scientificNumberFormat =
 
 decimal :
     (args -> Float)
-    -> Part args
+    -> Part args msg
 decimal accessor =
     customDecimal accessor numberSymbols standardNumberFormat
 
@@ -82,11 +82,11 @@ decimal accessor =
 cardinal :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , two : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , two : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinal accessor { one, two, other } =
     customPlural accessor
         (toString >> cardinalSelector)
@@ -102,11 +102,11 @@ cardinal accessor { one, two, other } =
 cardinalDynamic :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , two : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , two : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinalDynamic accessor { one, two, other } =
     dynamicPlural accessor
         cardinalPluralRules

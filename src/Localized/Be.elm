@@ -74,7 +74,7 @@ scientificNumberFormat =
 
 decimal :
     (args -> Float)
-    -> Part args
+    -> Part args msg
 decimal accessor =
     customDecimal accessor numberSymbols standardNumberFormat
 
@@ -82,12 +82,12 @@ decimal accessor =
 cardinal :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , few : List (Part args)
-        , many : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , few : List (Part args msg)
+        , many : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinal accessor { one, few, many, other } =
     customPlural accessor
         (toString >> cardinalSelector)
@@ -103,12 +103,12 @@ cardinal accessor { one, few, many, other } =
 cardinalDynamic :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , few : List (Part args)
-        , many : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , few : List (Part args msg)
+        , many : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinalDynamic accessor { one, few, many, other } =
     dynamicPlural accessor
         cardinalPluralRules
@@ -124,10 +124,10 @@ cardinalDynamic accessor { one, few, many, other } =
 ordinal :
     (args -> Float)
     ->
-        { few : List (Part args)
-        , other : List (Part args)
+        { few : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 ordinal accessor { few, other } =
     customPlural accessor
         (toString >> ordinalSelector)
@@ -143,10 +143,10 @@ ordinal accessor { few, other } =
 ordinalDynamic :
     (args -> Float)
     ->
-        { few : List (Part args)
-        , other : List (Part args)
+        { few : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 ordinalDynamic accessor { few, other } =
     dynamicPlural accessor
         ordinalPluralRules

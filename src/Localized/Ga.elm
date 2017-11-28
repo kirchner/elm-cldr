@@ -74,7 +74,7 @@ scientificNumberFormat =
 
 decimal :
     (args -> Float)
-    -> Part args
+    -> Part args msg
 decimal accessor =
     customDecimal accessor numberSymbols standardNumberFormat
 
@@ -82,13 +82,13 @@ decimal accessor =
 cardinal :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , two : List (Part args)
-        , few : List (Part args)
-        , many : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , two : List (Part args msg)
+        , few : List (Part args msg)
+        , many : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinal accessor { one, two, few, many, other } =
     customPlural accessor
         (toString >> cardinalSelector)
@@ -104,13 +104,13 @@ cardinal accessor { one, two, few, many, other } =
 cardinalDynamic :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , two : List (Part args)
-        , few : List (Part args)
-        , many : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , two : List (Part args msg)
+        , few : List (Part args msg)
+        , many : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinalDynamic accessor { one, two, few, many, other } =
     dynamicPlural accessor
         cardinalPluralRules
@@ -126,10 +126,10 @@ cardinalDynamic accessor { one, two, few, many, other } =
 ordinal :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 ordinal accessor { one, other } =
     customPlural accessor
         (toString >> ordinalSelector)
@@ -145,10 +145,10 @@ ordinal accessor { one, other } =
 ordinalDynamic :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 ordinalDynamic accessor { one, other } =
     dynamicPlural accessor
         ordinalPluralRules

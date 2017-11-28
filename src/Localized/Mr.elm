@@ -74,7 +74,7 @@ scientificNumberFormat =
 
 decimal :
     (args -> Float)
-    -> Part args
+    -> Part args msg
 decimal accessor =
     customDecimal accessor numberSymbols standardNumberFormat
 
@@ -82,10 +82,10 @@ decimal accessor =
 cardinal :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinal accessor { one, other } =
     customPlural accessor
         (toString >> cardinalSelector)
@@ -101,10 +101,10 @@ cardinal accessor { one, other } =
 cardinalDynamic :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 cardinalDynamic accessor { one, other } =
     dynamicPlural accessor
         cardinalPluralRules
@@ -120,12 +120,12 @@ cardinalDynamic accessor { one, other } =
 ordinal :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , two : List (Part args)
-        , few : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , two : List (Part args msg)
+        , few : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 ordinal accessor { one, two, few, other } =
     customPlural accessor
         (toString >> ordinalSelector)
@@ -141,12 +141,12 @@ ordinal accessor { one, two, few, other } =
 ordinalDynamic :
     (args -> Float)
     ->
-        { one : List (Part args)
-        , two : List (Part args)
-        , few : List (Part args)
-        , other : List (Part args)
+        { one : List (Part args msg)
+        , two : List (Part args msg)
+        , few : List (Part args msg)
+        , other : List (Part args msg)
         }
-    -> Part args
+    -> Part args msg
 ordinalDynamic accessor { one, two, few, other } =
     dynamicPlural accessor
         ordinalPluralRules
