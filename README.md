@@ -89,15 +89,103 @@ actualView url =
         ]
 ```
 
-The submodules for each locale (e.g. `Localized.En`, ...) are automatically
-generated. To generate them on your own, run
+So basically, the idea is that you put all your texts in some module, for
+example
 
-```
-$ npm install
-$ make
+```elm
+module Translations.En exposing (..)
+
+
+greeting : List (Part {} msg)
+greeting =
+    [ s "Good morning!" ]
+
+
+personalGreeting : List (Part { name : String } msg)
+personalGreeting =
+    [ s "Good morning, "
+    , string .name
+    , s "!"
+    ]
+
+
+pluralizedMessage : List (Part { newEmailCount : Float } msg)
+pluralizedMessage =
+    [ cardinal .newEmailCount
+        decimalStandard
+        { one = [ s "You have one new email." ]
+        , other =
+            [ s "You have "
+            , count
+            , s " new emails."
+            ]
+        }
+    ]
+
+
+documentationInfo : List (Part { link : List (Html msg) -> Html msg })
+documentationInfo =
+    [ s "Take a look at our "
+    , node .link
+        [ s "documentation" ]
+    , s "."
+    ]
 ```
 
-You need to have `elm-format` installed.
+And then use these functions in your (view) code.  This way the compiler warns
+you if you are not providing values for all placeholders, or when your
+pluralized texts do not provide a version for all cases required by the
+selected locale.
+
+In order to get your texts for different locales, you can do sth like this:  Create another module for each locale, for example
+
+```elm
+module Translations.De exposing (..)
+
+
+greeting : List (Part {} msg)
+greeting =
+    [ s "Guten Morgen!" ]
+
+...
+```
+
+And a module which collects all these translations
+
+```elm
+module Translations exposing (..)
+
+import Translations.En as En
+import Translations.De as De
+
+
+type Locale
+    = En
+    | De
+
+
+greeting : Locale -> List (Part {} msg)
+greeting =
+    case Locale of
+        En ->
+            En.greeting
+
+        De ->
+            De.greeting
+
+...
+```
+
+In your application, you then only import the `Translations` module and provide
+each text with the currently selected `Locale`.  Again, this way the compiler
+makes sure that you have translations for all your texts and that every
+translation of a text uses the same placeholders.
+
+It should not be difficult to generate these translation modules
+`Translations`, `Translations.En`, ... from "standard" localization files (like
+ICU messages).  Also it should be simple to generate ordinary localization
+files from translation modules.
+
 
 # Remarks
 
@@ -127,3 +215,16 @@ representation of the number.  For example in English, one has `"There is
 only provides a function
 [select](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules/select)
 which takes a **number** and returns the plural form, so the distinction between `"1"` and `"1.0"` is not possible.
+
+
+# Misc
+
+The submodules for each locale (e.g. `Localized.En`, ...) are automatically
+generated. To generate them on your own, run
+
+```
+$ npm install
+$ make
+```
+
+You need to have `elm-format` installed.
