@@ -1,13 +1,18 @@
 module Localized.Dsb
     exposing
         ( cardinal
-        , cardinalDynamic
-        , decimal
         , ordinal
-        , ordinalDynamic
         )
 
-import Localized exposing (..)
+{-|
+
+@docs cardinal, ordinal
+
+-}
+
+import Internal.Numbers exposing (..)
+import Internal.PluralRules exposing (..)
+import Localized exposing (Part, PluralCase(..))
 
 
 numberSymbols : NumberSymbols
@@ -72,13 +77,7 @@ scientificNumberFormat =
     }
 
 
-decimal :
-    (args -> Float)
-    -> Part args msg
-decimal accessor =
-    customDecimal accessor numberSymbols standardNumberFormat
-
-
+{-| -}
 cardinal :
     (args -> Float)
     ->
@@ -89,8 +88,9 @@ cardinal :
         }
     -> Part args msg
 cardinal accessor { one, two, few, other } =
-    customPlural accessor
-        (toString >> cardinalSelector)
+    Localized.customPlural accessor
+        (Localized.customNumberFormat toString)
+        cardinalSelector
         { zero = []
         , one = one
         , two = two
@@ -100,27 +100,7 @@ cardinal accessor { one, two, few, other } =
         }
 
 
-cardinalDynamic :
-    (args -> Float)
-    ->
-        { one : List (Part args msg)
-        , two : List (Part args msg)
-        , few : List (Part args msg)
-        , other : List (Part args msg)
-        }
-    -> Part args msg
-cardinalDynamic accessor { one, two, few, other } =
-    dynamicPlural accessor
-        cardinalPluralRules
-        { zero = []
-        , one = one
-        , two = two
-        , few = few
-        , many = []
-        , other = other
-        }
-
-
+{-| -}
 ordinal :
     (args -> Float)
     ->
@@ -128,26 +108,9 @@ ordinal :
         }
     -> Part args msg
 ordinal accessor { other } =
-    customPlural accessor
-        (toString >> ordinalSelector)
-        { zero = []
-        , one = []
-        , two = []
-        , few = []
-        , many = []
-        , other = other
-        }
-
-
-ordinalDynamic :
-    (args -> Float)
-    ->
-        { other : List (Part args msg)
-        }
-    -> Part args msg
-ordinalDynamic accessor { other } =
-    dynamicPlural accessor
-        ordinalPluralRules
+    Localized.customPlural accessor
+        (Localized.customNumberFormat toString)
+        ordinalSelector
         { zero = []
         , one = []
         , two = []

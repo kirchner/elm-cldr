@@ -1,24 +1,203 @@
-module Localized exposing (..)
+module Localized
+    exposing
+        ( AllPluralCases
+        , NumberFormat
+        , Part
+        , PluralCase
+            ( Few
+            , Many
+            , One
+            , Other
+            , Two
+            , Zero
+            )
+        , count
+        , customNumberFormat
+        , customPlural
+        , decimal
+        , node
+        , nodes
+        , print
+        , printWith
+        , s
+        , select
+        , string
+        )
+
+{-| Create localized texts in a type safe way.
+
+@docs Part
+
+
+# Printing
+
+@docs printWith, print, nodes
+
+
+# Creating Parts
+
+
+## Basic Parts
+
+@docs s, string, node
+
+
+## Number Formatting
+
+@docs decimal, NumberFormat, customNumberFormat
+
+
+## Pluralization and Selects
+
+Every locale module like for example `Localized.En` exports
+the pluralization parts `cardinal` and `ordinal`. You use these like
+this
+
+    emailInfo : List (Part { ord : Float } msg)
+    emailInfo =
+        [ Localized.En.ordinal .ord
+            Localized.En.decimalStandard
+            { one =
+                [ s "This is the "
+                , count
+                , "st message."
+                ]
+            , two =
+                [ s "This is the "
+                , count
+                , "nd message."
+                ]
+            , few =
+                [ s "This is the "
+                , count
+                , "rd message."
+                ]
+            , other =
+                [ s "This is the "
+                , count
+                , "th message."
+                ]
+            }
+        ]
+
+@docs count, customPlural, PluralCase, AllPluralCases
+
+@docs select
+
+-}
 
 import Char
+import Internal.Numbers
+import Internal.PluralRules
 import VirtualDom exposing (Node)
 
 
+{-| Opaque building block for texts.
+-}
 type Part args msg
     = Verbatim String
     | NodePart (args -> (List (Node msg) -> Node msg)) (List (Part args msg))
     | String (args -> String)
-    | Float (args -> Float) (Float -> String)
-    | Plural (args -> Float) (Float -> PluralCase) (AllPluralCases args msg)
-    | DynamicPlural (args -> Float) PluralRules (AllPluralCases args msg)
+    | Decimal (args -> Float) NumberFormat
+    | Plural (args -> Float) NumberFormat (String -> PluralCase) (AllPluralCases args msg)
     | Count
 
 
+{-| Create a part which returns the given `String`.
+
+    greeting : List (Part {} msg)
+    greeting =
+        [ s "Hello!" ]
+
+Then `"print greeting"` is equal to `"Hello!"`.
+
+-}
 s : String -> Part args msg
 s text =
     Verbatim text
 
 
+{-| Create a placeholder which eventually gets replaced by a `String`.
+
+    personalGreeting : List (Part { name : String } msg)
+    personalGreeting =
+        [ s "Hello, "
+        , string .name
+        , s "!"
+        ]
+
+Then `printWith { name = "Alice" } personalGreeting` is equal to
+`"Hello, Alice!"`.
+
+-}
+string : (args -> String) -> Part args msg
+string accessor =
+    String accessor
+
+
+{-| Create a placeholder which gets replaced by a number which is
+formatted according to the provided format.
+
+    heightInfo : List (Part { height : Float } msg)
+    heightInfo =
+        [ s "Current height: "
+        , decimal .height Localized.En.decimalStandard
+        , s "."
+        ]
+
+Then `printWith { height = 3.1533 } heightInfo` is equal to `"Current
+height: 3.153."`.
+
+-}
+decimal : (args -> Float) -> NumberFormat -> Part args msg
+decimal accessor numberFormat =
+    Decimal accessor numberFormat
+
+
+{-| Opaque type representing a number formatting rule. Every locale
+module provides functions to create formats which are specified in the
+CLDR.
+-}
+type NumberFormat
+    = CustomNumberFormat (Float -> String)
+
+
+{-| Create your own number format.
+-}
+customNumberFormat : (Float -> String) -> NumberFormat
+customNumberFormat printer =
+    CustomNumberFormat printer
+
+
+{-| Create a part which eventually gets replaced by a dom node.
+
+    documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
+    documentationInfo =
+        [ s "Take a look at our "
+        , node .link
+            [ s "documentation" ]
+        , "."
+        ]
+
+    view : String -> Html msg
+    view url =
+        Html.div []
+            (nodes documentationInfo
+                { link = Html.a [ Html.Attributes.href url ] }
+            )
+
+Then `view` is equivalent to
+
+    view : String -> Html msg
+    view url =
+        Html.div []
+            [ Html.text "Take a look at our "
+            , Html.a [ Html.Attributes.href url ]
+                [ Html.text "documentation" ]
+            , Html.text "."
+            ]
+
+-}
 node :
     (args -> (List (Node msg) -> Node msg))
     -> List (Part args msg)
@@ -27,130 +206,210 @@ node accessor nextParts =
     NodePart accessor nextParts
 
 
-string : (args -> String) -> Part args msg
-string accessor =
-    String accessor
+{-| Create a custom pluralization part. Use this function if you want
+to provide your own pluralization rules.
+
+**Note**: You usually want to use the `plural` function from the one of
+the modules like `Localized.En`, according to the language the text
+will be in.
+
+-}
+customPlural :
+    (args -> Float)
+    -> NumberFormat
+    -> (String -> PluralCase)
+    -> AllPluralCases args msg
+    -> Part args msg
+customPlural accessor numberFormat selector cases =
+    Plural accessor numberFormat selector cases
 
 
+{-| Create a part which gets replaced by the formatted number argument
+of a plural part.
+
+    emailInfo : List (Part { count : Float } msg)
+    emailInfo =
+        [ Localized.En.cardinal .count
+            Localized.En.decimalStandard
+            { one = [ s "You have one new email" ]
+            , other =
+                [ s "You have "
+                , count
+                , s " new emails"
+                ]
+            }
+        ]
+
+-}
 count : Part args msg
 count =
     Count
 
 
-customPlural :
-    (args -> Float)
-    -> (Float -> PluralCase)
-    -> AllPluralCases args msg
-    -> Part args msg
-customPlural accessor selector cases =
-    Plural accessor selector cases
+{-| This type represents the different plural cases which are used in
+the [CLDR](http://cldr.unicode.org).
+-}
+type PluralCase
+    = Zero
+    | One
+    | Two
+    | Few
+    | Many
+    | Other
 
 
-dynamicPlural :
-    (args -> Float)
-    -> PluralRules
-    -> AllPluralCases args msg
-    -> Part args msg
-dynamicPlural accessor pluralRules pluralCases =
-    DynamicPlural accessor pluralRules pluralCases
+{-| -}
+type alias AllPluralCases args msg =
+    { zero : List (Part args msg)
+    , one : List (Part args msg)
+    , two : List (Part args msg)
+    , few : List (Part args msg)
+    , many : List (Part args msg)
+    , other : List (Part args msg)
+    }
+
+
+{-| Create a part which selects between different versions using the
+provided function.
+
+    partyInfo : List (Part { gender : Gender } msg)
+    partyInfo =
+        [ select .gender <|
+            \gender ->
+                case gender of
+                    Female ->
+                        [ s "She gives a party." ]
+
+                    Male ->
+                        [ s "He gives a party." ]
+
+                    Other ->
+                        [ s "They give a party." ]
+        ]
+
+    type Gender
+        = Female
+        | Male
+        | Other
+
+-}
+select : (args -> a) -> (a -> List (Part args msg)) -> Part args msg
+select accessor selector =
+    Debug.crash "TODO"
 
 
 
 ---- PRINT
 
 
-print : List (Part {} msg) -> String
-print parts =
-    parts
-        |> printWith {}
+{-| Use this function to turn a list of parts into a `String`.
 
+    greeting : String
+    greeting =
+        printWith { name = "Alice" }
+            [ s "Good morning, "
+            , string .name
+            , s "!"
+            ]
 
+Then `greeting` is equal to `"Good morning, Alice!"`.
+
+-}
 printWith : args -> List (Part args msg) -> String
 printWith args parts =
+    let
+        printPart maybeCount part =
+            case part of
+                Verbatim text ->
+                    text
+
+                NodePart accessor nextParts ->
+                    nextParts
+                        |> List.map (printPart maybeCount)
+                        |> String.concat
+
+                String accessor ->
+                    accessor args
+
+                Decimal accessor (CustomNumberFormat printer) ->
+                    args |> accessor |> printer
+
+                Plural accessor (CustomNumberFormat printer) selector cases ->
+                    let
+                        nextCount =
+                            args |> accessor |> printer
+                    in
+                    String.concat <|
+                        List.map (printPart (Just nextCount)) <|
+                            case nextCount |> selector of
+                                Zero ->
+                                    cases.zero
+
+                                One ->
+                                    cases.one
+
+                                Two ->
+                                    cases.two
+
+                                Few ->
+                                    cases.few
+
+                                Many ->
+                                    cases.many
+
+                                Other ->
+                                    cases.other
+
+                Count ->
+                    case maybeCount of
+                        Just count ->
+                            count
+
+                        Nothing ->
+                            Debug.crash "no count given"
+    in
     parts
-        |> List.map (printPart Nothing args)
+        |> List.map (printPart Nothing)
         |> String.concat
 
 
-printPart : Maybe String -> args -> Part args msg -> String
-printPart maybeCount args part =
-    case part of
-        Verbatim text ->
-            text
+{-| Use this function if your list of parts does not need arguments.
+This is basically `print parts = printWith {} parts`.
+-}
+print : List (Part {} msg) -> String
+print parts =
+    printWith {} parts
 
-        NodePart accessor nextParts ->
-            nextParts
-                |> List.map (printPart maybeCount args)
-                |> String.concat
 
-        String accessor ->
-            accessor args
+{-| Use this function to turn a list of parts into a list of dom nodes.
+You want to do this if one of the parts is a `node`.
 
-        Float accessor printer ->
-            args |> accessor |> printer
+    documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
+    documentationInfo =
+        [ s "Take a look at our "
+        , node .link
+            [ s "documentation" ]
+        , "."
+        ]
 
-        Plural accessor selector cases ->
-            let
-                nextCount =
-                    -- TODO: insert actual number printing
-                    args |> accessor |> toString
-            in
-            String.concat <|
-                List.map (printPart (Just nextCount) args) <|
-                    case args |> accessor |> selector of
-                        Zero ->
-                            cases.zero
+    view : String -> Html msg
+    view url =
+        Html.div [] <|
+            nodes { link = Html.a [ Html.Attributes.href url ] }
+                documentationInfo
 
-                        One ->
-                            cases.one
+Then `view` is equivalent to
 
-                        Two ->
-                            cases.two
-
-                        Few ->
-                            cases.few
-
-                        Many ->
-                            cases.many
-
-                        Other ->
-                            cases.other
-
-        DynamicPlural accessor pluralRules pluralCases ->
-            let
-                nextCount =
-                    -- TODO: insert actual number printing
-                    args |> accessor |> toString
-            in
-            [ ( pluralRules.zero, pluralCases.zero )
-            , ( pluralRules.one, pluralCases.one )
-            , ( pluralRules.two, pluralCases.two )
-            , ( pluralRules.few, pluralCases.few )
-            , ( pluralRules.many, pluralCases.many )
+    view : String -> Html msg
+    view url =
+        Html.div []
+            [ Html.text "Take a look at our "
+            , Html.a [ Html.Attributes.href url ]
+                [ Html.text "documentation" ]
+            , Html.text "."
             ]
-                |> List.filterMap
-                    (\( maybeRule, nextParts ) ->
-                        case maybeRule |> Maybe.map (checkRelation '.' nextCount) of
-                            Just True ->
-                                Just nextParts
 
-                            _ ->
-                                Nothing
-                    )
-                |> List.head
-                |> Maybe.withDefault pluralCases.other
-                |> List.map (printPart (Just nextCount) args)
-                |> String.concat
-
-        Count ->
-            case maybeCount of
-                Just count ->
-                    count
-
-                Nothing ->
-                    Debug.crash "no count given"
-
-
+-}
 nodes : args -> List (Part args msg) -> List (Node msg)
 nodes args parts =
     let
@@ -173,20 +432,19 @@ nodes args parts =
                         |> VirtualDom.text
                     ]
 
-                Float accessor printer ->
+                Decimal accessor (CustomNumberFormat printer) ->
                     [ args
                         |> accessor
                         |> printer
                         |> VirtualDom.text
                     ]
 
-                Plural accessor selector cases ->
+                Plural accessor (CustomNumberFormat printer) selector cases ->
                     let
                         nextCount =
-                            -- TODO: insert actual number printing
-                            args |> accessor |> toString
+                            args |> accessor |> printer
                     in
-                    (case args |> accessor |> selector of
+                    (case nextCount |> selector of
                         Zero ->
                             cases.zero
 
@@ -208,32 +466,6 @@ nodes args parts =
                         |> List.map (toNodes (Just nextCount))
                         |> List.concat
 
-                DynamicPlural accessor pluralRules pluralCases ->
-                    let
-                        nextCount =
-                            -- TODO: insert actual number printing
-                            args |> accessor |> toString
-                    in
-                    [ ( pluralRules.zero, pluralCases.zero )
-                    , ( pluralRules.one, pluralCases.one )
-                    , ( pluralRules.two, pluralCases.two )
-                    , ( pluralRules.few, pluralCases.few )
-                    , ( pluralRules.many, pluralCases.many )
-                    ]
-                        |> List.filterMap
-                            (\( maybeRule, nextParts ) ->
-                                case maybeRule |> Maybe.map (checkRelation '.' nextCount) of
-                                    Just True ->
-                                        Just nextParts
-
-                                    _ ->
-                                        Nothing
-                            )
-                        |> List.head
-                        |> Maybe.withDefault pluralCases.other
-                        |> List.map (toNodes (Just nextCount))
-                        |> List.concat
-
                 Count ->
                     case maybeCount of
                         Just count ->
@@ -245,398 +477,3 @@ nodes args parts =
     parts
         |> List.map (toNodes Nothing)
         |> List.concat
-
-
-
----- PLURALIZATION
-
-
-type PluralCase
-    = Zero
-    | One
-    | Two
-    | Few
-    | Many
-    | Other
-
-
-type alias AllPluralCases args msg =
-    { zero : List (Part args msg)
-    , one : List (Part args msg)
-    , two : List (Part args msg)
-    , few : List (Part args msg)
-    , many : List (Part args msg)
-    , other : List (Part args msg)
-    }
-
-
-type alias PluralRules =
-    { zero : Maybe Relation
-    , one : Maybe Relation
-    , two : Maybe Relation
-    , few : Maybe Relation
-    , many : Maybe Relation
-    }
-
-
-type Relation
-    = Equal Expression (List Range)
-    | NotEqual Expression (List Range)
-    | Or Relation Relation
-    | And Relation Relation
-
-
-type Expression
-    = Simple PluralOperand
-    | Modulo PluralOperand Int
-
-
-type PluralOperand
-    = AbsoluteValue
-    | IntegerDigits
-    | FractionDigitCount WithTrailingZeros
-    | FractionDigits WithTrailingZeros
-
-
-type WithTrailingZeros
-    = WithTrailingZeros
-    | WithoutTrailingZeros
-
-
-type Range
-    = Single Int
-    | Range Int Int
-
-
-checkRelation : Char -> String -> Relation -> Bool
-checkRelation decimal num relation =
-    case relation of
-        Equal expression ranges ->
-            ranges |> List.all (checkExpression decimal num expression)
-
-        NotEqual expression ranges ->
-            ranges |> List.all (checkExpression decimal num expression >> not)
-
-        Or relationA relationB ->
-            checkRelation decimal num relationA
-                || checkRelation decimal num relationB
-
-        And relationA relationB ->
-            checkRelation decimal num relationA
-                && checkRelation decimal num relationB
-
-
-checkExpression : Char -> String -> Expression -> Range -> Bool
-checkExpression decimal num expression range =
-    let
-        value pluralOperand =
-            case pluralOperand of
-                AbsoluteValue ->
-                    absoluteValue decimal num
-
-                FractionDigits withTrailingZeros ->
-                    fractionDigits decimal withTrailingZeros num
-                        |> toFloat
-
-                IntegerDigits ->
-                    integerDigits decimal num
-                        |> toFloat
-
-                FractionDigitCount withTrailingZeros ->
-                    fractionDigitCount decimal withTrailingZeros num
-                        |> toFloat
-
-        inRange float =
-            case range of
-                Single a ->
-                    toFloat a == float
-
-                Range a b ->
-                    (toFloat a <= float) && (float <= toFloat b)
-    in
-    case expression of
-        Simple pluralOperand ->
-            pluralOperand
-                |> value
-                |> inRange
-
-        Modulo pluralOperand modulo ->
-            ((pluralOperand |> value |> floor) % modulo)
-                |> toFloat
-                |> inRange
-
-
-absoluteValue : Char -> String -> Float
-absoluteValue decimal num =
-    case
-        num
-            |> String.map
-                (\c ->
-                    if c == decimal then
-                        '.'
-                    else
-                        c
-                )
-            |> String.toFloat
-            |> Result.toMaybe
-    of
-        Just float ->
-            float
-
-        Nothing ->
-            Debug.crash "absoluteValue failed"
-
-
-integerDigits : Char -> String -> Int
-integerDigits decimal num =
-    case num |> String.split (String.fromChar decimal) of
-        integerString :: _ ->
-            if integerString |> String.all Char.isDigit then
-                integerString
-                    |> String.toInt
-                    |> Result.toMaybe
-                    |> Maybe.withDefault 0
-            else
-                0
-
-        _ ->
-            0
-
-
-fractionDigits : Char -> WithTrailingZeros -> String -> Int
-fractionDigits decimal withTrailingZeros num =
-    case withTrailingZeros of
-        WithTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    case
-                        fractionString
-                            |> String.toInt
-                            |> Result.toMaybe
-                    of
-                        Just i ->
-                            i
-
-                        Nothing ->
-                            Debug.crash "fraction digits failed"
-
-                _ ->
-                    Debug.crash "fraction digits failed"
-
-        WithoutTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    case
-                        fractionString
-                            |> chompTrailingZeros
-                            |> String.toInt
-                            |> Result.toMaybe
-                    of
-                        Just i ->
-                            i
-
-                        Nothing ->
-                            Debug.crash "fraction digits failed"
-
-                _ ->
-                    Debug.crash "fraction digits failed"
-
-
-fractionDigitCount : Char -> WithTrailingZeros -> String -> Int
-fractionDigitCount decimal withTrailingZeros num =
-    case withTrailingZeros of
-        WithTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    if fractionString |> String.all Char.isDigit then
-                        fractionString
-                            |> String.length
-                    else
-                        0
-
-                _ ->
-                    0
-
-        WithoutTrailingZeros ->
-            case num |> String.split (String.fromChar decimal) of
-                _ :: fractionString :: [] ->
-                    if fractionString |> String.all Char.isDigit then
-                        fractionString
-                            |> chompTrailingZeros
-                            |> String.length
-                    else
-                        0
-
-                _ ->
-                    0
-
-
-chompTrailingZeros : String -> String
-chompTrailingZeros string =
-    let
-        chompTrailingZero nextChar ( chomp, sum ) =
-            if nextChar == '0' && chomp then
-                ( True, sum )
-            else
-                ( False, nextChar :: sum )
-    in
-    string
-        |> String.foldr chompTrailingZero ( True, [] )
-        |> Tuple.second
-        |> String.fromList
-
-
-
----- NUMBER FORMATTING
-
-
-type alias NumberSymbols =
-    { decimal : String
-    , group : String
-    , list : String
-    , percentSign : String
-    , plusSign : String
-    , minusSign : String
-    , exponential : String
-    , superscriptingExponent : String
-    , perMille : String
-    , infinity : String
-    , nan : String
-    , timeSeparator : String
-    }
-
-
-type alias NumberFormats =
-    { symbols : NumberSymbols
-    , standard : NumberFormat
-    , percent : NumberFormat
-    , scientific : NumberFormat
-    }
-
-
-type alias NumberFormat =
-    { positivePattern : NumberPattern
-    , negativePattern : Maybe NumberPattern
-    }
-
-
-type alias NumberPattern =
-    { prefix : String
-    , suffix : String
-    , primaryGroupingSize : Maybe Int
-    , secondaryGroupingSize : Maybe Int
-    , minimalIntegerCount : Int
-    , minimalFractionCount : Int
-    , maximalFractionCount : Int
-    }
-
-
-
----- SHARED PARTS
-
-
-{-| -}
-customDecimal : (args -> Float) -> NumberSymbols -> NumberFormat -> Part args msg
-customDecimal accessor numberSymbols numberFormat =
-    let
-        printer num =
-            if num >= 0 then
-                printWithPattern numberFormat.positivePattern num
-            else
-                case numberFormat.negativePattern of
-                    Just negativePattern ->
-                        printWithPattern negativePattern num
-
-                    Nothing ->
-                        printWithPattern numberFormat.positivePattern num
-
-        printWithPattern pattern num =
-            [ pattern.prefix
-            , if num < 0 then
-                numberSymbols.minusSign
-              else
-                ""
-            , integerPart pattern num
-            , case fractionalPart pattern num of
-                "" ->
-                    ""
-
-                part ->
-                    [ numberSymbols.decimal
-                    , part
-                    ]
-                        |> String.concat
-            , pattern.suffix
-            ]
-                |> String.concat
-
-        integerPart numberPattern num =
-            let
-                integerDigits =
-                    num
-                        |> floor
-                        |> digits
-
-                leadingZeroCount =
-                    (numberPattern.minimalIntegerCount - List.length integerDigits)
-                        |> clamp 0 numberPattern.minimalIntegerCount
-            in
-            [ String.repeat leadingZeroCount "0"
-            , integerDigits
-                |> List.map toString
-                |> String.concat
-            ]
-                |> String.concat
-
-        fractionalPart numberPattern num =
-            [ fractionalDigits
-                numberPattern.minimalFractionCount
-                numberPattern.maximalFractionCount
-                0
-                num
-            ]
-                |> String.concat
-    in
-    Float accessor printer
-
-
-fractionalDigits : Int -> Int -> Int -> Float -> String
-fractionalDigits minimal maximal printed num =
-    if printed < maximal then
-        let
-            nextDigit =
-                (((num * 10) |> floor) % 10) |> toString
-        in
-        if printed < minimal then
-            [ nextDigit
-            , fractionalDigits minimal maximal (printed + 1) (num * 10)
-            ]
-                |> String.concat
-        else if
-            (floor (num * toFloat (10 ^ (maximal - printed)))
-                % (10 ^ (maximal - printed))
-            )
-                /= 0
-        then
-            [ nextDigit
-            , fractionalDigits minimal maximal (printed + 1) (num * 10)
-            ]
-                |> String.concat
-        else
-            ""
-    else
-        ""
-
-
-digits : Int -> List Int
-digits num =
-    digitsHelper [] num
-        |> List.reverse
-
-
-digitsHelper : List Int -> Int -> List Int
-digitsHelper digits num =
-    if num // 10 == 0 then
-        num :: digits
-    else
-        (num % 10) :: digitsHelper digits (num // 10)

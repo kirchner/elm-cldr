@@ -3,7 +3,9 @@ module CldrTests exposing (..)
 import Cldr exposing (..)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Localized exposing (..)
+import Internal.Numbers exposing (..)
+import Internal.PluralRules exposing (..)
+import Localized
 import Parser exposing (..)
 import Test exposing (..)
 
@@ -203,11 +205,11 @@ suite =
                         |> run intParser
                         |> Expect.equal (Ok (int ^ 2))
             ]
-        , describe "NumerFormats"
+        , describe "NumberFormats"
             [ test "with integer part" <|
                 \_ ->
                     "###0"
-                        |> numberFormat
+                        |> Cldr.numberFormat
                         |> Expect.equal
                             (Ok
                                 { positivePattern =

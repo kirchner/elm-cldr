@@ -11,41 +11,42 @@ Here are some examples how one can use the package:
 
 ```elm
 import Localized exposing (s, print, printWith)
-import Localized.En exposing (cardinal)
+import Localized.En exposing (cardinal, decimalStandard)
 
 
 
 greeting : String
 greeting =
-    [ s "Good morning!" ]
-        |> print
+    print
+        [ s "Good morning!" ]
 
 -- is equal to: "Good morning!"
 
 
 personalGreeting : String
 personalGreeting =
-    [ s "Good morning, "
-    , string .name
-    , s "!"
-    ]
-        |> printWith { name = "Alice" }
+    printWith { name = "Alice" }
+        [ s "Good morning, "
+        , string .name
+        , s "!"
+        ]
 
 -- is equal to: "Good morning, Alice!"
 
 
 pluralizedMessage : String
 pluralizedMessage =
-    [ cardinal .newEmailCount
-        { one = [ s "You have one new email." ]
-        , other =
-            [ s "You have "
-            , count
-            , s " new emails."
-            ]
-        }
-    ]
-        |> printWith { newEmailCount = 42 }
+    printWith { newEmailCount = 42 }
+        [ cardinal .newEmailCount
+            decimalStandard
+            { one = [ s "You have one new email." ]
+            , other =
+                [ s "You have "
+                , count
+                , s " new emails."
+                ]
+            }
+        ]
 
 -- is equal to: "You have 42 new emails."
 ```
@@ -59,30 +60,30 @@ import Localized exposing (s, node, nodes)
 
 
 
-documentationInfo : { link : List (Html msg) -> Html msg } -> List (Html msg)
+documentationInfo : List (Part { link : List (Html msg) -> Html msg })
 documentationInfo =
     [ s "Take a look at our "
     , node .link
         [ s "documentation" ]
     , s "."
     ]
-        |> nodes
 
 
-view =
+view url =
     Html.div [] <|
-        documentationInfo
-            { link = Html.a [ Html.Attributes.href = "..." ] }
+        nodes { link = Html.a [ Html.Attributes.href = url ] }
+            documentationInfo
 
--- is equal to:
---
--- Html.div []
---     [ Html.text "Take a look at our "
---     , Html.a
---         [ Html.Attributes.href = "..." ]
---         [ Html.text "documentation" ]
---     , Html.text "."
---     ]
+-- is equivalent to:
+
+actualView url =
+    Html.div []
+        [ Html.text "Take a look at our "
+        , Html.a
+            [ Html.Attributes.href = url ]
+            [ Html.text "documentation" ]
+        , Html.text "."
+        ]
 ```
 
 The submodules for each locale (e.g. `Localized.En`, ...) are automatically

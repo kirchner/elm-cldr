@@ -1,0 +1,3999 @@
+[
+  {
+    "name": "Localized.Zu",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Zh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ug",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Yi",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Xog",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Yue",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Tl",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Xh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Yo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Wo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Uz",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Tr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Wae",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Wa",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Te",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Vun",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Vo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ur",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ti",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ssy",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Vi",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.To",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Tzm",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Th",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Tk",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sq",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Uk",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sms",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.So",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ta",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sv",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ss",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Tn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Syr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Smi",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ve",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Tig",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Smn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Teo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.St",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ts",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sl",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sk",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sma",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Smj",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Shi",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Seh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Si",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Saq",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Se",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Root",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.PtPT",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sd",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ses",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sah",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Sdh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ru",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Pl",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Rwk",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Rof",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Rm",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ro",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Pa",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ps",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Pt",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Prg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Pap",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Or",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nyn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ne",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nnh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Os",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Om",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ny",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nso",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.My",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Naq",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nb",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nl",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nah",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nd",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Nqo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ms",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.No",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mt",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ml",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mgo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mk",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Mas",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lv",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ln",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lkt",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lb",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lt",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lag",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Lg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ky",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ku",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ksb",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ks",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ksh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kk",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Km",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kcg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ka",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Jmc",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kea",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ko",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kl",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kaj",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Jw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Jbo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ji",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ja",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kde",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kkj",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Kab",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Jgo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Jv",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Iw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.It",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Iu",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Io",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Id",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Is",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ii",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.In",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ig",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Hy",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Hu",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Hsb",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ce",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.He",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bem",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bez",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Hr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Gv",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Guw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Haw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Gd",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Be",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Gsw",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Gu",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Hi",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fur",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ga",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ff",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Gl",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fil",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fi",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Et",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Es",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fa",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.En",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ee",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.El",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Eo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ha",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Dz",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.De",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Dsb",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Da",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Cy",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ckb",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Cs",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Fy",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Chr",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ca",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bh",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bs",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Brx",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bo",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Br",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Eu",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bn",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Az",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Dv",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ast",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Cgg",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Bm",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Asa",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.As",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ars",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ar",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Am",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Ak",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized.Af",
+    "comment": "\n\n@docs cardinal, ordinal\n\n",
+    "aliases": [],
+    "types": [],
+    "values": [
+      {
+        "name": "cardinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { one : List (Localized.Part args msg) , other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      },
+      {
+        "name": "ordinal",
+        "comment": " ",
+        "type": "(args -> Float) -> { other : List (Localized.Part args msg) } -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  },
+  {
+    "name": "Localized",
+    "comment": " Create localized texts in a type safe way.\n\n@docs Part\n\n\n# Printing\n\n@docs printWith, print, nodes\n\n\n# Creating Parts\n\n\n## Basic Parts\n\n@docs s, string, node\n\n\n## Number Formatting\n\n@docs decimal, NumberFormat, customNumberFormat\n\n\n## Pluralization and Selects\n\nEvery locale module like for example `Localized.En` exports\nthe pluralization parts `cardinal` and `ordinal`. You use these like\nthis\n\n    emailInfo : List (Part { ord : Float } msg)\n    emailInfo =\n        [ Localized.En.ordinal .ord\n            Localized.En.decimalStandard\n            { one =\n                [ s \"This is the \"\n                , count\n                , \"st message.\"\n                ]\n            , two =\n                [ s \"This is the \"\n                , count\n                , \"nd message.\"\n                ]\n            , few =\n                [ s \"This is the \"\n                , count\n                , \"rd message.\"\n                ]\n            , other =\n                [ s \"This is the \"\n                , count\n                , \"th message.\"\n                ]\n            }\n        ]\n\n@docs count, customPlural, PluralCase, AllPluralCases\n\n@docs select\n\n",
+    "aliases": [
+      {
+        "name": "AllPluralCases",
+        "comment": " ",
+        "args": [
+          "args",
+          "msg"
+        ],
+        "type": "{ zero : List (Localized.Part args msg) , one : List (Localized.Part args msg) , two : List (Localized.Part args msg) , few : List (Localized.Part args msg) , many : List (Localized.Part args msg) , other : List (Localized.Part args msg) }"
+      }
+    ],
+    "types": [
+      {
+        "name": "NumberFormat",
+        "comment": " Opaque type representing a number formatting rule. Every locale\nmodule provides functions to create formats which are specified in the\nCLDR.\n",
+        "args": [],
+        "cases": []
+      },
+      {
+        "name": "Part",
+        "comment": " Opaque building block for texts.\n",
+        "args": [
+          "args",
+          "msg"
+        ],
+        "cases": []
+      },
+      {
+        "name": "PluralCase",
+        "comment": " This type represents the different plural cases which are used in\nthe [CLDR](http://cldr.unicode.org).\n",
+        "args": [],
+        "cases": [
+          [
+            "Zero",
+            []
+          ],
+          [
+            "One",
+            []
+          ],
+          [
+            "Two",
+            []
+          ],
+          [
+            "Few",
+            []
+          ],
+          [
+            "Many",
+            []
+          ],
+          [
+            "Other",
+            []
+          ]
+        ]
+      }
+    ],
+    "values": [
+      {
+        "name": "count",
+        "comment": " Create a part which gets replaced by the formatted number argument\nof a plural part.\n\n    emailInfo : List (Part { count : Float } msg)\n    emailInfo =\n        [ Localized.En.cardinal .count\n            Localized.En.decimalStandard\n            { one = [ s \"You have one new email\" ]\n            , other =\n                [ s \"You have \"\n                , count\n                , s \" new emails\"\n                ]\n            }\n        ]\n\n",
+        "type": "Localized.Part args msg"
+      },
+      {
+        "name": "customNumberFormat",
+        "comment": " Create your own number format.\n",
+        "type": "(Float -> String) -> Localized.NumberFormat"
+      },
+      {
+        "name": "customPlural",
+        "comment": " Create a custom pluralization part. Use this function if you want\nto provide your own pluralization rules.\n\n**Note**: You usually want to use the `plural` function from the one of\nthe modules like `Localized.En`, according to the language the text\nwill be in.\n\n",
+        "type": "(args -> Float) -> Localized.NumberFormat -> (String -> Localized.PluralCase) -> Localized.AllPluralCases args msg -> Localized.Part args msg"
+      },
+      {
+        "name": "decimal",
+        "comment": " Create a placeholder which gets replaced by a number which is\nformatted according to the provided format.\n\n    heightInfo : List (Part { height : Float } msg)\n    heightInfo =\n        [ s \"Current height: \"\n        , decimal .height Localized.En.decimalStandard\n        , s \".\"\n        ]\n\nThen `printWith { height = 3.1533 } heightInfo` is equal to `\"Current\nheight: 3.153.\"`.\n\n",
+        "type": "(args -> Float) -> Localized.NumberFormat -> Localized.Part args msg"
+      },
+      {
+        "name": "node",
+        "comment": " Create a part which eventually gets replaced by a dom node.\n\n    documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)\n    documentationInfo =\n        [ s \"Take a look at our \"\n        , node .link\n            [ s \"documentation\" ]\n        , \".\"\n        ]\n\n    view : String -> Html msg\n    view url =\n        Html.div []\n            (nodes documentationInfo\n                { link = Html.a [ Html.Attributes.href url ] }\n            )\n\nThen `view` is equivalent to\n\n    view : String -> Html msg\n    view url =\n        Html.div []\n            [ Html.text \"Take a look at our \"\n            , Html.a [ Html.Attributes.href url ]\n                [ Html.text \"documentation\" ]\n            , Html.text \".\"\n            ]\n\n",
+        "type": "(args -> List (VirtualDom.Node msg) -> VirtualDom.Node msg) -> List (Localized.Part args msg) -> Localized.Part args msg"
+      },
+      {
+        "name": "nodes",
+        "comment": " Use this function to turn a list of parts into a list of dom nodes.\nYou want to do this if one of the parts is a `node`.\n\n    documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)\n    documentationInfo =\n        [ s \"Take a look at our \"\n        , node .link\n            [ s \"documentation\" ]\n        , \".\"\n        ]\n\n    view : String -> Html msg\n    view url =\n        Html.div [] <|\n            nodes { link = Html.a [ Html.Attributes.href url ] }\n                documentationInfo\n\nThen `view` is equivalent to\n\n    view : String -> Html msg\n    view url =\n        Html.div []\n            [ Html.text \"Take a look at our \"\n            , Html.a [ Html.Attributes.href url ]\n                [ Html.text \"documentation\" ]\n            , Html.text \".\"\n            ]\n\n",
+        "type": "args -> List (Localized.Part args msg) -> List (VirtualDom.Node msg)"
+      },
+      {
+        "name": "print",
+        "comment": " Use this function if your list of parts does not need arguments.\nThis is basically `print parts = printWith {} parts`.\n",
+        "type": "List (Localized.Part {} msg) -> String"
+      },
+      {
+        "name": "printWith",
+        "comment": " Use this function to turn a list of parts into a `String`.\n\n    greeting : String\n    greeting =\n        printWith { name = \"Alice\" }\n            [ s \"Good morning, \"\n            , string .name\n            , s \"!\"\n            ]\n\nThen `greeting` is equal to `\"Good morning, Alice!\"`.\n\n",
+        "type": "args -> List (Localized.Part args msg) -> String"
+      },
+      {
+        "name": "s",
+        "comment": " Create a part which returns the given `String`.\n\n    greeting : List (Part {} msg)\n    greeting =\n        [ s \"Hello!\" ]\n\nThen `\"print greeting\"` is equal to `\"Hello!\"`.\n\n",
+        "type": "String -> Localized.Part args msg"
+      },
+      {
+        "name": "select",
+        "comment": " Create a part which selects between different versions using the\nprovided function.\n\n    partyInfo : List (Part { gender : Gender } msg)\n    partyInfo =\n        [ select .gender <|\n            \\gender ->\n                case gender of\n                    Female ->\n                        [ s \"She gives a party.\" ]\n\n                    Male ->\n                        [ s \"He gives a party.\" ]\n\n                    Other ->\n                        [ s \"They give a party.\" ]\n        ]\n\n    type Gender\n        = Female\n        | Male\n        | Other\n\n",
+        "type": "(args -> a) -> (a -> List (Localized.Part args msg)) -> Localized.Part args msg"
+      },
+      {
+        "name": "string",
+        "comment": " Create a placeholder which eventually gets replaced by a `String`.\n\n    personalGreeting : List (Part { name : String } msg)\n    personalGreeting =\n        [ s \"Hello, \"\n        , string .name\n        , s \"!\"\n        ]\n\nThen `printWith { name = \"Alice\" } personalGreeting` is equal to\n`\"Hello, Alice!\"`.\n\n",
+        "type": "(args -> String) -> Localized.Part args msg"
+      }
+    ],
+    "generated-with-elm-version": "0.18.0"
+  }
+]

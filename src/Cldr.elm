@@ -1,16 +1,32 @@
-module Cldr exposing (..)
+module Cldr
+    exposing
+        ( Cldr
+        , andParser
+        , cldr
+        , expressionParser
+        , generateLocaleModule
+        , intParser
+        , numberFormat
+        , orParser
+        , pluralOperandParser
+        , rangeParser
+        , rangesParser
+        , relationParser
+        )
 
-{-| This module exposes localization and internationalization data of
-the [common locale data repository](https://cldr.unicode.org/)
-(CLDR).
+{-| This module exposes functions to parse the data provided by the
+[common locale data repository](https://cldr.unicode.org/) (CLDR) and
+generate Elm modules with plural and number formatting rules for the
+different locales.
 -}
 
 import Char
 import Dict exposing (Dict)
 import Generate
+import Internal.Numbers exposing (..)
+import Internal.PluralRules exposing (..)
 import Json.Decode as Decode exposing (Decoder)
 import Json.Decode.Pipeline as Decode
-import Localized exposing (..)
 import Parser exposing (..)
 import String.Extra as String
 
@@ -463,12 +479,21 @@ generateLocaleModule code locale =
             , exposed =
                 [ "cardinal"
                 , "ordinal"
-                , "cardinalDynamic"
-                , "ordinalDynamic"
-                , "decimal"
+
+                --, "cardinalDynamic"
+                --, "ordinalDynamic"
+                --, "decimal"
                 ]
             }
-        , [ "import Localized exposing (..)" ]
+        , [ "{-|"
+          , "@docs cardinal, ordinal"
+          , "-}"
+          ]
+            |> String.join "\n"
+        , [ "import Internal.PluralRules exposing (..)"
+          , "import Internal.Numbers exposing (..)"
+          , "import Localized exposing (Part, PluralCase(..))"
+          ]
             |> String.join "\n"
         , generateNumberFormats locale.numberFormats
         , generatePlural "cardinal" locale.cardinalRules
@@ -477,7 +502,7 @@ generateLocaleModule code locale =
                 generatePlural "ordinal" ordinalRules
 
             Nothing ->
-                "ordinal = cardinal"
+                generatePlural "ordinal" locale.cardinalRules
         , generateSelector "cardinal" locale.cardinalRules
         , case locale.ordinalRules of
             Just ordinalRules ->
@@ -496,7 +521,8 @@ generateNumberFormats numberFormats =
     , generateNumberFormat "standard" numberFormats.standard
     , generateNumberFormat "percent" numberFormats.percent
     , generateNumberFormat "scientific" numberFormats.scientific
-    , generateDecimal
+
+    --, generateDecimal
     ]
         |> String.join "\n\n"
 
@@ -597,8 +623,9 @@ generatePlural : String -> PluralRules -> String
 generatePlural kind pluralRules =
     let
         body =
-            [ "customPlural accessor"
-            , [ "(toString >> " ++ kind ++ "Selector)"
+            [ "Localized.customPlural accessor"
+            , [ "(Localized.customNumberFormat toString)"
+              , "(" ++ kind ++ "Selector)"
               , pluralCasesAssignment
               ]
                 |> String.concat
@@ -676,7 +703,8 @@ generatePlural kind pluralRules =
                 Nothing ->
                     Nothing
     in
-    [ Generate.function
+    [ "{-| -}"
+    , Generate.function
         { name = kind
         , arguments =
             [ ( "(args -> Float)", "accessor" )
@@ -685,23 +713,24 @@ generatePlural kind pluralRules =
         , returnType = "Part args msg"
         , body = body
         }
-    , Generate.function
-        { name = kind ++ "Dynamic"
-        , arguments =
-            [ ( "(args -> Float)", "accessor" )
-            , ( pluralCasesType, pluralCasesNames )
-            ]
-        , returnType = "Part args msg"
-        , body =
-            [ "dynamicPlural accessor"
-            , kind
-                ++ "PluralRules"
-                |> Generate.indent
-            , pluralCasesAssignment
-                |> Generate.indent
-            ]
-                |> String.join "\n"
-        }
+
+    --, Generate.function
+    --    { name = kind ++ "Dynamic"
+    --    , arguments =
+    --        [ ( "(args -> Float)", "accessor" )
+    --        , ( pluralCasesType, pluralCasesNames )
+    --        ]
+    --    , returnType = "Part args msg"
+    --    , body =
+    --        [ "dynamicPlural accessor"
+    --        , kind
+    --            ++ "PluralRules"
+    --            |> Generate.indent
+    --        , pluralCasesAssignment
+    --            |> Generate.indent
+    --        ]
+    --            |> String.join "\n"
+    --    }
     ]
         |> String.join "\n\n"
 

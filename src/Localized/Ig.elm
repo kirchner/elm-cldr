@@ -1,13 +1,18 @@
 module Localized.Ig
     exposing
         ( cardinal
-        , cardinalDynamic
-        , decimal
         , ordinal
-        , ordinalDynamic
         )
 
-import Localized exposing (..)
+{-|
+
+@docs cardinal, ordinal
+
+-}
+
+import Internal.Numbers exposing (..)
+import Internal.PluralRules exposing (..)
+import Localized exposing (Part, PluralCase(..))
 
 
 numberSymbols : NumberSymbols
@@ -72,13 +77,7 @@ scientificNumberFormat =
     }
 
 
-decimal :
-    (args -> Float)
-    -> Part args msg
-decimal accessor =
-    customDecimal accessor numberSymbols standardNumberFormat
-
-
+{-| -}
 cardinal :
     (args -> Float)
     ->
@@ -86,8 +85,9 @@ cardinal :
         }
     -> Part args msg
 cardinal accessor { other } =
-    customPlural accessor
-        (toString >> cardinalSelector)
+    Localized.customPlural accessor
+        (Localized.customNumberFormat toString)
+        cardinalSelector
         { zero = []
         , one = []
         , two = []
@@ -97,15 +97,17 @@ cardinal accessor { other } =
         }
 
 
-cardinalDynamic :
+{-| -}
+ordinal :
     (args -> Float)
     ->
         { other : List (Part args msg)
         }
     -> Part args msg
-cardinalDynamic accessor { other } =
-    dynamicPlural accessor
-        cardinalPluralRules
+ordinal accessor { other } =
+    Localized.customPlural accessor
+        (Localized.customNumberFormat toString)
+        ordinalSelector
         { zero = []
         , one = []
         , two = []
@@ -113,10 +115,6 @@ cardinalDynamic accessor { other } =
         , many = []
         , other = other
         }
-
-
-ordinal =
-    cardinal
 
 
 cardinalPluralRules : PluralRules

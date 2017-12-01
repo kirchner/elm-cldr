@@ -1,13 +1,18 @@
 module Localized.Ars
     exposing
         ( cardinal
-        , cardinalDynamic
-        , decimal
         , ordinal
-        , ordinalDynamic
         )
 
-import Localized exposing (..)
+{-|
+
+@docs cardinal, ordinal
+
+-}
+
+import Internal.Numbers exposing (..)
+import Internal.PluralRules exposing (..)
+import Localized exposing (Part, PluralCase(..))
 
 
 numberSymbols : NumberSymbols
@@ -72,13 +77,7 @@ scientificNumberFormat =
     }
 
 
-decimal :
-    (args -> Float)
-    -> Part args msg
-decimal accessor =
-    customDecimal accessor numberSymbols standardNumberFormat
-
-
+{-| -}
 cardinal :
     (args -> Float)
     ->
@@ -91,8 +90,9 @@ cardinal :
         }
     -> Part args msg
 cardinal accessor { zero, one, two, few, many, other } =
-    customPlural accessor
-        (toString >> cardinalSelector)
+    Localized.customPlural accessor
+        (Localized.customNumberFormat toString)
+        cardinalSelector
         { zero = zero
         , one = one
         , two = two
@@ -102,7 +102,8 @@ cardinal accessor { zero, one, two, few, many, other } =
         }
 
 
-cardinalDynamic :
+{-| -}
+ordinal :
     (args -> Float)
     ->
         { zero : List (Part args msg)
@@ -113,9 +114,10 @@ cardinalDynamic :
         , other : List (Part args msg)
         }
     -> Part args msg
-cardinalDynamic accessor { zero, one, two, few, many, other } =
-    dynamicPlural accessor
-        cardinalPluralRules
+ordinal accessor { zero, one, two, few, many, other } =
+    Localized.customPlural accessor
+        (Localized.customNumberFormat toString)
+        ordinalSelector
         { zero = zero
         , one = one
         , two = two
@@ -123,10 +125,6 @@ cardinalDynamic accessor { zero, one, two, few, many, other } =
         , many = many
         , other = other
         }
-
-
-ordinal =
-    cardinal
 
 
 cardinalPluralRules : PluralRules
