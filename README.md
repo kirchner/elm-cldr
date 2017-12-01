@@ -95,3 +95,32 @@ $ make
 ```
 
 You need to have `elm-format` installed.
+
+# Remarks
+
+I am not sure what is the best way to expose the localization data provided by
+the CLDR. I think, one can do one of these things:
+
+- Automatically generate Elm modules by parsing the CLDR data, which expose the
+  different formatting rules and the `plural` and `ordinal` part functions
+  (this is what I did here for the pluralization rules)
+
+- Let the user parse the CLDR data themself during runtime
+
+- Use the functions which are exposed by the [Intl Web
+  Api](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+
+The first two approaches require a great amount of work and could result in
+rather big asset sizes.  The third approach has the benefit that one does not
+have to deal with turning the CLDR data into e.g. localized number formatting
+functions as these are then already provided by the browser.
+
+One disadvantage of the third way is that the proposed [PluralRules
+API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules)
+does not capture the full possibilities of the CLDR.  When picking the correct
+plural form, the CLDR specification take into account the actual string
+representation of the number.  For example in English, one has `"There is
+1 second left."` but `"There are 1.0 seconds left."`  The proposed PluralRules api
+only provides a function
+[select](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules/select)
+which takes a **number** and returns the plural form, so the distinction between `"1"` and `"1.0"` is not possible.
