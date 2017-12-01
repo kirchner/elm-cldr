@@ -9,8 +9,9 @@ forms should be able in a typesafe way.
 
 If you want to read the documentation, just put the
 [documentation.json](https://rawgit.com/kirchner/elm-cldr/master/documentation.json)
-into the [doc preview](http://package.elm-lang.org/help/docs-preview). Here are
-some examples how one can use the package:
+into the [doc preview](http://package.elm-lang.org/help/docs-preview).
+
+Here are some examples how one can use the package:
 
 ```elm
 import Localized exposing (s, print, printWith)
@@ -63,7 +64,7 @@ import Localized exposing (s, node, nodes)
 
 
 
-documentationInfo : List (Part { link : List (Html msg) -> Html msg })
+documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
 documentationInfo =
     [ s "Take a look at our "
     , node .link
@@ -95,6 +96,10 @@ example
 ```elm
 module Translations.En exposing (..)
 
+import Html exposing (Html)
+import Localized exposing (s, string, node)
+import Localized.En exposing (cardinal, decimalStandard)
+
 
 greeting : List (Part {} msg)
 greeting =
@@ -123,7 +128,7 @@ pluralizedMessage =
     ]
 
 
-documentationInfo : List (Part { link : List (Html msg) -> Html msg })
+documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
 documentationInfo =
     [ s "Take a look at our "
     , node .link
@@ -141,6 +146,10 @@ In order to get your texts for different locales, you can do sth like this:  Cre
 
 ```elm
 module Translations.De exposing (..)
+
+import Html exposing (Html)
+import Localized exposing (s, string, node)
+import Localized.De exposing (cardinal, decimalStandard)
 
 
 greeting : List (Part {} msg)
