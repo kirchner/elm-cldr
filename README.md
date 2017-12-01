@@ -7,7 +7,10 @@ includes (localized) formatting of numbers, dates, times and lists, as well as
 pluralization rules.  In particular, adding placeholders and different plural
 forms should be able in a typesafe way.
 
-Here are some examples how one can use the package:
+If you want to read the documentation, just put the
+[documentation.json](https://rawgit.com/kirchner/elm-cldr/master/documentation.json)
+into the [doc preview](http://package.elm-lang.org/help/docs-preview). Here are
+some examples how one can use the package:
 
 ```elm
 import Localized exposing (s, print, printWith)
