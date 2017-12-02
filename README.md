@@ -94,7 +94,7 @@ import Localized exposing (s, node, nodes)
 
 
 
-documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
+documentationInfo : List (Text { link : List (Html msg) -> Html msg } msg)
 documentationInfo =
     [ s "Take a look at our "
     , node .link
@@ -131,12 +131,12 @@ import Localized exposing (s, string, node)
 import Localized.En exposing (cardinal, decimalStandard)
 
 
-greeting : List (Part {} msg)
+greeting : List (Text {} msg)
 greeting =
     [ s "Good morning!" ]
 
 
-personalGreeting : List (Part { name : String } msg)
+personalGreeting : List (Text { name : String } msg)
 personalGreeting =
     [ s "Good morning, "
     , string .name
@@ -144,7 +144,7 @@ personalGreeting =
     ]
 
 
-pluralizedMessage : List (Part { newEmailCount : Float } msg)
+pluralizedMessage : List (Text { newEmailCount : Float } msg)
 pluralizedMessage =
     [ cardinal .newEmailCount
         decimalStandard
@@ -158,7 +158,7 @@ pluralizedMessage =
     ]
 
 
-documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
+documentationInfo : List (Text { link : List (Html msg) -> Html msg } msg)
 documentationInfo =
     [ s "Take a look at our "
     , node .link
@@ -183,7 +183,7 @@ import Localized exposing (s, string, node)
 import Localized.De exposing (cardinal, decimalStandard)
 
 
-greeting : List (Part {} msg)
+greeting : List (Text {} msg)
 greeting =
     [ s "Guten Morgen!" ]
 
@@ -204,7 +204,7 @@ type Locale
     | De
 
 
-greeting : Locale -> List (Part {} msg)
+greeting : Locale -> List (Text {} msg)
 greeting =
     case Locale of
         En ->
@@ -233,7 +233,7 @@ I am not sure what is the best way to expose the localization data provided by
 the CLDR. I think, one can do one of these things:
 
 - Automatically generate Elm modules by parsing the CLDR data, which expose the
-  different formatting rules and the `plural` and `ordinal` part functions
+  different formatting rules and the `plural` and `ordinal` text functions
   (this is what I did here for the pluralization rules)
 
 - Let the user parse the CLDR data themself during runtime

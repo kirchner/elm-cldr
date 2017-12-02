@@ -492,7 +492,7 @@ generateLocaleModule code locale =
             |> String.join "\n"
         , [ "import Internal.PluralRules exposing (..)"
           , "import Internal.Numbers exposing (..)"
-          , "import Localized exposing (Part, PluralCase(..))"
+          , "import Localized exposing (Text, PluralCase(..))"
           ]
             |> String.join "\n"
         , generateNumberFormats locale.numberFormats
@@ -613,7 +613,7 @@ generateDecimal =
     Generate.function
         { name = "decimal"
         , arguments = [ ( "(args -> Float)", "accessor" ) ]
-        , returnType = "Part args msg"
+        , returnType = "Text args msg"
         , body =
             "customDecimal accessor numberSymbols standardNumberFormat"
         }
@@ -660,7 +660,7 @@ generatePlural kind pluralRules =
               , pluralCaseType "two" pluralRules.two
               , pluralCaseType "few" pluralRules.few
               , pluralCaseType "many" pluralRules.many
-              , Just "other : List (Part args msg)"
+              , Just "other : List (Text args msg)"
               ]
                 |> List.filterMap identity
                 |> String.join "\n ,"
@@ -672,7 +672,7 @@ generatePlural kind pluralRules =
             case maybeRule of
                 Just _ ->
                     [ name
-                    , " : List (Part args msg)"
+                    , " : List (Text args msg)"
                     ]
                         |> String.concat
                         |> Just
@@ -710,7 +710,7 @@ generatePlural kind pluralRules =
             [ ( "(args -> Float)", "accessor" )
             , ( pluralCasesType, pluralCasesNames )
             ]
-        , returnType = "Part args msg"
+        , returnType = "Text args msg"
         , body = body
         }
 
@@ -720,7 +720,7 @@ generatePlural kind pluralRules =
     --        [ ( "(args -> Float)", "accessor" )
     --        , ( pluralCasesType, pluralCasesNames )
     --        ]
-    --    , returnType = "Part args msg"
+    --    , returnType = "Text args msg"
     --    , body =
     --        [ "dynamicPlural accessor"
     --        , kind

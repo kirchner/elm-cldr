@@ -12,7 +12,7 @@ module Localized.Ksh
 
 import Internal.Numbers exposing (..)
 import Internal.PluralRules exposing (..)
-import Localized exposing (Part, PluralCase(..))
+import Localized exposing (PluralCase(..), Text)
 
 
 numberSymbols : NumberSymbols
@@ -81,11 +81,11 @@ scientificNumberFormat =
 cardinal :
     (args -> Float)
     ->
-        { zero : List (Part args msg)
-        , one : List (Part args msg)
-        , other : List (Part args msg)
+        { zero : List (Text args msg)
+        , one : List (Text args msg)
+        , other : List (Text args msg)
         }
-    -> Part args msg
+    -> Text args msg
 cardinal accessor { zero, one, other } =
     Localized.customPlural accessor
         (Localized.customNumberFormat toString)
@@ -103,11 +103,11 @@ cardinal accessor { zero, one, other } =
 ordinal :
     (args -> Float)
     ->
-        { zero : List (Part args msg)
-        , one : List (Part args msg)
-        , other : List (Part args msg)
+        { zero : List (Text args msg)
+        , one : List (Text args msg)
+        , other : List (Text args msg)
         }
-    -> Part args msg
+    -> Text args msg
 ordinal accessor { zero, one, other } =
     Localized.customPlural accessor
         (Localized.customNumberFormat toString)

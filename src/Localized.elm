@@ -2,7 +2,7 @@ module Localized
     exposing
         ( AllPluralCases
         , NumberFormat
-        , Part
+        , Text
         , PluralCase
             ( Few
             , Many
@@ -26,7 +26,7 @@ module Localized
 
 {-| Create localized texts in a type safe way.
 
-@docs Part
+@docs Text
 
 
 # Printing
@@ -34,10 +34,10 @@ module Localized
 @docs printWith, print, nodes
 
 
-# Creating Parts
+# Creating Texts
 
 
-## Basic Parts
+## Basic Texts
 
 @docs s, string, node
 
@@ -49,11 +49,10 @@ module Localized
 
 ## Pluralization and Selects
 
-Every locale module like for example `Localized.En` exports
-the pluralization parts `cardinal` and `ordinal`. You use these like
-this
+Every locale module like for example `Localized.En` exports the
+pluralization texts `cardinal` and `ordinal`. You use these like this
 
-    emailInfo : List (Part { ord : Float } msg)
+    emailInfo : List (Text { ord : Float } msg)
     emailInfo =
         [ Localized.En.ordinal .ord
             Localized.En.decimalStandard
@@ -94,32 +93,32 @@ import VirtualDom exposing (Node)
 
 {-| Opaque building block for texts.
 -}
-type Part args msg
+type Text args msg
     = Verbatim String
-    | NodePart (args -> (List (Node msg) -> Node msg)) (List (Part args msg))
+    | NodeText (args -> (List (Node msg) -> Node msg)) (List (Text args msg))
     | String (args -> String)
     | Decimal (args -> Float) NumberFormat
     | Plural (args -> Float) NumberFormat (String -> PluralCase) (AllPluralCases args msg)
     | Count
 
 
-{-| Create a part which returns the given `String`.
+{-| Create a text returns the given `String`.
 
-    greeting : List (Part {} msg)
+    greeting : List (Text {} msg)
     greeting =
         [ s "Hello!" ]
 
 Then `"print greeting"` is equal to `"Hello!"`.
 
 -}
-s : String -> Part args msg
+s : String -> Text args msg
 s text =
     Verbatim text
 
 
 {-| Create a placeholder which eventually gets replaced by a `String`.
 
-    personalGreeting : List (Part { name : String } msg)
+    personalGreeting : List (Text { name : String } msg)
     personalGreeting =
         [ s "Hello, "
         , string .name
@@ -130,7 +129,7 @@ Then `printWith { name = "Alice" } personalGreeting` is equal to
 `"Hello, Alice!"`.
 
 -}
-string : (args -> String) -> Part args msg
+string : (args -> String) -> Text args msg
 string accessor =
     String accessor
 
@@ -138,7 +137,7 @@ string accessor =
 {-| Create a placeholder which gets replaced by a number which is
 formatted according to the provided format.
 
-    heightInfo : List (Part { height : Float } msg)
+    heightInfo : List (Text { height : Float } msg)
     heightInfo =
         [ s "Current height: "
         , decimal .height Localized.En.decimalStandard
@@ -149,7 +148,7 @@ Then `printWith { height = 3.1533 } heightInfo` is equal to `"Current
 height: 3.153."`.
 
 -}
-decimal : (args -> Float) -> NumberFormat -> Part args msg
+decimal : (args -> Float) -> NumberFormat -> Text args msg
 decimal accessor numberFormat =
     Decimal accessor numberFormat
 
@@ -169,9 +168,9 @@ customNumberFormat printer =
     CustomNumberFormat printer
 
 
-{-| Create a part which eventually gets replaced by a dom node.
+{-| Create a text which eventually gets replaced by a dom node.
 
-    documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
+    documentationInfo : List (Text { link : List (Html msg) -> Html msg } msg)
     documentationInfo =
         [ s "Take a look at our "
         , node .link
@@ -200,13 +199,13 @@ Then `view` is equivalent to
 -}
 node :
     (args -> (List (Node msg) -> Node msg))
-    -> List (Part args msg)
-    -> Part args msg
-node accessor nextParts =
-    NodePart accessor nextParts
+    -> List (Text args msg)
+    -> Text args msg
+node accessor nextTexts =
+    NodeText accessor nextTexts
 
 
-{-| Create a custom pluralization part. Use this function if you want
+{-| Create a custom pluralized text. Use this function if you want
 to provide your own pluralization rules.
 
 **Note**: You usually want to use the `plural` function from the one of
@@ -219,15 +218,15 @@ customPlural :
     -> NumberFormat
     -> (String -> PluralCase)
     -> AllPluralCases args msg
-    -> Part args msg
+    -> Text args msg
 customPlural accessor numberFormat selector cases =
     Plural accessor numberFormat selector cases
 
 
-{-| Create a part which gets replaced by the formatted number argument
-of a plural part.
+{-| Create a text which gets replaced by the formatted number argument
+of a pluralized text.
 
-    emailInfo : List (Part { count : Float } msg)
+    emailInfo : List (Text { count : Float } msg)
     emailInfo =
         [ Localized.En.cardinal .count
             Localized.En.decimalStandard
@@ -241,7 +240,7 @@ of a plural part.
         ]
 
 -}
-count : Part args msg
+count : Text args msg
 count =
     Count
 
@@ -260,19 +259,19 @@ type PluralCase
 
 {-| -}
 type alias AllPluralCases args msg =
-    { zero : List (Part args msg)
-    , one : List (Part args msg)
-    , two : List (Part args msg)
-    , few : List (Part args msg)
-    , many : List (Part args msg)
-    , other : List (Part args msg)
+    { zero : List (Text args msg)
+    , one : List (Text args msg)
+    , two : List (Text args msg)
+    , few : List (Text args msg)
+    , many : List (Text args msg)
+    , other : List (Text args msg)
     }
 
 
-{-| Create a part which selects between different versions using the
+{-| Create a text which selects between different versions using the
 provided function.
 
-    partyInfo : List (Part { gender : Gender } msg)
+    partyInfo : List (Text { gender : Gender } msg)
     partyInfo =
         [ select .gender <|
             \gender ->
@@ -293,7 +292,7 @@ provided function.
         | Other
 
 -}
-select : (args -> a) -> (a -> List (Part args msg)) -> Part args msg
+select : (args -> a) -> (a -> List (Text args msg)) -> Text args msg
 select accessor selector =
     Debug.crash "TODO"
 
@@ -302,7 +301,7 @@ select accessor selector =
 ---- PRINT
 
 
-{-| Use this function to turn a list of parts into a `String`.
+{-| Use this function to turn a list of texts into a `String`.
 
     greeting : String
     greeting =
@@ -315,17 +314,17 @@ select accessor selector =
 Then `greeting` is equal to `"Good morning, Alice!"`.
 
 -}
-printWith : args -> List (Part args msg) -> String
-printWith args parts =
+printWith : args -> List (Text args msg) -> String
+printWith args texts =
     let
-        printPart maybeCount part =
-            case part of
+        printText maybeCount text =
+            case text of
                 Verbatim text ->
                     text
 
-                NodePart accessor nextParts ->
-                    nextParts
-                        |> List.map (printPart maybeCount)
+                NodeText accessor nextTexts ->
+                    nextTexts
+                        |> List.map (printText maybeCount)
                         |> String.concat
 
                 String accessor ->
@@ -340,7 +339,7 @@ printWith args parts =
                             args |> accessor |> printer
                     in
                     String.concat <|
-                        List.map (printPart (Just nextCount)) <|
+                        List.map (printText (Just nextCount)) <|
                             case nextCount |> selector of
                                 Zero ->
                                     cases.zero
@@ -368,23 +367,23 @@ printWith args parts =
                         Nothing ->
                             Debug.crash "no count given"
     in
-    parts
-        |> List.map (printPart Nothing)
+    texts
+        |> List.map (printText Nothing)
         |> String.concat
 
 
-{-| Use this function if your list of parts does not need arguments.
-This is basically `print parts = printWith {} parts`.
+{-| Use this function if your list of texts does not need arguments.
+This is basically `print texts = printWith {} texts`.
 -}
-print : List (Part {} msg) -> String
-print parts =
-    printWith {} parts
+print : List (Text {} msg) -> String
+print texts =
+    printWith {} texts
 
 
-{-| Use this function to turn a list of parts into a list of dom nodes.
-You want to do this if one of the parts is a `node`.
+{-| Use this function to turn a list of texts into a list of dom nodes.
+You want to do this if one of the texts is a `node`.
 
-    documentationInfo : List (Part { link : List (Html msg) -> Html msg } msg)
+    documentationInfo : List (Text { link : List (Html msg) -> Html msg } msg)
     documentationInfo =
         [ s "Take a look at our "
         , node .link
@@ -410,17 +409,17 @@ Then `view` is equivalent to
             ]
 
 -}
-nodes : args -> List (Part args msg) -> List (Node msg)
-nodes args parts =
+nodes : args -> List (Text args msg) -> List (Node msg)
+nodes args texts =
     let
-        toNodes : Maybe String -> Part args msg -> List (Node msg)
-        toNodes maybeCount part =
-            case part of
+        toNodes : Maybe String -> Text args msg -> List (Node msg)
+        toNodes maybeCount text =
+            case text of
                 Verbatim text ->
                     [ VirtualDom.text text ]
 
-                NodePart accessor nextParts ->
-                    [ nextParts
+                NodeText accessor nextTexts ->
+                    [ nextTexts
                         |> List.map (toNodes maybeCount)
                         |> List.concat
                         |> accessor args
@@ -474,6 +473,6 @@ nodes args parts =
                         Nothing ->
                             Debug.crash "no count given"
     in
-    parts
+    texts
         |> List.map (toNodes Nothing)
         |> List.concat
