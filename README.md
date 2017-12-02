@@ -44,43 +44,45 @@ into the [doc preview](http://package.elm-lang.org/help/docs-preview).
 Here are some examples how one can use this module:
 
 ```elm
-import Localized exposing (s, print, printWith)
+import Localized exposing (s, concat, print, printWith)
 import Localized.En exposing (cardinal, decimalStandard)
 
 
 
 greeting : String
 greeting =
-    print
-        [ s "Good morning!" ]
+    s "Good morning!"
+        |> print
 
 -- is equal to: "Good morning!"
 
 
 personalGreeting : String
 personalGreeting =
-    printWith { name = "Alice" }
-        [ s "Good morning, "
-        , string .name
-        , s "!"
-        ]
+    [ s "Good morning, "
+    , string .name
+    , s "!"
+    ]
+        |> concat
+        |> printWith { name = "Alice" }
 
 -- is equal to: "Good morning, Alice!"
 
 
 pluralizedMessage : String
 pluralizedMessage =
-    printWith { newEmailCount = 42 }
-        [ cardinal .newEmailCount
-            decimalStandard
-            { one = [ s "You have one new email." ]
-            , other =
+    cardinal .newEmailCount
+        decimalStandard
+        { one =
+            s "You have one new email."
+        , other =
+            concat
                 [ s "You have "
                 , count
                 , s " new emails."
                 ]
-            }
-        ]
+        }
+        |> printWith { newEmailCount = 42 }
 
 -- is equal to: "You have 42 new emails."
 ```
@@ -90,17 +92,18 @@ You can also generate localized dom nodes:
 ```elm
 import Html exposing (Html)
 import Html.Attributes
-import Localized exposing (s, node, nodes)
+import Localized exposing (s, concat, node, nodes)
 
 
 
 documentationInfo : List (Text { link : List (Html msg) -> Html msg } msg)
 documentationInfo =
-    [ s "Take a look at our "
-    , node .link
-        [ s "documentation" ]
-    , s "."
-    ]
+    concat
+        [ s "Take a look at our "
+        , node .link <|
+            s "documentation"
+        , s "."
+        ]
 
 
 view url =
@@ -127,44 +130,47 @@ example
 module Translations.En exposing (..)
 
 import Html exposing (Html)
-import Localized exposing (s, string, node)
+import Localized exposing (Text, s, concat, string, node)
 import Localized.En exposing (cardinal, decimalStandard)
 
 
-greeting : List (Text {} msg)
+greeting : Text args msg
 greeting =
-    [ s "Good morning!" ]
+    s "Good morning!"
 
 
-personalGreeting : List (Text { name : String } msg)
+personalGreeting : Text { args | name : String } msg
 personalGreeting =
-    [ s "Good morning, "
-    , string .name
-    , s "!"
-    ]
+    concat
+        [ s "Good morning, "
+        , string .name
+        , s "!"
+        ]
 
 
-pluralizedMessage : List (Text { newEmailCount : Float } msg)
+pluralizedMessage : Text { args | newEmailCount : Float } msg
 pluralizedMessage =
-    [ cardinal .newEmailCount
+    cardinal .newEmailCount
         decimalStandard
-        { one = [ s "You have one new email." ]
+        { one =
+            s "You have one new email."
         , other =
             [ s "You have "
             , count
             , s " new emails."
             ]
+                |> concat
         }
-    ]
 
 
-documentationInfo : List (Text { link : List (Html msg) -> Html msg } msg)
+documentationInfo : Text { args | link : List (Html msg) -> Html msg } msg
 documentationInfo =
-    [ s "Take a look at our "
-    , node .link
-        [ s "documentation" ]
-    , s "."
-    ]
+    concat
+        [ s "Take a look at our "
+        , node .link <|
+            s "documentation"
+        , s "."
+        ]
 ```
 
 And then use these functions in your (view) code.  This way the compiler warns
@@ -179,13 +185,13 @@ for each locale.  For example
 module Translations.De exposing (..)
 
 import Html exposing (Html)
-import Localized exposing (s, string, node)
+import Localized exposing (Text, s, concat, string, node)
 import Localized.De exposing (cardinal, decimalStandard)
 
 
-greeting : List (Text {} msg)
+greeting : Text args msg
 greeting =
-    [ s "Guten Morgen!" ]
+    s "Guten Morgen!"
 
 ...
 ```
@@ -204,7 +210,7 @@ type Locale
     | De
 
 
-greeting : Locale -> List (Text {} msg)
+greeting : Locale -> Text args msg
 greeting =
     case Locale of
         En ->

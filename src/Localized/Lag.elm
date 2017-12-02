@@ -12,7 +12,7 @@ module Localized.Lag
 
 import Internal.Numbers exposing (..)
 import Internal.PluralRules exposing (..)
-import Localized exposing (PluralCase(..), Text)
+import Localized exposing (PluralCase(..), Text, concat)
 
 
 numberSymbols : NumberSymbols
@@ -81,9 +81,9 @@ scientificNumberFormat =
 cardinal :
     (args -> Float)
     ->
-        { zero : List (Text args msg)
-        , one : List (Text args msg)
-        , other : List (Text args msg)
+        { zero : Text args msg
+        , one : Text args msg
+        , other : Text args msg
         }
     -> Text args msg
 cardinal accessor { zero, one, other } =
@@ -92,9 +92,9 @@ cardinal accessor { zero, one, other } =
         cardinalSelector
         { zero = zero
         , one = one
-        , two = []
-        , few = []
-        , many = []
+        , two = concat []
+        , few = concat []
+        , many = concat []
         , other = other
         }
 
@@ -103,9 +103,9 @@ cardinal accessor { zero, one, other } =
 ordinal :
     (args -> Float)
     ->
-        { zero : List (Text args msg)
-        , one : List (Text args msg)
-        , other : List (Text args msg)
+        { zero : Text args msg
+        , one : Text args msg
+        , other : Text args msg
         }
     -> Text args msg
 ordinal accessor { zero, one, other } =
@@ -114,9 +114,9 @@ ordinal accessor { zero, one, other } =
         ordinalSelector
         { zero = zero
         , one = one
-        , two = []
-        , few = []
-        , many = []
+        , two = concat []
+        , few = concat []
+        , many = concat []
         , other = other
         }
 

@@ -492,7 +492,7 @@ generateLocaleModule code locale =
             |> String.join "\n"
         , [ "import Internal.PluralRules exposing (..)"
           , "import Internal.Numbers exposing (..)"
-          , "import Localized exposing (Text, PluralCase(..))"
+          , "import Localized exposing (Text, PluralCase(..), concat)"
           ]
             |> String.join "\n"
         , generateNumberFormats locale.numberFormats
@@ -649,7 +649,7 @@ generatePlural kind pluralRules =
 
         pluralCaseAssignment name rule =
             if rule == Nothing then
-                name ++ " = []"
+                name ++ " = concat []"
             else
                 name ++ " = " ++ name
 
@@ -660,7 +660,7 @@ generatePlural kind pluralRules =
               , pluralCaseType "two" pluralRules.two
               , pluralCaseType "few" pluralRules.few
               , pluralCaseType "many" pluralRules.many
-              , Just "other : List (Text args msg)"
+              , Just "other : Text args msg"
               ]
                 |> List.filterMap identity
                 |> String.join "\n ,"
@@ -672,7 +672,7 @@ generatePlural kind pluralRules =
             case maybeRule of
                 Just _ ->
                     [ name
-                    , " : List (Text args msg)"
+                    , " : Text args msg"
                     ]
                         |> String.concat
                         |> Just

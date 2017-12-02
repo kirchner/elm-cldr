@@ -6,7 +6,7 @@ import Internal.PluralRules exposing (..)
 import Localized exposing (..)
 import Localized.De as De
 import Localized.En as En
-import Test exposing (..)
+import Test exposing (Test, describe, fuzz, test)
 
 
 pluralTests : Test
@@ -172,57 +172,62 @@ enNumberSymbols =
 
 
 simpleMessage =
-    [ s "Hello!" ]
+    s "Hello!"
 
 
 stringMessage =
-    [ s "Good morning, "
-    , string .name
-    , s "!"
-    ]
+    concat
+        [ s "Good morning, "
+        , string .name
+        , s "!"
+        ]
 
 
 decimalMessage =
-    [ s "Current height: "
-    , decimal .height (customNumberFormat toString)
-    , s "."
-    ]
+    concat
+        [ s "Current height: "
+        , decimal .height (customNumberFormat toString)
+        , s "."
+        ]
 
 
 enCardinalMsg =
-    [ En.cardinal .count
+    En.cardinal .count
         { one =
-            [ s "There is one new message." ]
+            s "There is one new message."
         , other =
             [ s "There are "
             , count
             , s " new messages."
             ]
+                |> concat
         }
-    ]
 
 
 enOrdinalMsg =
-    [ En.ordinal .count
+    En.ordinal .count
         { one =
             [ s "This is the "
             , count
             , s "st message."
             ]
+                |> concat
         , two =
             [ s "This is the "
             , count
             , s "nd message."
             ]
+                |> concat
         , few =
             [ s "This is the "
             , count
             , s "rd message."
             ]
+                |> concat
         , other =
             [ s "This is the "
             , count
             , s "th message."
             ]
+                |> concat
         }
-    ]

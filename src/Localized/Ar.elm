@@ -12,7 +12,7 @@ module Localized.Ar
 
 import Internal.Numbers exposing (..)
 import Internal.PluralRules exposing (..)
-import Localized exposing (PluralCase(..), Text)
+import Localized exposing (PluralCase(..), Text, concat)
 
 
 numberSymbols : NumberSymbols
@@ -81,12 +81,12 @@ scientificNumberFormat =
 cardinal :
     (args -> Float)
     ->
-        { zero : List (Text args msg)
-        , one : List (Text args msg)
-        , two : List (Text args msg)
-        , few : List (Text args msg)
-        , many : List (Text args msg)
-        , other : List (Text args msg)
+        { zero : Text args msg
+        , one : Text args msg
+        , two : Text args msg
+        , few : Text args msg
+        , many : Text args msg
+        , other : Text args msg
         }
     -> Text args msg
 cardinal accessor { zero, one, two, few, many, other } =
@@ -106,18 +106,18 @@ cardinal accessor { zero, one, two, few, many, other } =
 ordinal :
     (args -> Float)
     ->
-        { other : List (Text args msg)
+        { other : Text args msg
         }
     -> Text args msg
 ordinal accessor { other } =
     Localized.customPlural accessor
         (Localized.customNumberFormat toString)
         ordinalSelector
-        { zero = []
-        , one = []
-        , two = []
-        , few = []
-        , many = []
+        { zero = concat []
+        , one = concat []
+        , two = concat []
+        , few = concat []
+        , many = concat []
         , other = other
         }
 
