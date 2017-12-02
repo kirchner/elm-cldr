@@ -8,17 +8,17 @@ The goal of this package is to expose all the internationalization and
 localization data available in the [Unicode Common Locale Data
 Repository](http://cldr.unicode.org) as a nice API.  This includes (localized)
 formatting of numbers, dates, times and lists, as well as pluralization rules.
-In particular, adding placeholders and different plural forms should be able in
-a typesafe way.
+In particular, adding placeholders and different plural forms should be
+possible in a typesafe way.
 
-Another goal is to then generate these localized messages from "standard"
+Another goal is to then generate these localized texts from "standard"
 internationalization formats (like for example the [ICU Message
 Format](http://userguide.icu-project.org/formatparse/messages))
 
 
 ## Concrete Use Cases
 
-- Having a solutiont to provide texts in several languages
+- Provide texts in several languages
 - Localized texts should be able to contain named placeholders, which are
   filled at runtime
 - One has to be able to provide pluralized forms of localized texts. (`"1
@@ -259,7 +259,7 @@ does not capture the full possibilities of the CLDR.  When picking the correct
 plural form, the CLDR specification takes into account the actual string
 representation of the number.  For example in English, one has `"There is
 1 second left."` but `"There are 1.0 seconds left."`  The proposed PluralRules
-api only provides a function
+API only provides a function
 [select](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/PluralRules/select)
 which takes a **number** and returns the plural form, so the distinction
 between `"1"` and `"1.0"` is not possible.
