@@ -227,10 +227,434 @@ each text with the currently selected `Locale`.  Again, this way the compiler
 makes sure that you have translations for all your texts and that every
 translation of a text uses the same placeholders.
 
+
+## Converting Between Elm Translations Modules and Ordinary Translation Files
+
 It should not be difficult to generate these translation modules
 `Translations`, `Translations.En`, ... from "standard" localization files (like
 ICU messages).  Also it should be simple to generate ordinary localization
 files from translation modules.
+
+Using a tool like [iosphere/elm-i18n](https://github.com/iosphere/elm-i18n) is
+a good way I think.  Such a tool (lets call it `elm-intl` for now) should
+basically support two operations.
+
+For example, if you run
+
+```bash
+$ elm-intl generate-json
+```
+
+It will convert all `Translations.En`, `Translations.De`, ... modules to the
+json files `translations/en.json`, `translations/de.json`, ... .  Each of them
+will contain an object, where the keys correspond to the exposed translation
+functions (`greeting`, `personalGreeting`, ... in the example above), and whose
+values are string representations of their values.  These strings could be in
+some (extended) ICU message format (if one wants to support numbers and nodes
+for example).
+
+To go the other way, you run
+
+```bash
+$ elm-intl generate-elm
+```
+
+which turns every `translations/<locale>.json` file into the corresponding
+`Translations.<locale>` module and also generates the `Translations` and
+a `Translations.Current` module.
+
+
+## Possible Localization Workflows
+
+### Application First
+
+This is what a localization workflow could look like when you first write your
+application (in some language) and later want to translate it.  For example,
+you could start with view code, which looks something like this:
+
+```elm
+module Main exposing (..)
+
+
+view =
+    Html.div []
+        [ Html.h1 []
+            [ Html.text "Welcome to our website!" ]
+        , Html.p []
+            [ Html.text "This is some random text. You can read more on our "
+            , Html.a [ Html.Attributes.href "..." ]
+                [ Html.text "about page" ]
+            , Html.text "."
+            ]
+        ]
+```
+
+Since you want to localize these texts,  you create a translation module for
+English containing all these texts:
+
+```elm
+module Translations.En exposing (..)
+
+import Localized exposing (s, concat, node)
+
+
+heading =
+    s "Welcome to our website!"
+
+
+information =
+    [ s "This is some random text. You can read more on our "
+    , node .aboutPageLink <|
+        s "about page"
+    , s "."
+    ]
+        |> concat
+```
+
+And use these functions in your view code instead:
+
+```elm
+module Main exposing (..)
+
+import Translations.En exposing (..)
+import Localized exposing (nodes, print)
+
+
+view =
+    Html.div []
+        [ Html.h1 []
+            [ heading
+                |> print
+                |> Html.text
+            ]
+        , information
+            |> nodes { aboutPageLink = Html.a [ Html.Attributes.href "..." ] }
+            |> Html.p []
+        ]
+```
+
+Now, you want to create a localization file from your translations module by
+running
+
+```bash
+$ elm-intl generate-json
+```
+
+which creates a file `translations/en.json` with the following content:
+
+```json
+{
+  "heading": "Welcome to our website!",
+  "information": "This is some random text. You can read more on our {aboutPageLink, node, {about page}}."
+}
+```
+
+You give this to your translators asking them to give you a German translation of
+this data.  So you get back the file `translations/de.json` with the content:
+
+```json
+{
+  "heading": "Willkommen auf unserer Webseite!",
+  "information": "Das ist etwas zufälliger Text. Du kannst auf unserer {aboutPageLink, node, {About Page}} mehr lesen."
+}
+```
+
+To use these translations in your application you run
+
+```bash
+$ elm-intl generate-elm
+```
+
+Which will (in addition to the already existing module `Translations.En`)
+generate a module `Translations.De` and a module `Translations` with the
+following contents:
+
+```elm
+module Translations.De exposing (..)
+
+import Localized exposing (s, concat, node)
+
+
+heading =
+    s "Willkommen auf unserer Webseite!"
+
+
+information =
+    [ s "Das ist etwas zufälliger Text. Du kannst auf unserer "
+    , node .aboutPageLink <|
+        s "About Page"
+    , s " mehr lesen."
+    ]
+        |> concat
+```
+
+```elm
+module Translations exposing (..)
+
+import Translations.En as En
+import Translations.De as De
+
+
+type Locale
+    = En
+    | De
+
+
+heading locale =
+    case locale of
+        En ->
+            En.heading
+
+        De ->
+            De.heading
+
+...
+```
+
+It will also generate a module `Translations.Current` with the content of
+`Translations.En`.
+
+So now you can decide if you want to make the language choice dynamic, by
+changing your view code to
+
+```elm
+module Main exposing (..)
+
+import Translations exposing (..)
+import Localized exposing (nodes, print)
+
+
+view locale =
+    Html.div []
+        [ Html.h1 []
+            [ heading locale
+                |> print
+                |> Html.text
+            ]
+        , information locale
+            |> nodes { aboutPageLink = Html.a [ Html.Attributes.href "..." ] }
+            |> Html.p []
+        ]
+```
+
+So you import `Translations` instead of `Translations.En` and provide each
+translation function the currently selected `locale`.
+
+Or if you want to generate assets for each locale, you change the view code to
+
+```elm
+module Main exposing (..)
+
+import Translations.Current exposing (..)
+import Localized exposing (nodes, print)
+
+
+view =
+    Html.div []
+        [ Html.h1 []
+            [ heading
+                |> print
+                |> Html.text
+            ]
+        , information
+            |> nodes { aboutPageLink = Html.a [ Html.Attributes.href "..." ] }
+            |> Html.p []
+        ]
+```
+
+This is just replacing `Translations.En` with `Translations.Current`. So, when
+you compile you get the asset with the currently selected locale.  If you want
+to change it, you run
+
+```bash
+$ elm-intl switch-locale de
+```
+
+which copies the content from `Translations.De` to `Translations.Current`, and
+compile your Elm application again.
+
+
+### Translations First
+
+Another use case could be, that you get some translations file and want to
+start using its content within your application.  So you have a file
+`translations/en.json` with the following content
+
+```json
+{
+  "about": "This product is <b>so amazing</b>! Read what <a href=...>other people</a> think about it."
+}
+```
+
+You run
+
+```bash
+$ elm-intl generate-elm
+```
+
+which produces the `Translations` module and the module `Translations.En` with the content
+
+```elm
+module Translations.En exposing (..)
+
+import Localized exposing (s)
+
+
+about =
+    s "This product is <b>so amazing</b>! Read what <a href=...>other people</a> think about it."
+```
+
+Which is a bit unsatisfying since you don't want to have Html tags within your
+`String`'s.  So you edit the Translations.En module to look like this:
+
+```elm
+module Translations.En exposing (..)
+
+import Localized exposing (s, concat, node)
+
+
+about =
+    [ s "This product is "
+    , node .emph <|
+        s "so amazing"
+    , "! Read what "
+    , node .link <|
+        s "other people"
+    , s "think about it."
+    ]
+        |> concat
+```
+
+You can use this module (or the dynamic `Translations` module) in your view
+code as before.  If you run `elm-intl generate-json`, you will overwrite the
+original translations file with the ICU version, so your translators will
+(hopefully) not use the Html tags when they eventually provide you with the
+translations for other languages.
+
+
+## Internationalization/Localization of Elm Packages
+
+I am not sure what is the best way to do i18n of elm packages.  I can think of
+two approaches.
+
+### Hiding I18n
+
+Say we have written a package which parses CSV files:
+
+```elm
+module CSV exposing (CSV, parse)
+
+
+{-| Parses the provided content as CSV.
+-}
+parse : String -> Result String CSV
+
+
+{-| The parsed content of a CSV file.
+-}
+type CSV
+    = ...
+```
+
+So `parse` returns a `Result String CSV` where the `String` will be some error
+message, telling the user what went wrong while trying to parse the input.  It
+totally makes sense, to have these error message available in different
+languages!
+
+I guess, one good step would be to do sth like what is done in
+[elm-tools/parser](https://github.com/elm-tools/parser), namely providing an
+error type which models all possible (combination of) errors.  For the CSV
+parser this could be sth like this:
+
+```elm
+type Error
+    = UnmatchedQuotation
+    | UnescapedSymbol String
+    | ...
+```
+
+From this one can either say that the user of the library has to turn these
+`Error`'s into readable content, or one provides some module exposing
+a function like `printError : Locale -> Error -> String`.  Internally, one can
+of course use some i18n package like this to manage the different translations.
+But they are somewhat hidden from the user of the package.
+
+
+### Provide I18n "Slots"
+
+I suppose, it is rather difficult for package authors to provide translations
+for **all** languages.  So it might be a good idea, to give the user the
+possibility to drop in their own translations.
+
+Looking at the CSV example above, this package could also expose the following
+type
+
+```elm
+type alias ErrorTexts =
+    { errorIntroduction : Text { count : Float } Never
+    , unmatchedQuotation : Text {} Never
+    , unescapedSymbol : Text { symbol : String } Never
+    , listFormat : ListFormat
+    , ...
+    }
+```
+
+and the `printError` function could be changed to
+
+```elm
+printError : ErrorTexts -> Error -> String
+```
+
+which prints the error using the provided translations.  Here `ListFormat` is
+supposed to be the type holding the list formatting rules of a language.  For
+example, one could now do
+
+```elm
+import CSV
+import Localized exposing (s, concat, count)
+import Localized.En exposing (cardinal, decimalStandard, listFormat)
+
+
+view : String -> Html msg
+view csvFile =
+    case csvFile |> CSV.parse of
+        Ok csv ->
+            viewCsv csv
+
+        Err error ->
+            Html.div []
+                [ error
+                    |> CSV.printError
+                        { errorIntroduction =
+                            cardinal .count
+                                decimalStandard
+                                { one =
+                                    s "There was one error while parsing your CSV file."
+                                , other =
+                                    [ s "There were "
+                                    , count
+                                    , s " errors while parsing your CSV file."
+                                    ]
+                                        |> concat
+                                }
+                        , unmatchedQuotation =
+                            s "There is an unmatched quotation."
+                        , unescapedSymbol =
+                            [ s "There is the unescaped symbol '"
+                            , string .symbol
+                            , s "'."
+                            ]
+                                |> concat
+                        , listFormat = listFormat
+                        , ...
+                        }
+                    |> Html.text
+                ]
+```
+
+And the output in an error situtation would then be `"There were 2 errors while
+parsing your CSV file. There is an unmatched quotation and there is the
+unescaped symbol ','."`.
 
 
 # Remarks
@@ -269,7 +693,7 @@ between `"1"` and `"1.0"` is not possible.
 
 - Texts:
 
-    - [x] basic (`s`, `string`, `node`) 
+    - [x] basic (`s`, `string`, `node`)
     - [ ] pluralizations (cardinal and ordinal)
     - [ ] select
     - [ ] decimal number formatting
