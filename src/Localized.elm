@@ -3,6 +3,7 @@ module Localized
         ( (<>)
         , AllPluralCases
         , Case
+        , Error(..)
         , Locale
         , NumberFormat
         , PluralCase
@@ -35,6 +36,7 @@ module Localized
         , print
         , printWith
         , s
+        , safeTranslateWith
         , select
         , string
         , translate
@@ -223,7 +225,7 @@ parsing some data.
 
 ## Dynamic
 
-@docs translateWith, translate
+@docs translateWith, translate, safeTranslateWith, Error
 
 @docs TranslationSet, translationSet, Locale, customLocale, addCardinalCases, addOrdinalCases
 
@@ -808,6 +810,10 @@ with new content. It will use the name of the `Translation` to fetch the
 new content from the `TranslationSet`. This content should be in the
 [ICU Message
 Format](http://icu-project.org/apiref/icu4j/com/ibm/icu/text/MessageFormat.html).
+When the content cannot be parsed or does not have the correct
+structure, the original `Translation` is printed as if `printWith` was
+used. Use `safeTranslateWith` if you want to get an error instead in
+such a situation.
 
     greeting : String
     greeting =
@@ -836,6 +842,35 @@ Then `greeting "Alice"` is equal to `"Guten morgen, Alice!"`.
 translateWith : TranslationSet -> args -> Translation args msg -> String
 translateWith translations args translation =
     Debug.crash "TODO"
+
+
+{-| This works like `translateWith` but gives back an `Error` if the
+content is not a valid ICU message or does not fit the structure of the
+`Translation`.
+-}
+safeTranslateWith : TranslationSet -> args -> Translation args msg -> Result (List Error) String
+safeTranslateWith translations args translation =
+    Debug.crash "TODO"
+
+
+{-| -}
+type Error
+    = InvalidICUMessage String
+    | MissingArgument String
+    | InvalidDecimalFormat
+        { argumentName : String
+        , format : String
+        }
+    | InvalidPluralCases
+        { argumentName : String
+        , missing : List PluralCase
+        , unnecessary : List PluralCase
+        }
+    | InvalidSelectCases
+        { argumentName : String
+        , missing : List String
+        , unnecessary : List String
+        }
 
 
 {-| Convenience function if the `Translation` does not need arguments.
