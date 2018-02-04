@@ -475,160 +475,71 @@ generateLocaleModule code locale =
     { filename = sanitizedLocaleCode ++ ".elm"
     , content =
         [ Generate.moduIe
-            { name = "Localized." ++ sanitizedLocaleCode
+            { name = "Translation." ++ sanitizedLocaleCode
             , exposed =
                 [ "cardinal"
                 , "ordinal"
-
-                --, "cardinalDynamic"
-                --, "ordinalDynamic"
-                --, "decimal"
+                , "decimalStandard"
+                , "scientificStandard"
+                , "percentStandard"
                 ]
             }
         , [ "{-|"
           , "@docs cardinal, ordinal"
+          , "@docs decimalStandard, scientificStandard, percentStandard"
           , "-}"
           ]
             |> String.join "\n"
         , [ "import Internal.PluralRules exposing (..)"
           , "import Internal.Numbers exposing (..)"
-          , "import Localized exposing (Text, PluralCase(..), concat)"
+          , "import Translation exposing (Text, PluralForm(..), Printer, plural, printer, s)"
           ]
             |> String.join "\n"
-        , generateNumberFormats locale.numberFormats
+        , "---- PLURAL"
         , generatePlural "cardinal" locale.cardinalRules
+        , generateSelector "cardinal" locale.cardinalRules
         , case locale.ordinalRules of
             Just ordinalRules ->
                 generatePlural "ordinal" ordinalRules
 
             Nothing ->
                 generatePlural "ordinal" locale.cardinalRules
-        , generateSelector "cardinal" locale.cardinalRules
         , case locale.ordinalRules of
             Just ordinalRules ->
                 generateSelector "ordinal" ordinalRules
 
             Nothing ->
-                "ordinalSelector = cardinalSelector"
+                "toOrdinalForm = toCardinalForm"
+        , "---- NUMBERS"
+        , generateNumberSymbols locale.numberFormats.symbols
+        , generateNumberPrinter [ "decimal", "standard" ] locale.numberFormats.standard
+        , generateNumberFormat [ "decimal", "standard" ] locale.numberFormats.standard
+        , generateNumberPrinter [ "scientific", "standard" ] locale.numberFormats.scientific
+        , generateNumberFormat [ "scientific", "standard" ] locale.numberFormats.scientific
+        , generateNumberPrinter [ "percent", "standard" ] locale.numberFormats.percent
+        , generateNumberFormat [ "percent", "standard" ] locale.numberFormats.percent
         ]
             |> String.join "\n\n"
     }
 
 
-generateNumberFormats : NumberFormats -> String
-generateNumberFormats numberFormats =
-    [ generateNumberSymbols numberFormats.symbols
-    , generateNumberFormat "standard" numberFormats.standard
-    , generateNumberFormat "percent" numberFormats.percent
-    , generateNumberFormat "scientific" numberFormats.scientific
 
-    --, generateDecimal
-    ]
-        |> String.join "\n\n"
-
-
-generateNumberFormat : String -> NumberFormat -> String
-generateNumberFormat kind numberFormat =
-    let
-        numberPattern pattern =
-            [ ( "prefix"
-              , pattern.prefix
-                    |> Generate.string
-              )
-            , ( "suffix"
-              , pattern.suffix
-                    |> Generate.string
-              )
-            , ( "primaryGroupingSize"
-              , pattern.primaryGroupingSize
-                    |> toString
-              )
-            , ( "secondaryGroupingSize"
-              , pattern.secondaryGroupingSize
-                    |> toString
-              )
-            , ( "minimalIntegerCount"
-              , pattern.minimalIntegerCount
-                    |> toString
-              )
-            , ( "minimalFractionCount"
-              , pattern.minimalFractionCount
-                    |> toString
-              )
-            , ( "maximalFractionCount"
-              , pattern.maximalFractionCount
-                    |> toString
-              )
-            ]
-                |> Generate.record
-    in
-    [ kind ++ "NumberFormat : NumberFormat\n"
-    , kind ++ "NumberFormat =\n"
-    , [ ( "positivePattern", numberPattern numberFormat.positivePattern )
-      , ( "negativePattern"
-        , case numberFormat.negativePattern of
-            Just negativePattern ->
-                [ "Just ("
-                , numberPattern negativePattern
-                , ")"
-                ]
-                    |> String.concat
-
-            Nothing ->
-                "Nothing"
-        )
-      ]
-        |> Generate.record
-        |> Generate.indent
-    ]
-        |> String.concat
-
-
-generateNumberSymbols : NumberSymbols -> String
-generateNumberSymbols symbols =
-    [ "numberSymbols : NumberSymbols\n"
-    , "numberSymbols =\n"
-    , [ ( "decimal", symbols.decimal )
-      , ( "group", symbols.group )
-      , ( "list", symbols.list )
-      , ( "percentSign", symbols.percentSign )
-      , ( "plusSign", symbols.plusSign )
-      , ( "minusSign", symbols.minusSign )
-      , ( "exponential", symbols.exponential )
-      , ( "superscriptingExponent", symbols.superscriptingExponent )
-      , ( "perMille", symbols.perMille )
-      , ( "infinity", symbols.infinity )
-      , ( "nan", symbols.nan )
-      , ( "timeSeparator", symbols.timeSeparator )
-      ]
-        |> List.map (Tuple.mapSecond Generate.string)
-        |> Generate.record
-        |> Generate.indent
-    ]
-        |> String.concat
-
-
-generateDecimal : String
-generateDecimal =
-    Generate.function
-        { name = "decimal"
-        , arguments = [ ( "(args -> Float)", "accessor" ) ]
-        , returnType = "Text args msg"
-        , body =
-            "customDecimal accessor numberSymbols standardNumberFormat"
-        }
+---- PLURAL
 
 
 generatePlural : String -> PluralRules -> String
 generatePlural kind pluralRules =
     let
         body =
-            [ "Localized.customPlural accessor"
-            , [ "(Localized.customNumberFormat toString)"
-              , "(" ++ kind ++ "Selector)"
-              , pluralCasesAssignment
+            [ [ "plural"
+              , "printer"
+              , "to" ++ String.toSentenceCase kind ++ "Form"
+              , "accessor"
+              , "name"
+              , "<|"
               ]
-                |> String.concat
+                |> String.join " "
+            , pluralCasesAssignment
                 |> Generate.indent
             ]
                 |> String.join "\n"
@@ -649,9 +560,9 @@ generatePlural kind pluralRules =
 
         pluralCaseAssignment name rule =
             if rule == Nothing then
-                name ++ " = concat []"
+                name ++ " = Nothing"
             else
-                name ++ " = " ++ name
+                name ++ " = Just " ++ name
 
         pluralCasesType =
             [ "{"
@@ -707,30 +618,14 @@ generatePlural kind pluralRules =
     , Generate.function
         { name = kind
         , arguments =
-            [ ( "(args -> Float)", "accessor" )
+            [ ( "Printer Float args msg", "printer" )
+            , ( "(args -> Float)", "accessor" )
+            , ( "String", "name" )
             , ( pluralCasesType, pluralCasesNames )
             ]
         , returnType = "Text args msg"
         , body = body
         }
-
-    --, Generate.function
-    --    { name = kind ++ "Dynamic"
-    --    , arguments =
-    --        [ ( "(args -> Float)", "accessor" )
-    --        , ( pluralCasesType, pluralCasesNames )
-    --        ]
-    --    , returnType = "Text args msg"
-    --    , body =
-    --        [ "dynamicPlural accessor"
-    --        , kind
-    --            ++ "PluralRules"
-    --            |> Generate.indent
-    --        , pluralCasesAssignment
-    --            |> Generate.indent
-    --        ]
-    --            |> String.join "\n"
-    --    }
     ]
         |> String.join "\n\n"
 
@@ -738,15 +633,6 @@ generatePlural kind pluralRules =
 generateSelector : String -> PluralRules -> String
 generateSelector kind pluralRules =
     let
-        conditions pluralRules =
-            [ pluralRules.zero |> Maybe.map (generateCondition "Zero")
-            , pluralRules.one |> Maybe.map (generateCondition "One")
-            , pluralRules.two |> Maybe.map (generateCondition "Two")
-            , pluralRules.few |> Maybe.map (generateCondition "Few")
-            , pluralRules.many |> Maybe.map (generateCondition "Many")
-            ]
-                |> List.filterMap identity
-
         generateBody pluralRules =
             case conditions pluralRules of
                 [] ->
@@ -756,23 +642,25 @@ generateSelector kind pluralRules =
                     conditions pluralRules
                         |> Generate.ifThenElseChain "Other"
 
+        conditions pluralRules =
+            [ pluralRules.zero |> Maybe.map (generateCondition "Zero")
+            , pluralRules.one |> Maybe.map (generateCondition "One")
+            , pluralRules.two |> Maybe.map (generateCondition "Two")
+            , pluralRules.few |> Maybe.map (generateCondition "Few")
+            , pluralRules.many |> Maybe.map (generateCondition "Many")
+            ]
+                |> List.filterMap identity
+
         generateCondition pluralType pluralRule =
             ( generateRelation pluralRule, pluralType )
     in
     [ Generate.function
-        { name = kind ++ "PluralRules"
-        , arguments = []
-        , returnType = "PluralRules"
-        , body =
-            pluralRules
-                |> toString
-                |> String.split "("
-                |> String.join "(\n"
-        }
-    , Generate.function
-        { name = kind ++ "Selector"
-        , arguments = [ ( "String", "count" ) ]
-        , returnType = "PluralCase"
+        { name = "to" ++ String.toSentenceCase kind ++ "Form"
+        , arguments =
+            [ ( "Float", "_" )
+            , ( "String", "count" )
+            ]
+        , returnType = "PluralForm"
         , body = generateBody pluralRules
         }
     ]
@@ -953,93 +841,129 @@ generateOperand round decimal pluralOperand =
 
 
 
----- PRINTER
+---- NUMBERS
 
 
-printRelation : Relation -> String
-printRelation relation =
-    case relation of
-        Equal expression ranges ->
-            [ printExpression expression
-            , " = "
-            , ranges
-                |> List.map printRange
-                |> String.join ","
+generateNumberPrinter : List String -> NumberFormat -> String
+generateNumberPrinter names numberFormat =
+    let
+        name =
+            names
+                |> String.join "-"
+                |> String.camelize
+    in
+    [ "{-| -}"
+    , Generate.function
+        { name = name
+        , arguments = []
+        , returnType = "Printer Float args msg"
+        , body =
+            [ [ "printer"
+              , names
+                    |> List.map Generate.string
+                    |> Generate.listOneLine
+              , "<|"
+              ]
+                |> String.join " "
+            , [ "\\float ->"
+              , [ "s (printNumber numberSymbols"
+                , name ++ "NumberFormat"
+                , "float)"
+                ]
+                    |> String.join " "
+              ]
+                |> String.join "\n"
             ]
-                |> String.concat
+                |> String.join "\n"
+        }
+    ]
+        |> String.join "\n"
 
-        NotEqual expression ranges ->
-            [ printExpression expression
-            , " != "
-            , ranges
-                |> List.map printRange
-                |> String.join ","
+
+generateNumberFormat : List String -> NumberFormat -> String
+generateNumberFormat names numberFormat =
+    let
+        numberPattern pattern =
+            [ ( "prefix"
+              , pattern.prefix
+                    |> Generate.string
+              )
+            , ( "suffix"
+              , pattern.suffix
+                    |> Generate.string
+              )
+            , ( "primaryGroupingSize"
+              , pattern.primaryGroupingSize
+                    |> toString
+              )
+            , ( "secondaryGroupingSize"
+              , pattern.secondaryGroupingSize
+                    |> toString
+              )
+            , ( "minimalIntegerCount"
+              , pattern.minimalIntegerCount
+                    |> toString
+              )
+            , ( "minimalFractionCount"
+              , pattern.minimalFractionCount
+                    |> toString
+              )
+            , ( "maximalFractionCount"
+              , pattern.maximalFractionCount
+                    |> toString
+              )
             ]
-                |> String.concat
+                |> Generate.record
 
-        Or relationA relationB ->
-            [ printRelation relationA
-            , " or "
-            , printRelation relationB
-            ]
-                |> String.concat
+        name =
+            names
+                |> String.join "-"
+                |> String.camelize
+    in
+    [ name ++ "NumberFormat : NumberFormat\n"
+    , name ++ "NumberFormat =\n"
+    , [ ( "positivePattern", numberPattern numberFormat.positivePattern )
+      , ( "negativePattern"
+        , case numberFormat.negativePattern of
+            Just negativePattern ->
+                [ "Just ("
+                , numberPattern negativePattern
+                , ")"
+                ]
+                    |> String.concat
 
-        And relationA relationB ->
-            [ printRelation relationA
-            , " and "
-            , printRelation relationB
-            ]
-                |> String.concat
-
-
-printExpression : Expression -> String
-printExpression expression =
-    case expression of
-        Simple pluralOperand ->
-            printPluralOperand pluralOperand
-
-        Modulo pluralOperand modulo ->
-            [ printPluralOperand pluralOperand
-            , " % "
-            , toString modulo
-            ]
-                |> String.concat
+            Nothing ->
+                "Nothing"
+        )
+      ]
+        |> Generate.record
+        |> Generate.indent
+    ]
+        |> String.concat
 
 
-printPluralOperand : PluralOperand -> String
-printPluralOperand pluralOperand =
-    case pluralOperand of
-        AbsoluteValue ->
-            "n"
-
-        IntegerDigits ->
-            "i"
-
-        FractionDigits WithTrailingZeros ->
-            "f"
-
-        FractionDigits WithoutTrailingZeros ->
-            "t"
-
-        FractionDigitCount WithTrailingZeros ->
-            "v"
-
-        FractionDigitCount WithoutTrailingZeros ->
-            "w"
-
-
-printRange : Range -> String
-printRange range =
-    case range of
-        Single int ->
-            toString int
-
-        Range a b ->
-            [ toString a
-            , ".."
-            , toString b
-            ]
-                |> String.concat
+generateNumberSymbols : NumberSymbols -> String
+generateNumberSymbols symbols =
+    [ "numberSymbols : NumberSymbols\n"
+    , "numberSymbols =\n"
+    , [ ( "decimal", symbols.decimal )
+      , ( "group", symbols.group )
+      , ( "list", symbols.list )
+      , ( "percentSign", symbols.percentSign )
+      , ( "plusSign", symbols.plusSign )
+      , ( "minusSign", symbols.minusSign )
+      , ( "exponential", symbols.exponential )
+      , ( "superscriptingExponent", symbols.superscriptingExponent )
+      , ( "perMille", symbols.perMille )
+      , ( "infinity", symbols.infinity )
+      , ( "nan", symbols.nan )
+      , ( "timeSeparator", symbols.timeSeparator )
+      ]
+        |> List.map (Tuple.mapSecond Generate.string)
+        |> Generate.record
+        |> Generate.indent
+    ]
+        |> String.concat
 
 
 

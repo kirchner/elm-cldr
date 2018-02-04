@@ -5,7 +5,6 @@ import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
 import Internal.Numbers exposing (..)
 import Internal.PluralRules exposing (..)
-import Localized
 import Parser exposing (..)
 import Test exposing (..)
 

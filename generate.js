@@ -1,5 +1,3 @@
-#!/use/bin/env node
-
 "use strict";
 
 const Elm = require("./dist/elm.js");
@@ -43,7 +41,7 @@ let cardinals =
         currentDir,
         "cldr-core",
         "supplemental",
-        "plurals.json",
+        "plurals.json"
       )
     )
     .toString();
@@ -55,7 +53,7 @@ let ordinals =
         currentDir,
         "cldr-core",
         "supplemental",
-        "ordinals.json",
+        "ordinals.json"
       )
     )
     .toString();
@@ -71,8 +69,8 @@ let worker = Elm.Generator.worker({
 worker.ports.exportResult.subscribe(function(content) {
   let outputDir = path.join(
     currentDir,
-    "src",
-    "Localized"
+    "generated",
+    "Translation"
   );
 
   if (!fs.existsSync(outputDir)) {
@@ -83,12 +81,12 @@ worker.ports.exportResult.subscribe(function(content) {
     let moduleFilePath =
       path.join(
         currentDir,
-        "src",
-        "Localized",
+        "generated",
+        "Translation",
         module.filename
       );
 
-    console.log("Generate Localized." + module.filename);
+    console.log("Generate Translation." + module.filename);
 
     fs.writeFileSync(
       moduleFilePath,

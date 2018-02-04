@@ -5,6 +5,7 @@ module Generate
         , ifThenElseChain
         , indent
         , list
+        , listOneLine
         , moduIe
         , record
         , recordPatternMatch
@@ -85,6 +86,21 @@ list elements =
     , "\n]\n"
     ]
         |> String.concat
+
+
+listOneLine : List String -> String
+listOneLine elements =
+    case elements of
+        [] ->
+            "[]"
+
+        _ ->
+            [ "["
+            , elements
+                |> String.join ", "
+            , "]"
+            ]
+                |> String.join " "
 
 
 caseOf :
