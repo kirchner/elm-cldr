@@ -1,10 +1,10 @@
 module CldrTests exposing (..)
 
 import Cldr exposing (..)
+import Data.Numbers exposing (..)
+import Data.PluralRules exposing (..)
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer)
-import Internal.Numbers exposing (..)
-import Internal.PluralRules exposing (..)
 import Parser exposing (..)
 import Test exposing (..)
 

@@ -1,3 +1,3 @@
-generate:
-	elm-make --output dist/elm.js src/Generator.elm
-	node generate.js
+build:
+	elm-make --yes --output dist/main.js src/Main.elm
+	node main.js
