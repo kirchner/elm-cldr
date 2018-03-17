@@ -2,8 +2,8 @@ module Generate.Number exposing (generate)
 
 import Data.Numbers exposing (..)
 import Dict exposing (Dict)
+import Function exposing (EntryType(PrinterFloat), Function(Exposed, Internal))
 import Generate.Helper as Generate
-import Misc exposing (Function)
 import String.Extra as String
 
 
@@ -78,41 +78,47 @@ generateNumberPrinter numberSystem names numberFormat =
                 |> String.join "-"
                 |> String.camelize
     in
-    { export = Just name
-    , imports =
-        [ "import Printer.Number as Number"
-        , "import Data.Numbers exposing (NumberFormat)"
-        , "import Translation exposing (Printer, s, printer)"
-        ]
-    , implementation =
-        [ "{-| -}"
-        , Generate.function
-            { name = name
-            , arguments = []
-            , returnType = "Printer Float args msg"
-            , body =
-                [ [ "printer"
-                  , names
-                        |> List.map Generate.string
-                        |> Generate.listOneLine
-                  , "<|"
-                  ]
-                    |> String.join " "
-                , [ "\\float ->"
-                  , [ "s (Number.print "
-                    , numberSystem ++ "NumberSymbols"
-                    , name ++ "NumberFormat"
-                    , "float)"
-                    ]
+    Exposed
+        { name = name
+        , entry =
+            Just
+                { names = names
+                , type_ = PrinterFloat
+                }
+        , imports =
+            [ "import Printer.Number as Number"
+            , "import Data.Numbers exposing (NumberFormat)"
+            , "import Translation exposing (Printer, s, printer)"
+            ]
+        , implementation =
+            [ "{-| -}"
+            , Generate.function
+                { name = name
+                , arguments = []
+                , returnType = "Printer Float args msg"
+                , body =
+                    [ [ "printer"
+                      , names
+                            |> List.map Generate.string
+                            |> Generate.listOneLine
+                      , "<|"
+                      ]
                         |> String.join " "
-                  ]
-                    |> String.join "\n"
-                ]
-                    |> String.join "\n"
-            }
-        ]
-            |> String.join "\n"
-    }
+                    , [ "\\float ->"
+                      , [ "s (Number.print "
+                        , numberSystem ++ "NumberSymbols"
+                        , name ++ "NumberFormat"
+                        , "float)"
+                        ]
+                            |> String.join " "
+                      ]
+                        |> String.join "\n"
+                    ]
+                        |> String.join "\n"
+                }
+            ]
+                |> String.join "\n"
+        }
 
 
 generateNumberFormat : List String -> NumberFormat -> Function
@@ -155,30 +161,30 @@ generateNumberFormat names numberFormat =
                 |> String.join "-"
                 |> String.camelize
     in
-    { export = Nothing
-    , imports = []
-    , implementation =
-        [ name ++ "NumberFormat : NumberFormat\n"
-        , name ++ "NumberFormat =\n"
-        , [ ( "positivePattern", numberPattern numberFormat.positivePattern )
-          , ( "negativePattern"
-            , case numberFormat.negativePattern of
-                Just negativePattern ->
-                    [ "Just ("
-                    , numberPattern negativePattern
-                    , ")"
-                    ]
-                        |> String.concat
+    Internal
+        { imports = []
+        , implementation =
+            [ name ++ "NumberFormat : NumberFormat\n"
+            , name ++ "NumberFormat =\n"
+            , [ ( "positivePattern", numberPattern numberFormat.positivePattern )
+              , ( "negativePattern"
+                , case numberFormat.negativePattern of
+                    Just negativePattern ->
+                        [ "Just ("
+                        , numberPattern negativePattern
+                        , ")"
+                        ]
+                            |> String.concat
 
-                Nothing ->
-                    "Nothing"
-            )
-          ]
-            |> Generate.record
-            |> Generate.indent
-        ]
-            |> String.concat
-    }
+                    Nothing ->
+                        "Nothing"
+                )
+              ]
+                |> Generate.record
+                |> Generate.indent
+            ]
+                |> String.concat
+        }
 
 
 generateNumberSymbols : String -> Symbols -> Function
@@ -187,28 +193,28 @@ generateNumberSymbols numberSystem symbols =
         name =
             numberSystem ++ "NumberSymbols"
     in
-    { export = Nothing
-    , imports =
-        [ "import Data.Numbers exposing (Symbols)" ]
-    , implementation =
-        [ name ++ " : Symbols\n"
-        , name ++ " =\n"
-        , [ ( "decimal", symbols.decimal )
-          , ( "group", symbols.group )
-          , ( "list", symbols.list )
-          , ( "percentSign", symbols.percentSign )
-          , ( "plusSign", symbols.plusSign )
-          , ( "minusSign", symbols.minusSign )
-          , ( "exponential", symbols.exponential )
-          , ( "superscriptingExponent", symbols.superscriptingExponent )
-          , ( "perMille", symbols.perMille )
-          , ( "infinity", symbols.infinity )
-          , ( "nan", symbols.nan )
-          , ( "timeSeparator", symbols.timeSeparator )
-          ]
-            |> List.map (Tuple.mapSecond Generate.string)
-            |> Generate.record
-            |> Generate.indent
-        ]
-            |> String.concat
-    }
+    Internal
+        { imports =
+            [ "import Data.Numbers exposing (Symbols)" ]
+        , implementation =
+            [ name ++ " : Symbols\n"
+            , name ++ " =\n"
+            , [ ( "decimal", symbols.decimal )
+              , ( "group", symbols.group )
+              , ( "list", symbols.list )
+              , ( "percentSign", symbols.percentSign )
+              , ( "plusSign", symbols.plusSign )
+              , ( "minusSign", symbols.minusSign )
+              , ( "exponential", symbols.exponential )
+              , ( "superscriptingExponent", symbols.superscriptingExponent )
+              , ( "perMille", symbols.perMille )
+              , ( "infinity", symbols.infinity )
+              , ( "nan", symbols.nan )
+              , ( "timeSeparator", symbols.timeSeparator )
+              ]
+                |> List.map (Tuple.mapSecond Generate.string)
+                |> Generate.record
+                |> Generate.indent
+            ]
+                |> String.concat
+        }

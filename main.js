@@ -46,10 +46,9 @@ worker.ports.writeModule.subscribe(function(data) {
   var content = data["content"];
 
   var modulePath =
-    directory.join(path.sep)
-      + path.sep
-      + name
-      + ".elm";
+    directory
+      .concat([ name ])
+      .join(path.sep);
 
 
   var lastDir = null; 

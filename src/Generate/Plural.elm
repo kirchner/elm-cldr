@@ -1,8 +1,8 @@
 module Generate.Plural exposing (generate)
 
 import Data.PluralRules exposing (..)
+import Function exposing (EntryType(Plural), Function(Exposed, Internal))
 import Generate.Helper as Generate
-import Misc exposing (Function)
 import String.Extra as String
 
 
@@ -117,26 +117,32 @@ generatePlural kind pluralRules =
                 Nothing ->
                     Nothing
     in
-    { export = Just kind
-    , imports =
-        [ "import Translation exposing (Printer, Text, plural)"
-        ]
-    , implementation =
-        [ "{-| -}"
-        , Generate.function
-            { name = kind
-            , arguments =
-                [ ( "Printer Float args msg", "printer" )
-                , ( "(args -> Float)", "accessor" )
-                , ( "String", "name" )
-                , ( pluralCasesType, pluralCasesNames )
-                ]
-            , returnType = "Text args msg"
-            , body = body
-            }
-        ]
-            |> String.join "\n\n"
-    }
+    Exposed
+        { name = kind
+        , entry =
+            Just
+                { names = [ kind ]
+                , type_ = Plural
+                }
+        , imports =
+            [ "import Translation exposing (Printer, Text, plural)"
+            ]
+        , implementation =
+            [ "{-| -}"
+            , Generate.function
+                { name = kind
+                , arguments =
+                    [ ( "Printer Float args msg", "printer" )
+                    , ( "(args -> Float)", "accessor" )
+                    , ( "String", "name" )
+                    , ( pluralCasesType, pluralCasesNames )
+                    ]
+                , returnType = "Text args msg"
+                , body = body
+                }
+            ]
+                |> String.join "\n\n"
+        }
 
 
 generateSelector : String -> PluralRules -> Function
@@ -166,26 +172,28 @@ generateSelector kind pluralRules =
         name =
             "to" ++ String.toSentenceCase kind ++ "Form"
     in
-    { export = Just name
-    , imports =
-        [ "import Translation exposing (PluralForm(Zero, One, Two, Few, Many, Other))"
-        , "import Printer.Plural as Plural"
-        , "import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))"
-        ]
-    , implementation =
-        [ "{-| -}"
-        , Generate.function
-            { name = name
-            , arguments =
-                [ ( "Float", "_" )
-                , ( "String", "count" )
-                ]
-            , returnType = "PluralForm"
-            , body = generateBody pluralRules
-            }
-        ]
-            |> String.join "\n"
-    }
+    Exposed
+        { name = name
+        , entry = Nothing
+        , imports =
+            [ "import Translation exposing (PluralForm(Zero, One, Two, Few, Many, Other))"
+            , "import Printer.Plural as Plural"
+            , "import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))"
+            ]
+        , implementation =
+            [ "{-| -}"
+            , Generate.function
+                { name = name
+                , arguments =
+                    [ ( "Float", "_" )
+                    , ( "String", "count" )
+                    ]
+                , returnType = "PluralForm"
+                , body = generateBody pluralRules
+                }
+            ]
+                |> String.join "\n"
+        }
 
 
 generateRelation : Relation -> String

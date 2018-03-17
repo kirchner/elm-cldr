@@ -26,20 +26,46 @@ init value =
             |> Result.andThen Data.decode
       of
         Ok data ->
-            Generate.run data
-                |> List.map
-                    (\file ->
-                        [ ( "directory"
-                          , file.directory
-                                |> List.map Encode.string
-                                |> Encode.list
-                          )
-                        , ( "name", Encode.string file.name )
-                        , ( "content", Encode.string file.content )
-                        ]
-                            |> Encode.object
-                            |> Ports.writeModule
-                    )
+            let
+                ( modules, functionJson ) =
+                    Generate.run data
+                        |> List.foldl
+                            (\( file, ( localeCode, value ) ) ( cmds, values ) ->
+                                ( ([ ( "directory"
+                                     , file.directory
+                                        |> List.map Encode.string
+                                        |> Encode.list
+                                     )
+                                   , ( "name", Encode.string (file.name ++ ".elm") )
+                                   , ( "content", Encode.string file.content )
+                                   ]
+                                    |> Encode.object
+                                  )
+                                    :: cmds
+                                , ( localeCode, value ) :: values
+                                )
+                            )
+                            ( [], [] )
+            in
+            [ modules
+                |> List.map Ports.writeModule
+                |> Cmd.batch
+            , [ ( "directory"
+                , Encode.list []
+                )
+              , ( "name"
+                , Encode.string "generated.json"
+                )
+              , ( "content"
+                , functionJson
+                    |> Encode.object
+                    |> Encode.encode 4
+                    |> Encode.string
+                )
+              ]
+                |> Encode.object
+                |> Ports.writeModule
+            ]
                 |> Cmd.batch
 
         Err error ->
