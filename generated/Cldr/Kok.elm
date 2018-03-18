@@ -4,19 +4,45 @@ module Cldr.Kok
         , decimalLatnStandard
         , percentDevaStandard
         , percentLatnStandard
+        , quote
+        , quoteAlternate
         , scientificDevaStandard
         , scientificLatnStandard
         )
 
 {-|
 
-@docs decimalDevaStandard, decimalLatnStandard, scientificDevaStandard, scientificLatnStandard, percentDevaStandard, percentLatnStandard
+@docs quote, quoteAlternate, decimalDevaStandard, decimalLatnStandard, scientificDevaStandard, scientificLatnStandard, percentDevaStandard, percentLatnStandard
 
 -}
 
 import Data.Numbers exposing (NumberFormat, Symbols)
 import Printer.Number as Number
-import Translation exposing (Printer, printer, s)
+import Translation exposing (Printer, Text, concat, printer, s)
+
+
+{-| -}
+quote : Printer (Text args node) args node
+quote =
+    printer [ "quote" ] <|
+        \text ->
+            concat
+                [ s "“"
+                , text
+                , s "”"
+                ]
+
+
+{-| -}
+quoteAlternate : Printer (Text args node) args node
+quoteAlternate =
+    printer [ "quote", "alternate" ] <|
+        \text ->
+            concat
+                [ s "‘"
+                , text
+                , s "’"
+                ]
 
 
 devaNumberSymbols : Symbols

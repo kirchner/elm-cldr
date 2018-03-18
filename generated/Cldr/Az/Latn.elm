@@ -6,6 +6,8 @@ module Cldr.Az.Latn
         , decimalLatnStandard
         , ordinal
         , percentLatnStandard
+        , quote
+        , quoteAlternate
         , scientificLatnStandard
         , toCardinalForm
         , toOrdinalForm
@@ -13,7 +15,7 @@ module Cldr.Az.Latn
 
 {-|
 
-@docs cardinal, toCardinalForm, ordinal, toOrdinalForm, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
 
 -}
 
@@ -21,113 +23,31 @@ import Data.Numbers exposing (NumberFormat, Symbols)
 import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))
 import Printer.Number as Number
 import Printer.Plural as Plural
-import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, plural, printer, s)
+import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, concat, plural, printer, s)
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { one : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { one, other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Nothing
-        , one = Just one
-        , two = Nothing
-        , few = Nothing
-        , many = Nothing
-        , other = other
-        }
+quote : Printer (Text args node) args node
+quote =
+    printer [ "quote" ] <|
+        \text ->
+            concat
+                [ s "“"
+                , text
+                , s "”"
+                ]
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else
-        Other
-
-
-{-| -}
-ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { one : Text args msg
-        , few : Text args msg
-        , many : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-ordinal printer accessor name { one, few, many, other } =
-    plural printer toOrdinalForm accessor name <|
-        { zero = Nothing
-        , one = Just one
-        , two = Nothing
-        , few = Just few
-        , many = Just many
-        , other = other
-        }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if
-        ((Plural.integerDigits '.' count % 10 == 1)
-            || (Plural.integerDigits '.' count % 10 == 2)
-            || (Plural.integerDigits '.' count % 10 == 5)
-            || (Plural.integerDigits '.' count % 10 == 7)
-            || (Plural.integerDigits '.' count % 10 == 8)
-        )
-            || ((Plural.integerDigits '.' count % 100 == 20)
-                    || (Plural.integerDigits '.' count % 100 == 50)
-                    || (Plural.integerDigits '.' count % 100 == 70)
-                    || (Plural.integerDigits '.' count % 100 == 80)
-               )
-    then
-        One
-    else if
-        ((Plural.integerDigits '.' count % 10 == 3)
-            || (Plural.integerDigits '.' count % 10 == 4)
-        )
-            || ((Plural.integerDigits '.' count % 1000 == 100)
-                    || (Plural.integerDigits '.' count % 1000 == 200)
-                    || (Plural.integerDigits '.' count % 1000 == 300)
-                    || (Plural.integerDigits '.' count % 1000 == 400)
-                    || (Plural.integerDigits '.' count % 1000 == 500)
-                    || (Plural.integerDigits '.' count % 1000 == 600)
-                    || (Plural.integerDigits '.' count % 1000 == 700)
-                    || (Plural.integerDigits '.' count % 1000 == 800)
-                    || (Plural.integerDigits '.' count % 1000 == 900)
-               )
-    then
-        Few
-    else if
-        (Plural.integerDigits '.' count == 0)
-            || ((Plural.integerDigits '.' count % 10 == 6)
-                    || ((Plural.integerDigits '.' count % 100 == 40)
-                            || (Plural.integerDigits '.' count % 100 == 60)
-                            || (Plural.integerDigits '.' count % 100 == 90)
-                       )
-               )
-    then
-        Many
-    else
-        Other
+quoteAlternate : Printer (Text args node) args node
+quoteAlternate =
+    printer [ "quote", "alternate" ] <|
+        \text ->
+            concat
+                [ s "‘"
+                , text
+                , s "’"
+                ]
 
 
 latnNumberSymbols : Symbols
@@ -260,3 +180,109 @@ currencyLatnAccountingNumberFormat =
         }
     , negativePattern = Nothing
     }
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { one : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { one, other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Nothing
+        , one = Just one
+        , two = Nothing
+        , few = Nothing
+        , many = Nothing
+        , other = other
+        }
+
+
+{-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else
+        Other
+
+
+{-| -}
+ordinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { one : Text args msg
+        , few : Text args msg
+        , many : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+ordinal printer accessor name { one, few, many, other } =
+    plural printer toOrdinalForm accessor name <|
+        { zero = Nothing
+        , one = Just one
+        , two = Nothing
+        , few = Just few
+        , many = Just many
+        , other = other
+        }
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if
+        ((Plural.integerDigits '.' count % 10 == 1)
+            || (Plural.integerDigits '.' count % 10 == 2)
+            || (Plural.integerDigits '.' count % 10 == 5)
+            || (Plural.integerDigits '.' count % 10 == 7)
+            || (Plural.integerDigits '.' count % 10 == 8)
+        )
+            || ((Plural.integerDigits '.' count % 100 == 20)
+                    || (Plural.integerDigits '.' count % 100 == 50)
+                    || (Plural.integerDigits '.' count % 100 == 70)
+                    || (Plural.integerDigits '.' count % 100 == 80)
+               )
+    then
+        One
+    else if
+        ((Plural.integerDigits '.' count % 10 == 3)
+            || (Plural.integerDigits '.' count % 10 == 4)
+        )
+            || ((Plural.integerDigits '.' count % 1000 == 100)
+                    || (Plural.integerDigits '.' count % 1000 == 200)
+                    || (Plural.integerDigits '.' count % 1000 == 300)
+                    || (Plural.integerDigits '.' count % 1000 == 400)
+                    || (Plural.integerDigits '.' count % 1000 == 500)
+                    || (Plural.integerDigits '.' count % 1000 == 600)
+                    || (Plural.integerDigits '.' count % 1000 == 700)
+                    || (Plural.integerDigits '.' count % 1000 == 800)
+                    || (Plural.integerDigits '.' count % 1000 == 900)
+               )
+    then
+        Few
+    else if
+        (Plural.integerDigits '.' count == 0)
+            || ((Plural.integerDigits '.' count % 10 == 6)
+                    || ((Plural.integerDigits '.' count % 100 == 40)
+                            || (Plural.integerDigits '.' count % 100 == 60)
+                            || (Plural.integerDigits '.' count % 100 == 90)
+                       )
+               )
+    then
+        Many
+    else
+        Other

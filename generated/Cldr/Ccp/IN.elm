@@ -8,19 +8,45 @@ module Cldr.Ccp.IN
         , decimalLatnStandard
         , percentCakmStandard
         , percentLatnStandard
+        , quote
+        , quoteAlternate
         , scientificCakmStandard
         , scientificLatnStandard
         )
 
 {-|
 
-@docs decimalCakmStandard, decimalLatnStandard, scientificCakmStandard, scientificLatnStandard, percentCakmStandard, percentLatnStandard, currencyCakmStandard, currencyCakmAccounting, currencyLatnStandard, currencyLatnAccounting
+@docs quote, quoteAlternate, decimalCakmStandard, decimalLatnStandard, scientificCakmStandard, scientificLatnStandard, percentCakmStandard, percentLatnStandard, currencyCakmStandard, currencyCakmAccounting, currencyLatnStandard, currencyLatnAccounting
 
 -}
 
 import Data.Numbers exposing (NumberFormat, Symbols)
 import Printer.Number as Number
-import Translation exposing (Printer, printer, s)
+import Translation exposing (Printer, Text, concat, printer, s)
+
+
+{-| -}
+quote : Printer (Text args node) args node
+quote =
+    printer [ "quote" ] <|
+        \text ->
+            concat
+                [ s "“"
+                , text
+                , s "”"
+                ]
+
+
+{-| -}
+quoteAlternate : Printer (Text args node) args node
+quoteAlternate =
+    printer [ "quote", "alternate" ] <|
+        \text ->
+            concat
+                [ s "‘"
+                , text
+                , s "’"
+                ]
 
 
 cakmNumberSymbols : Symbols

@@ -6,6 +6,8 @@ module Cldr.Zh.Hant.HK
         , ordinal
         , percentHanidecStandard
         , percentLatnStandard
+        , quote
+        , quoteAlternate
         , scientificHanidecStandard
         , scientificLatnStandard
         , toCardinalForm
@@ -14,7 +16,7 @@ module Cldr.Zh.Hant.HK
 
 {-|
 
-@docs cardinal, toCardinalForm, ordinal, toOrdinalForm, decimalHanidecStandard, decimalLatnStandard, scientificHanidecStandard, scientificLatnStandard, percentHanidecStandard, percentLatnStandard
+@docs quote, quoteAlternate, decimalHanidecStandard, decimalLatnStandard, scientificHanidecStandard, scientificLatnStandard, percentHanidecStandard, percentLatnStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
 
 -}
 
@@ -22,65 +24,31 @@ import Data.Numbers exposing (NumberFormat, Symbols)
 import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))
 import Printer.Number as Number
 import Printer.Plural as Plural
-import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, plural, printer, s)
+import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, concat, plural, printer, s)
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Nothing
-        , one = Nothing
-        , two = Nothing
-        , few = Nothing
-        , many = Nothing
-        , other = other
-        }
+quote : Printer (Text args node) args node
+quote =
+    printer [ "quote" ] <|
+        \text ->
+            concat
+                [ s "「"
+                , text
+                , s "」"
+                ]
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    Other
-
-
-{-| -}
-ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { other : Text args msg
-        }
-    -> Text args msg
-ordinal printer accessor name { other } =
-    plural printer toOrdinalForm accessor name <|
-        { zero = Nothing
-        , one = Nothing
-        , two = Nothing
-        , few = Nothing
-        , many = Nothing
-        , other = other
-        }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    Other
+quoteAlternate : Printer (Text args node) args node
+quoteAlternate =
+    printer [ "quote", "alternate" ] <|
+        \text ->
+            concat
+                [ s "『"
+                , text
+                , s "』"
+                ]
 
 
 hanidecNumberSymbols : Symbols
@@ -253,3 +221,61 @@ percentLatnStandardNumberFormat =
         }
     , negativePattern = Nothing
     }
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Nothing
+        , one = Nothing
+        , two = Nothing
+        , few = Nothing
+        , many = Nothing
+        , other = other
+        }
+
+
+{-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    Other
+
+
+{-| -}
+ordinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { other : Text args msg
+        }
+    -> Text args msg
+ordinal printer accessor name { other } =
+    plural printer toOrdinalForm accessor name <|
+        { zero = Nothing
+        , one = Nothing
+        , two = Nothing
+        , few = Nothing
+        , many = Nothing
+        , other = other
+        }
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    Other

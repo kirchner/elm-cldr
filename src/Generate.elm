@@ -1,11 +1,13 @@
 module Generate exposing (run)
 
 import Data exposing (Data)
+import Data.Delimiters exposing (Delimiters)
 import Data.Function as Function
 import Data.Numbers exposing (Numbers)
 import Data.PluralRules exposing (PluralRules)
 import Data.Printer as Printer
 import Dict exposing (Dict)
+import Generate.Delimiter as Delimiter
 import Generate.Helper as Generate
 import Generate.Number as Number
 import Generate.Plural as Plural
@@ -57,6 +59,7 @@ run data =
                     mainCode :: rest ->
                         generateLocaleModule localeCode
                             (Dict.get mainCode pluralRules)
+                            localeData.delimiters
                             localeData.numbers
                             |> Tuple.mapSecond
                                 (\value ->
@@ -75,13 +78,17 @@ generateLocaleModule :
             { cardinal : Maybe PluralRules
             , ordinal : Maybe PluralRules
             }
+    -> Delimiters
     -> Numbers
     -> ( File, Value )
-generateLocaleModule localeCode pluralRules numbers =
+generateLocaleModule localeCode pluralRules delimiters numbers =
     let
         sanitizedLocaleCode =
             localeCode
                 |> List.map (String.camelize >> String.toSentenceCase)
+
+        moduleName =
+            String.join "." ("Cldr" :: sanitizedLocaleCode)
 
         ( name, directory ) =
             ( sanitizedLocaleCode
@@ -95,24 +102,34 @@ generateLocaleModule localeCode pluralRules numbers =
             )
 
         functions =
-            [ pluralFunctions
+            [ Just delimiterFunctions
             , Just numberFunctions
+            , pluralFunctions
             ]
                 |> List.filterMap identity
                 |> List.concat
 
-        pluralFunctions =
-            Maybe.map2 Plural.generate
-                (Maybe.map .cardinal pluralRules)
-                (Maybe.map .ordinal pluralRules)
+        printers =
+            [ delimiterPrinters
+            , numberPrinters
+            ]
+                |> List.concat
+
+        ( delimiterFunctions, delimiterPrinters ) =
+            Delimiter.generate moduleName delimiters
 
         ( numberFunctions, numberPrinters ) =
-            Number.generate (String.join "." ("Cldr" :: sanitizedLocaleCode))
+            Number.generate moduleName
                 numbers.symbols
                 numbers.decimalFormats
                 numbers.scientificFormats
                 numbers.percentFormats
                 numbers.currencyFormats
+
+        pluralFunctions =
+            Maybe.map2 Plural.generate
+                (Maybe.map .cardinal pluralRules)
+                (Maybe.map .ordinal pluralRules)
     in
     ( { directory = [ "generated", "Cldr" ] ++ directory
       , name = name
@@ -141,7 +158,7 @@ generateLocaleModule localeCode pluralRules numbers =
             ]
                 |> String.join "\n\n"
       }
-    , numberPrinters
+    , printers
         |> List.map Printer.encode
         |> Encode.list
     )

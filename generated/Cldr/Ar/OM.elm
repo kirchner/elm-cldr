@@ -8,6 +8,8 @@ module Cldr.Ar.OM
         , ordinal
         , percentArabStandard
         , percentLatnStandard
+        , quote
+        , quoteAlternate
         , scientificArabStandard
         , scientificLatnStandard
         , toCardinalForm
@@ -16,7 +18,7 @@ module Cldr.Ar.OM
 
 {-|
 
-@docs cardinal, toCardinalForm, ordinal, toOrdinalForm, decimalArabStandard, decimalLatnStandard, scientificArabStandard, scientificLatnStandard, percentArabStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting
+@docs quote, quoteAlternate, decimalArabStandard, decimalLatnStandard, scientificArabStandard, scientificLatnStandard, percentArabStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
 
 -}
 
@@ -24,81 +26,31 @@ import Data.Numbers exposing (NumberFormat, Symbols)
 import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))
 import Printer.Number as Number
 import Printer.Plural as Plural
-import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, plural, printer, s)
+import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, concat, plural, printer, s)
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { zero : Text args msg
-        , one : Text args msg
-        , two : Text args msg
-        , few : Text args msg
-        , many : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { zero, one, two, few, many, other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Just zero
-        , one = Just one
-        , two = Just two
-        , few = Just few
-        , many = Just many
-        , other = other
-        }
+quote : Printer (Text args node) args node
+quote =
+    printer [ "quote" ] <|
+        \text ->
+            concat
+                [ s "”"
+                , text
+                , s "“"
+                ]
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 0 then
-        Zero
-    else if Plural.absoluteValue '.' count == 1 then
-        One
-    else if Plural.absoluteValue '.' count == 2 then
-        Two
-    else if (floor (Plural.absoluteValue '.' count) % 100 < 3) && (floor (Plural.absoluteValue '.' count) % 100 > 10) then
-        Few
-    else if (floor (Plural.absoluteValue '.' count) % 100 < 11) && (floor (Plural.absoluteValue '.' count) % 100 > 99) then
-        Many
-    else
-        Other
-
-
-{-| -}
-ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { other : Text args msg
-        }
-    -> Text args msg
-ordinal printer accessor name { other } =
-    plural printer toOrdinalForm accessor name <|
-        { zero = Nothing
-        , one = Nothing
-        , two = Nothing
-        , few = Nothing
-        , many = Nothing
-        , other = other
-        }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    Other
+quoteAlternate : Printer (Text args node) args node
+quoteAlternate =
+    printer [ "quote", "alternate" ] <|
+        \text ->
+            concat
+                [ s "’"
+                , text
+                , s "‘"
+                ]
 
 
 arabNumberSymbols : Symbols
@@ -326,3 +278,77 @@ currencyLatnAccountingNumberFormat =
             , maximalFractionCount = 3
             }
     }
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { zero : Text args msg
+        , one : Text args msg
+        , two : Text args msg
+        , few : Text args msg
+        , many : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { zero, one, two, few, many, other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Just zero
+        , one = Just one
+        , two = Just two
+        , few = Just few
+        , many = Just many
+        , other = other
+        }
+
+
+{-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if Plural.absoluteValue '.' count == 0 then
+        Zero
+    else if Plural.absoluteValue '.' count == 1 then
+        One
+    else if Plural.absoluteValue '.' count == 2 then
+        Two
+    else if (floor (Plural.absoluteValue '.' count) % 100 < 3) && (floor (Plural.absoluteValue '.' count) % 100 > 10) then
+        Few
+    else if (floor (Plural.absoluteValue '.' count) % 100 < 11) && (floor (Plural.absoluteValue '.' count) % 100 > 99) then
+        Many
+    else
+        Other
+
+
+{-| -}
+ordinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { other : Text args msg
+        }
+    -> Text args msg
+ordinal printer accessor name { other } =
+    plural printer toOrdinalForm accessor name <|
+        { zero = Nothing
+        , one = Nothing
+        , two = Nothing
+        , few = Nothing
+        , many = Nothing
+        , other = other
+        }
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    Other
