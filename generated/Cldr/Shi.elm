@@ -13,7 +13,7 @@ module Cldr.Shi
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -135,6 +135,40 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if
+        (Plural.integerDigits '.' count == 0)
+            || (Plural.absoluteValue '.' count == 1)
+    then
+        One
+    else if (Plural.absoluteValue '.' count < 2) && (Plural.absoluteValue '.' count > 10) then
+        Few
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if
+        (Plural.integerDigits '.' count == 0)
+            || (Plural.absoluteValue '.' count == 1)
+    then
+        One
+    else if (Plural.absoluteValue '.' count < 2) && (Plural.absoluteValue '.' count > 10) then
+        Few
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -157,23 +191,6 @@ cardinal printer accessor name { one, few, other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if
-        (Plural.integerDigits '.' count == 0)
-            || (Plural.absoluteValue '.' count == 1)
-    then
-        One
-    else if (Plural.absoluteValue '.' count < 2) && (Plural.absoluteValue '.' count > 10) then
-        Few
-    else
-        Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -193,20 +210,3 @@ ordinal printer accessor name { one, few, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if
-        (Plural.integerDigits '.' count == 0)
-            || (Plural.absoluteValue '.' count == 1)
-    then
-        One
-    else if (Plural.absoluteValue '.' count < 2) && (Plural.absoluteValue '.' count > 10) then
-        Few
-    else
-        Other

@@ -15,7 +15,7 @@ module Cldr.Ro.MD
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -192,28 +192,6 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { one : Text args msg
-        , few : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { one, few, other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Nothing
-        , one = Just one
-        , two = Nothing
-        , few = Just few
-        , many = Nothing
-        , other = other
-        }
-
-
-{-| -}
 toCardinalForm :
     Float
     -> String
@@ -238,6 +216,40 @@ toCardinalForm _ count =
 
 
 {-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else
+        Other
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { one : Text args msg
+        , few : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { one, few, other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Nothing
+        , one = Just one
+        , two = Nothing
+        , few = Just few
+        , many = Nothing
+        , other = other
+        }
+
+
+{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -256,15 +268,3 @@ ordinal printer accessor name { one, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else
-        Other

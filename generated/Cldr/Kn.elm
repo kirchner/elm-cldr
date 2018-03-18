@@ -20,7 +20,7 @@ module Cldr.Kn
 
 {-|
 
-@docs quote, quoteAlternate, decimalKndaStandard, decimalLatnStandard, scientificKndaStandard, scientificLatnStandard, percentKndaStandard, percentLatnStandard, currencyKndaStandard, currencyKndaAccounting, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalKndaStandard, decimalLatnStandard, scientificKndaStandard, scientificLatnStandard, percentKndaStandard, percentLatnStandard, currencyKndaStandard, currencyKndaAccounting, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -338,6 +338,30 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if
+        (Plural.integerDigits '.' count == 0)
+            || (Plural.absoluteValue '.' count == 1)
+    then
+        One
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -359,21 +383,6 @@ cardinal printer accessor name { one, other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if
-        (Plural.integerDigits '.' count == 0)
-            || (Plural.absoluteValue '.' count == 1)
-    then
-        One
-    else
-        Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -391,12 +400,3 @@ ordinal printer accessor name { other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    Other

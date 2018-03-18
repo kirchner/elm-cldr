@@ -15,7 +15,7 @@ module Cldr.It.VA
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -183,6 +183,38 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if
+        (Plural.integerDigits '.' count == 1)
+            && (Plural.fractionDigitCount '.' WithTrailingZeros count == 0)
+    then
+        One
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if
+        (Plural.absoluteValue '.' count == 11)
+            || (Plural.absoluteValue '.' count == 8)
+            || (Plural.absoluteValue '.' count == 80)
+            || (Plural.absoluteValue '.' count == 800)
+    then
+        Many
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -204,21 +236,6 @@ cardinal printer accessor name { one, other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if
-        (Plural.integerDigits '.' count == 1)
-            && (Plural.fractionDigitCount '.' WithTrailingZeros count == 0)
-    then
-        One
-    else
-        Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -237,20 +254,3 @@ ordinal printer accessor name { many, other } =
         , many = Just many
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if
-        (Plural.absoluteValue '.' count == 11)
-            || (Plural.absoluteValue '.' count == 8)
-            || (Plural.absoluteValue '.' count == 80)
-            || (Plural.absoluteValue '.' count == 800)
-    then
-        Many
-    else
-        Other

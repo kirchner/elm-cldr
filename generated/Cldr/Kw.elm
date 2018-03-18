@@ -13,7 +13,7 @@ module Cldr.Kw
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -135,6 +135,34 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else if Plural.absoluteValue '.' count == 2 then
+        Two
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else if Plural.absoluteValue '.' count == 2 then
+        Two
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -157,20 +185,6 @@ cardinal printer accessor name { one, two, other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else if Plural.absoluteValue '.' count == 2 then
-        Two
-    else
-        Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -190,17 +204,3 @@ ordinal printer accessor name { one, two, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else if Plural.absoluteValue '.' count == 2 then
-        Two
-    else
-        Other

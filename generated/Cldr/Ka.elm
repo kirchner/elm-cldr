@@ -15,7 +15,7 @@ module Cldr.Ka
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -183,6 +183,39 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.integerDigits '.' count == 1 then
+        One
+    else if
+        (Plural.integerDigits '.' count == 0)
+            || (((Plural.integerDigits '.' count % 100 < 2) && (Plural.integerDigits '.' count % 100 > 20))
+                    || (Plural.integerDigits '.' count % 100 == 40)
+                    || (Plural.integerDigits '.' count % 100 == 60)
+                    || (Plural.integerDigits '.' count % 100 == 80)
+               )
+    then
+        Many
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -201,18 +234,6 @@ cardinal printer accessor name { one, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else
-        Other
 
 
 {-| -}
@@ -235,24 +256,3 @@ ordinal printer accessor name { one, many, other } =
         , many = Just many
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.integerDigits '.' count == 1 then
-        One
-    else if
-        (Plural.integerDigits '.' count == 0)
-            || (((Plural.integerDigits '.' count % 100 < 2) && (Plural.integerDigits '.' count % 100 > 20))
-                    || (Plural.integerDigits '.' count % 100 == 40)
-                    || (Plural.integerDigits '.' count % 100 == 60)
-                    || (Plural.integerDigits '.' count % 100 == 80)
-               )
-    then
-        Many
-    else
-        Other

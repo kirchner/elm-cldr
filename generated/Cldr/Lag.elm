@@ -13,7 +13,7 @@ module Cldr.Lag
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -135,6 +135,44 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if Plural.absoluteValue '.' count == 0 then
+        Zero
+    else if
+        ((Plural.integerDigits '.' count == 0)
+            || (Plural.integerDigits '.' count == 1)
+        )
+            && (Plural.absoluteValue '.' count /= 0)
+    then
+        One
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.absoluteValue '.' count == 0 then
+        Zero
+    else if
+        ((Plural.integerDigits '.' count == 0)
+            || (Plural.integerDigits '.' count == 1)
+        )
+            && (Plural.absoluteValue '.' count /= 0)
+    then
+        One
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -157,25 +195,6 @@ cardinal printer accessor name { zero, one, other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 0 then
-        Zero
-    else if
-        ((Plural.integerDigits '.' count == 0)
-            || (Plural.integerDigits '.' count == 1)
-        )
-            && (Plural.absoluteValue '.' count /= 0)
-    then
-        One
-    else
-        Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -195,22 +214,3 @@ ordinal printer accessor name { zero, one, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 0 then
-        Zero
-    else if
-        ((Plural.integerDigits '.' count == 0)
-            || (Plural.integerDigits '.' count == 1)
-        )
-            && (Plural.absoluteValue '.' count /= 0)
-    then
-        One
-    else
-        Other

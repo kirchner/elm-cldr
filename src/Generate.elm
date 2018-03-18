@@ -5,6 +5,7 @@ import Data.Delimiters exposing (Delimiters)
 import Data.Function as Function
 import Data.Numbers exposing (Numbers)
 import Data.PluralRules exposing (PluralRules)
+import Data.Pluralization as Pluralization
 import Data.Printer as Printer
 import Dict exposing (Dict)
 import Generate.Delimiter as Delimiter
@@ -102,11 +103,10 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
             )
 
         functions =
-            [ Just delimiterFunctions
-            , Just numberFunctions
+            [ delimiterFunctions
+            , numberFunctions
             , pluralFunctions
             ]
-                |> List.filterMap identity
                 |> List.concat
 
         printers =
@@ -126,10 +126,11 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
                 numbers.percentFormats
                 numbers.currencyFormats
 
-        pluralFunctions =
-            Maybe.map2 Plural.generate
+        ( pluralFunctions, pluralizations ) =
+            Maybe.map2 (Plural.generate moduleName)
                 (Maybe.map .cardinal pluralRules)
                 (Maybe.map .ordinal pluralRules)
+                |> Maybe.withDefault ( [], [] )
     in
     ( { directory = [ "generated", "Cldr" ] ++ directory
       , name = name
@@ -158,7 +159,16 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
             ]
                 |> String.join "\n\n"
       }
-    , printers
-        |> List.map Printer.encode
-        |> Encode.list
+    , [ ( "printers"
+        , printers
+            |> List.map Printer.encode
+            |> Encode.list
+        )
+      , ( "pluralizations"
+        , pluralizations
+            |> List.map Pluralization.encode
+            |> Encode.list
+        )
+      ]
+        |> Encode.object
     )

@@ -16,7 +16,7 @@ module Cldr.Dz
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, decimalTibtStandard, scientificLatnStandard, scientificTibtStandard, percentLatnStandard, percentTibtStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, decimalTibtStandard, scientificLatnStandard, scientificTibtStandard, percentLatnStandard, percentTibtStandard, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -224,6 +224,24 @@ percentTibtStandardNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -244,15 +262,6 @@ cardinal printer accessor name { other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -270,12 +279,3 @@ ordinal printer accessor name { other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    Other

@@ -15,7 +15,7 @@ module Cldr.He
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -192,29 +192,6 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { one : Text args msg
-        , two : Text args msg
-        , many : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { one, two, many, other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Nothing
-        , one = Just one
-        , two = Just two
-        , few = Nothing
-        , many = Just many
-        , other = other
-        }
-
-
-{-| -}
 toCardinalForm :
     Float
     -> String
@@ -242,6 +219,38 @@ toCardinalForm _ count =
 
 
 {-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    Other
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { one : Text args msg
+        , two : Text args msg
+        , many : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { one, two, many, other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Nothing
+        , one = Just one
+        , two = Just two
+        , few = Nothing
+        , many = Just many
+        , other = other
+        }
+
+
+{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -259,12 +268,3 @@ ordinal printer accessor name { other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    Other

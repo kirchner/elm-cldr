@@ -20,7 +20,7 @@ module Cldr.Hi
 
 {-|
 
-@docs quote, quoteAlternate, decimalDevaStandard, decimalLatnStandard, scientificDevaStandard, scientificLatnStandard, percentDevaStandard, percentLatnStandard, currencyDevaStandard, currencyDevaAccounting, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalDevaStandard, decimalLatnStandard, scientificDevaStandard, scientificLatnStandard, percentDevaStandard, percentLatnStandard, currencyDevaStandard, currencyDevaAccounting, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -320,6 +320,42 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if
+        (Plural.integerDigits '.' count == 0)
+            || (Plural.absoluteValue '.' count == 1)
+    then
+        One
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else if
+        (Plural.absoluteValue '.' count == 2)
+            || (Plural.absoluteValue '.' count == 3)
+    then
+        Two
+    else if Plural.absoluteValue '.' count == 4 then
+        Few
+    else if Plural.absoluteValue '.' count == 6 then
+        Many
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -338,21 +374,6 @@ cardinal printer accessor name { one, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if
-        (Plural.integerDigits '.' count == 0)
-            || (Plural.absoluteValue '.' count == 1)
-    then
-        One
-    else
-        Other
 
 
 {-| -}
@@ -377,24 +398,3 @@ ordinal printer accessor name { one, two, few, many, other } =
         , many = Just many
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else if
-        (Plural.absoluteValue '.' count == 2)
-            || (Plural.absoluteValue '.' count == 3)
-    then
-        Two
-    else if Plural.absoluteValue '.' count == 4 then
-        Few
-    else if Plural.absoluteValue '.' count == 6 then
-        Many
-    else
-        Other

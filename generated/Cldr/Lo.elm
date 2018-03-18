@@ -16,7 +16,7 @@ module Cldr.Lo
 
 {-|
 
-@docs quote, quoteAlternate, decimalLaooStandard, decimalLatnStandard, scientificLaooStandard, scientificLatnStandard, percentLaooStandard, percentLatnStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLaooStandard, decimalLatnStandard, scientificLaooStandard, scientificLatnStandard, percentLaooStandard, percentLatnStandard, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -224,6 +224,27 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -241,15 +262,6 @@ cardinal printer accessor name { other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    Other
 
 
 {-| -}
@@ -271,15 +283,3 @@ ordinal printer accessor name { one, other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else
-        Other

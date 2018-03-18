@@ -15,7 +15,7 @@ module Cldr.Lv
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -183,28 +183,6 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { zero : Text args msg
-        , one : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { zero, one, other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Just zero
-        , one = Just one
-        , two = Nothing
-        , few = Nothing
-        , many = Nothing
-        , other = other
-        }
-
-
-{-| -}
 toCardinalForm :
     Float
     -> String
@@ -239,6 +217,37 @@ toCardinalForm _ count =
 
 
 {-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    Other
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { zero : Text args msg
+        , one : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { zero, one, other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Just zero
+        , one = Just one
+        , two = Nothing
+        , few = Nothing
+        , many = Nothing
+        , other = other
+        }
+
+
+{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -256,12 +265,3 @@ ordinal printer accessor name { other } =
         , many = Nothing
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    Other

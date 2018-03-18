@@ -15,7 +15,7 @@ module Cldr.Mt
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, currencyLatnStandard, currencyLatnAccounting, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -183,6 +183,44 @@ currencyLatnAccountingNumberFormat =
 
 
 {-| -}
+toCardinalForm :
+    Float
+    -> String
+    -> PluralForm
+toCardinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else if
+        (Plural.absoluteValue '.' count == 0)
+            || ((floor (Plural.absoluteValue '.' count) % 100 < 2) && (floor (Plural.absoluteValue '.' count) % 100 > 10))
+    then
+        Few
+    else if (floor (Plural.absoluteValue '.' count) % 100 < 11) && (floor (Plural.absoluteValue '.' count) % 100 > 19) then
+        Many
+    else
+        Other
+
+
+{-| -}
+toOrdinalForm :
+    Float
+    -> String
+    -> PluralForm
+toOrdinalForm _ count =
+    if Plural.absoluteValue '.' count == 1 then
+        One
+    else if
+        (Plural.absoluteValue '.' count == 0)
+            || ((floor (Plural.absoluteValue '.' count) % 100 < 2) && (floor (Plural.absoluteValue '.' count) % 100 > 10))
+    then
+        Few
+    else if (floor (Plural.absoluteValue '.' count) % 100 < 11) && (floor (Plural.absoluteValue '.' count) % 100 > 19) then
+        Many
+    else
+        Other
+
+
+{-| -}
 cardinal :
     Printer Float args msg
     -> (args -> Float)
@@ -206,25 +244,6 @@ cardinal printer accessor name { one, few, many, other } =
 
 
 {-| -}
-toCardinalForm :
-    Float
-    -> String
-    -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else if
-        (Plural.absoluteValue '.' count == 0)
-            || ((floor (Plural.absoluteValue '.' count) % 100 < 2) && (floor (Plural.absoluteValue '.' count) % 100 > 10))
-    then
-        Few
-    else if (floor (Plural.absoluteValue '.' count) % 100 < 11) && (floor (Plural.absoluteValue '.' count) % 100 > 19) then
-        Many
-    else
-        Other
-
-
-{-| -}
 ordinal :
     Printer Float args msg
     -> (args -> Float)
@@ -245,22 +264,3 @@ ordinal printer accessor name { one, few, many, other } =
         , many = Just many
         , other = other
         }
-
-
-{-| -}
-toOrdinalForm :
-    Float
-    -> String
-    -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
-        One
-    else if
-        (Plural.absoluteValue '.' count == 0)
-            || ((floor (Plural.absoluteValue '.' count) % 100 < 2) && (floor (Plural.absoluteValue '.' count) % 100 > 10))
-    then
-        Few
-    else if (floor (Plural.absoluteValue '.' count) % 100 < 11) && (floor (Plural.absoluteValue '.' count) % 100 > 19) then
-        Many
-    else
-        Other

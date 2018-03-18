@@ -2,12 +2,13 @@ module Generate.Plural exposing (generate)
 
 import Data.Function exposing (Function(Exposed, Internal))
 import Data.PluralRules exposing (..)
+import Data.Pluralization exposing (Pluralization)
 import Generate.Helper as Generate
 import String.Extra as String
 
 
-generate : Maybe PluralRules -> Maybe PluralRules -> List Function
-generate maybeCardinal maybeOrdinal =
+generate : String -> Maybe PluralRules -> Maybe PluralRules -> ( List Function, List Pluralization )
+generate module_ maybeCardinal maybeOrdinal =
     let
         or second first =
             case second of
@@ -19,19 +20,31 @@ generate maybeCardinal maybeOrdinal =
     in
     Maybe.map2
         (\ordinal cardinal ->
-            [ generatePlural "cardinal" cardinal
-            , generateSelector "cardinal" cardinal
-            , generatePlural "ordinal" ordinal
-            , generateSelector "ordinal" ordinal
+            [ generatePlural module_ "cardinal" cardinal
+            , generatePlural module_ "ordinal" ordinal
             ]
+                |> List.foldr
+                    (\( function, pluralization ) ( functions, pluralizations ) ->
+                        ( function :: functions
+                        , pluralization :: pluralizations
+                        )
+                    )
+                    ( [], [] )
+                |> Tuple.mapFirst
+                    (\functions ->
+                        [ generateSelector "cardinal" cardinal
+                        , generateSelector "ordinal" ordinal
+                        ]
+                            ++ functions
+                    )
         )
         (maybeCardinal |> or maybeOrdinal)
         (maybeOrdinal |> or maybeCardinal)
-        |> Maybe.withDefault []
+        |> Maybe.withDefault ( [], [] )
 
 
-generatePlural : String -> PluralRules -> Function
-generatePlural kind pluralRules =
+generatePlural : String -> String -> PluralRules -> ( Function, Pluralization )
+generatePlural module_ kind pluralRules =
     let
         body =
             [ [ "plural"
@@ -117,7 +130,7 @@ generatePlural kind pluralRules =
                 Nothing ->
                     Nothing
     in
-    Exposed
+    ( Exposed
         { name = kind
         , imports =
             [ "import Translation exposing (Printer, Text, plural)"
@@ -138,6 +151,20 @@ generatePlural kind pluralRules =
             ]
                 |> String.join "\n\n"
         }
+    , { name = kind
+      , module_ = module_
+      , pluralForms =
+            [ pluralCaseName "zero" pluralRules.zero
+            , pluralCaseName "one" pluralRules.one
+            , pluralCaseName "two" pluralRules.two
+            , pluralCaseName "few" pluralRules.few
+            , pluralCaseName "many" pluralRules.many
+            , Just "other"
+            ]
+                |> List.filterMap identity
+      , icuNames = [ kind ]
+      }
+    )
 
 
 generateSelector : String -> PluralRules -> Function

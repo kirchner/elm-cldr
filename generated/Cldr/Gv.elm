@@ -13,7 +13,7 @@ module Cldr.Gv
 
 {-|
 
-@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, cardinal, toCardinalForm, ordinal, toOrdinalForm
+@docs quote, quoteAlternate, decimalLatnStandard, scientificLatnStandard, percentLatnStandard, toCardinalForm, toOrdinalForm, cardinal, ordinal
 
 -}
 
@@ -135,30 +135,6 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
-cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { one : Text args msg
-        , two : Text args msg
-        , few : Text args msg
-        , many : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-cardinal printer accessor name { one, two, few, many, other } =
-    plural printer toCardinalForm accessor name <|
-        { zero = Nothing
-        , one = Just one
-        , two = Just two
-        , few = Just few
-        , many = Just many
-        , other = other
-        }
-
-
-{-| -}
 toCardinalForm :
     Float
     -> String
@@ -191,30 +167,6 @@ toCardinalForm _ count =
 
 
 {-| -}
-ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
-    ->
-        { one : Text args msg
-        , two : Text args msg
-        , few : Text args msg
-        , many : Text args msg
-        , other : Text args msg
-        }
-    -> Text args msg
-ordinal printer accessor name { one, two, few, many, other } =
-    plural printer toOrdinalForm accessor name <|
-        { zero = Nothing
-        , one = Just one
-        , two = Just two
-        , few = Just few
-        , many = Just many
-        , other = other
-        }
-
-
-{-| -}
 toOrdinalForm :
     Float
     -> String
@@ -244,3 +196,51 @@ toOrdinalForm _ count =
         Many
     else
         Other
+
+
+{-| -}
+cardinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { one : Text args msg
+        , two : Text args msg
+        , few : Text args msg
+        , many : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+cardinal printer accessor name { one, two, few, many, other } =
+    plural printer toCardinalForm accessor name <|
+        { zero = Nothing
+        , one = Just one
+        , two = Just two
+        , few = Just few
+        , many = Just many
+        , other = other
+        }
+
+
+{-| -}
+ordinal :
+    Printer Float args msg
+    -> (args -> Float)
+    -> String
+    ->
+        { one : Text args msg
+        , two : Text args msg
+        , few : Text args msg
+        , many : Text args msg
+        , other : Text args msg
+        }
+    -> Text args msg
+ordinal printer accessor name { one, two, few, many, other } =
+    plural printer toOrdinalForm accessor name <|
+        { zero = Nothing
+        , one = Just one
+        , two = Just two
+        , few = Just few
+        , many = Just many
+        , other = other
+        }
