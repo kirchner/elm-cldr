@@ -1,34 +1,29 @@
 module Generate.Number exposing (generate)
 
+import Data.Function exposing (Function(Exposed, Internal))
 import Data.Numbers exposing (..)
+import Data.Printer as Printer exposing (Printer, PrinterType)
 import Dict exposing (Dict)
-import Function exposing (EntryType(PrinterFloat), Function(Exposed, Internal))
 import Generate.Helper as Generate
 import String.Extra as String
 
 
 generate :
-    Dict String Symbols
+    String
+    -> Dict String Symbols
     -> Dict String DecimalFormats
     -> Dict String ScientificFormats
     -> Dict String PercentFormats
     -> Dict String CurrencyFormats
-    -> List Function
-generate symbols decimalFormats scientificFormats percentFormats currencyFormats =
+    -> ( List Function, List Printer )
+generate module_ symbols decimalFormats scientificFormats percentFormats currencyFormats =
     let
         generateFormat numberSystem names format =
-            [ generateNumberPrinter numberSystem names format
+            ( generateNumberPrinter module_ numberSystem names format
             , generateNumberFormat names format
-            ]
+            )
     in
-    [ [ symbols
-            |> Dict.map
-                (\numberSystem symbols ->
-                    generateNumberSymbols numberSystem symbols
-                )
-            |> Dict.values
-      ]
-    , decimalFormats
+    [ decimalFormats
         |> Dict.map
             (\numberSystem decimalFormats ->
                 generateFormat numberSystem
@@ -62,29 +57,41 @@ generate symbols decimalFormats scientificFormats percentFormats currencyFormats
                     [ "currency", numberSystem, "accounting" ]
                     currencyFormats.accounting
                 ]
-                    |> List.concat
             )
         |> Dict.values
+        |> List.concat
     ]
         |> List.concat
-        |> List.concat
+        |> List.foldr
+            (\( ( printerFunction, printer ), formatFunction ) ( functions, printers ) ->
+                ( printerFunction :: formatFunction :: functions
+                , printer :: printers
+                )
+            )
+            ( [], [] )
+        |> Tuple.mapFirst
+            (\functions ->
+                (symbols
+                    |> Dict.map
+                        (\numberSystem symbols ->
+                            generateNumberSymbols numberSystem symbols
+                        )
+                    |> Dict.values
+                )
+                    ++ functions
+            )
 
 
-generateNumberPrinter : String -> List String -> NumberFormat -> Function
-generateNumberPrinter numberSystem names numberFormat =
+generateNumberPrinter : String -> String -> List String -> NumberFormat -> ( Function, Printer )
+generateNumberPrinter module_ numberSystem names numberFormat =
     let
         name =
             names
                 |> String.join "-"
                 |> String.camelize
     in
-    Exposed
+    ( Exposed
         { name = name
-        , entry =
-            Just
-                { names = names
-                , type_ = PrinterFloat
-                }
         , imports =
             [ "import Printer.Number as Number"
             , "import Data.Numbers exposing (NumberFormat)"
@@ -119,6 +126,12 @@ generateNumberPrinter numberSystem names numberFormat =
             ]
                 |> String.join "\n"
         }
+    , { name = name
+      , module_ = module_
+      , type_ = Printer.Float
+      , icuNames = names
+      }
+    )
 
 
 generateNumberFormat : List String -> NumberFormat -> Function

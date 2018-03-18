@@ -1,4 +1,4 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Data
 import Generate
@@ -6,7 +6,12 @@ import Json.Decode as Decode exposing (Value)
 import Json.Decode.Pipeline as Decode
 import Json.Encode as Encode
 import Platform
-import Ports
+
+
+port reportError : Value -> Cmd msg
+
+
+port writeModule : Value -> Cmd msg
 
 
 main =
@@ -48,7 +53,7 @@ init value =
                             ( [], [] )
             in
             [ modules
-                |> List.map Ports.writeModule
+                |> List.map writeModule
                 |> Cmd.batch
             , [ ( "directory"
                 , Encode.list []
@@ -64,7 +69,7 @@ init value =
                 )
               ]
                 |> Encode.object
-                |> Ports.writeModule
+                |> writeModule
             ]
                 |> Cmd.batch
 
@@ -75,5 +80,5 @@ init value =
               )
             ]
                 |> Encode.object
-                |> Ports.reportError
+                |> reportError
     )

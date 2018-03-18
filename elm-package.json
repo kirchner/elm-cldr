@@ -9,6 +9,7 @@
         "../elm-translation/src"
     ],
     "exposed-modules": [
+        "Data.Printer",
         "Cldr.Af",
         "Cldr.Af.NA",
         "Cldr.Agq",

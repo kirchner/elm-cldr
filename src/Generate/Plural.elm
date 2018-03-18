@@ -1,7 +1,7 @@
 module Generate.Plural exposing (generate)
 
+import Data.Function exposing (Function(Exposed, Internal))
 import Data.PluralRules exposing (..)
-import Function exposing (EntryType(Plural), Function(Exposed, Internal))
 import Generate.Helper as Generate
 import String.Extra as String
 
@@ -119,11 +119,6 @@ generatePlural kind pluralRules =
     in
     Exposed
         { name = kind
-        , entry =
-            Just
-                { names = [ kind ]
-                , type_ = Plural
-                }
         , imports =
             [ "import Translation exposing (Printer, Text, plural)"
             ]
@@ -174,7 +169,6 @@ generateSelector kind pluralRules =
     in
     Exposed
         { name = name
-        , entry = Nothing
         , imports =
             [ "import Translation exposing (PluralForm(Zero, One, Two, Few, Many, Other))"
             , "import Printer.Plural as Plural"

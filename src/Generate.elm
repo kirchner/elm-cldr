@@ -1,10 +1,11 @@
 module Generate exposing (run)
 
 import Data exposing (Data)
+import Data.Function as Function
 import Data.Numbers exposing (Numbers)
 import Data.PluralRules exposing (PluralRules)
+import Data.Printer as Printer
 import Dict exposing (Dict)
-import Function exposing (Entry)
 import Generate.Helper as Generate
 import Generate.Number as Number
 import Generate.Plural as Plural
@@ -105,8 +106,8 @@ generateLocaleModule localeCode pluralRules numbers =
                 (Maybe.map .cardinal pluralRules)
                 (Maybe.map .ordinal pluralRules)
 
-        numberFunctions =
-            Number.generate
+        ( numberFunctions, numberPrinters ) =
+            Number.generate (String.join "." ("Cldr" :: sanitizedLocaleCode))
                 numbers.symbols
                 numbers.decimalFormats
                 numbers.scientificFormats
@@ -140,93 +141,7 @@ generateLocaleModule localeCode pluralRules numbers =
             ]
                 |> String.join "\n\n"
       }
-    , functions
-        |> List.filterMap
-            (\function ->
-                Maybe.map2 (,)
-                    (Function.exposedEntry function)
-                    (Function.exposedName function)
-            )
-        |> toValue ("Cldr." ++ String.join "." sanitizedLocaleCode)
-        |> Encode.object
+    , numberPrinters
+        |> List.map Printer.encode
+        |> Encode.list
     )
-
-
-toValue : String -> List ( Entry, String ) -> List ( String, Value )
-toValue moduleName namesList =
-    namesList
-        |> List.foldl
-            (\( { names, type_ }, name ) dict ->
-                case names of
-                    [] ->
-                        dict
-
-                    firstName :: otherNames ->
-                        dict
-                            |> Dict.update firstName
-                                (\maybeEntry ->
-                                    case maybeEntry of
-                                        Nothing ->
-                                            Just <|
-                                                case otherNames of
-                                                    [] ->
-                                                        { single = Just ( name, type_ )
-                                                        , multiples = []
-                                                        }
-
-                                                    _ ->
-                                                        { single = Nothing
-                                                        , multiples =
-                                                            [ ( { names = otherNames
-                                                                , type_ = type_
-                                                                }
-                                                              , name
-                                                              )
-                                                            ]
-                                                        }
-
-                                        Just entry ->
-                                            Just <|
-                                                case otherNames of
-                                                    [] ->
-                                                        { entry | single = Just ( name, type_ ) }
-
-                                                    _ ->
-                                                        { entry
-                                                            | multiples =
-                                                                ( { names = otherNames
-                                                                  , type_ = type_
-                                                                  }
-                                                                , name
-                                                                )
-                                                                    :: entry.multiples
-                                                        }
-                                )
-            )
-            Dict.empty
-        |> Dict.foldl
-            (\firstName entry collected ->
-                ( firstName
-                , [ entry.single
-                        |> Maybe.map
-                            (\( name, type_ ) ->
-                                [ ( "_function"
-                                  , Encode.string name
-                                  )
-                                , ( "_type"
-                                  , Function.encodeEntryType type_
-                                  )
-                                , ( "_module"
-                                  , Encode.string moduleName
-                                  )
-                                ]
-                            )
-                  , Just (toValue moduleName entry.multiples)
-                  ]
-                    |> List.filterMap identity
-                    |> List.concat
-                    |> Encode.object
-                )
-                    :: collected
-            )
-            []

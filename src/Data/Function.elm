@@ -1,22 +1,13 @@
-module Function
+module Data.Function
     exposing
-        ( Entry
-        , EntryType
-            ( Plural
-            , PrinterFloat
-            )
-        , Function
+        ( Function
             ( Exposed
             , Internal
             )
-        , encodeEntryType
-        , exposedEntry
         , exposedName
         , implementation
         , imports
         )
-
-import Json.Encode as Encode exposing (Value)
 
 
 type Function
@@ -26,32 +17,9 @@ type Function
         }
     | Exposed
         { name : String
-        , entry : Maybe Entry
         , imports : List String
         , implementation : String
         }
-
-
-type alias Entry =
-    { names : List String
-    , type_ : EntryType
-    }
-
-
-type EntryType
-    = PrinterFloat
-    | Plural
-
-
-encodeEntryType : EntryType -> Value
-encodeEntryType entryType =
-    Encode.string <|
-        case entryType of
-            PrinterFloat ->
-                "float"
-
-            Plural ->
-                "plural"
 
 
 exposedName : Function -> Maybe String
@@ -59,16 +27,6 @@ exposedName function =
     case function of
         Exposed { name } ->
             Just name
-
-        _ ->
-            Nothing
-
-
-exposedEntry : Function -> Maybe Entry
-exposedEntry function =
-    case function of
-        Exposed { entry } ->
-            entry
 
         _ ->
             Nothing
