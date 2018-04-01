@@ -7,3 +7,6 @@
 [submodule "cldr-misc-full"]
 	path = cldr-misc-full
 	url = https://github.com/unicode-cldr/cldr-misc-full
+[submodule "cldr-units-full"]
+	path = cldr-units-full
+	url = https://github.com/unicode-cldr/cldr-units-full
