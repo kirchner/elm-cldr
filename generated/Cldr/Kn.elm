@@ -34,7 +34,7 @@ import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other,
 {-| -}
 quote : Printer (Text Static args node) args node
 quote =
-    printer [ "quote" ] <|
+    printer <|
         \text ->
             concat
                 [ s "“"
@@ -46,7 +46,7 @@ quote =
 {-| -}
 quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
-    printer [ "quote", "alternate" ] <|
+    printer <|
         \text ->
             concat
                 [ s "‘"
@@ -92,7 +92,7 @@ latnNumberSymbols =
 {-| -}
 decimalKndaStandard : FloatPrinter args msg
 decimalKndaStandard =
-    floatPrinter [ "decimal", "knda", "standard" ]
+    floatPrinter
         (\float -> s (Number.print kndaNumberSymbols decimalKndaStandardNumberFormat float))
         (Number.floatInfo decimalKndaStandardNumberFormat)
 
@@ -115,7 +115,7 @@ decimalKndaStandardNumberFormat =
 {-| -}
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    floatPrinter [ "decimal", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
@@ -138,7 +138,7 @@ decimalLatnStandardNumberFormat =
 {-| -}
 scientificKndaStandard : FloatPrinter args msg
 scientificKndaStandard =
-    floatPrinter [ "scientific", "knda", "standard" ]
+    floatPrinter
         (\float -> s (Number.print kndaNumberSymbols scientificKndaStandardNumberFormat float))
         (Number.floatInfo scientificKndaStandardNumberFormat)
 
@@ -161,7 +161,7 @@ scientificKndaStandardNumberFormat =
 {-| -}
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    floatPrinter [ "scientific", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
@@ -184,7 +184,7 @@ scientificLatnStandardNumberFormat =
 {-| -}
 percentKndaStandard : FloatPrinter args msg
 percentKndaStandard =
-    floatPrinter [ "percent", "knda", "standard" ]
+    floatPrinter
         (\float -> s (Number.print kndaNumberSymbols percentKndaStandardNumberFormat float))
         (Number.floatInfo percentKndaStandardNumberFormat)
 
@@ -207,7 +207,7 @@ percentKndaStandardNumberFormat =
 {-| -}
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    floatPrinter [ "percent", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
@@ -230,7 +230,7 @@ percentLatnStandardNumberFormat =
 {-| -}
 currencyKndaStandard : FloatPrinter args msg
 currencyKndaStandard =
-    floatPrinter [ "currency", "knda", "standard" ]
+    floatPrinter
         (\float -> s (Number.print kndaNumberSymbols currencyKndaStandardNumberFormat float))
         (Number.floatInfo currencyKndaStandardNumberFormat)
 
@@ -253,7 +253,7 @@ currencyKndaStandardNumberFormat =
 {-| -}
 currencyKndaAccounting : FloatPrinter args msg
 currencyKndaAccounting =
-    floatPrinter [ "currency", "knda", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print kndaNumberSymbols currencyKndaAccountingNumberFormat float))
         (Number.floatInfo currencyKndaAccountingNumberFormat)
 
@@ -285,7 +285,7 @@ currencyKndaAccountingNumberFormat =
 {-| -}
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
-    floatPrinter [ "currency", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
@@ -308,7 +308,7 @@ currencyLatnStandardNumberFormat =
 {-| -}
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
-    floatPrinter [ "currency", "latn", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 

@@ -34,7 +34,7 @@ import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other,
 {-| -}
 quote : Printer (Text Static args node) args node
 quote =
-    printer [ "quote" ] <|
+    printer <|
         \text ->
             concat
                 [ s "“"
@@ -46,7 +46,7 @@ quote =
 {-| -}
 quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
-    printer [ "quote", "alternate" ] <|
+    printer <|
         \text ->
             concat
                 [ s "‘"
@@ -92,7 +92,7 @@ oryaNumberSymbols =
 {-| -}
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    floatPrinter [ "decimal", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
@@ -115,7 +115,7 @@ decimalLatnStandardNumberFormat =
 {-| -}
 decimalOryaStandard : FloatPrinter args msg
 decimalOryaStandard =
-    floatPrinter [ "decimal", "orya", "standard" ]
+    floatPrinter
         (\float -> s (Number.print oryaNumberSymbols decimalOryaStandardNumberFormat float))
         (Number.floatInfo decimalOryaStandardNumberFormat)
 
@@ -138,7 +138,7 @@ decimalOryaStandardNumberFormat =
 {-| -}
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    floatPrinter [ "scientific", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
@@ -161,7 +161,7 @@ scientificLatnStandardNumberFormat =
 {-| -}
 scientificOryaStandard : FloatPrinter args msg
 scientificOryaStandard =
-    floatPrinter [ "scientific", "orya", "standard" ]
+    floatPrinter
         (\float -> s (Number.print oryaNumberSymbols scientificOryaStandardNumberFormat float))
         (Number.floatInfo scientificOryaStandardNumberFormat)
 
@@ -184,7 +184,7 @@ scientificOryaStandardNumberFormat =
 {-| -}
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    floatPrinter [ "percent", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
@@ -207,7 +207,7 @@ percentLatnStandardNumberFormat =
 {-| -}
 percentOryaStandard : FloatPrinter args msg
 percentOryaStandard =
-    floatPrinter [ "percent", "orya", "standard" ]
+    floatPrinter
         (\float -> s (Number.print oryaNumberSymbols percentOryaStandardNumberFormat float))
         (Number.floatInfo percentOryaStandardNumberFormat)
 
@@ -230,7 +230,7 @@ percentOryaStandardNumberFormat =
 {-| -}
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
-    floatPrinter [ "currency", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
@@ -253,7 +253,7 @@ currencyLatnStandardNumberFormat =
 {-| -}
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
-    floatPrinter [ "currency", "latn", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
@@ -285,7 +285,7 @@ currencyLatnAccountingNumberFormat =
 {-| -}
 currencyOryaStandard : FloatPrinter args msg
 currencyOryaStandard =
-    floatPrinter [ "currency", "orya", "standard" ]
+    floatPrinter
         (\float -> s (Number.print oryaNumberSymbols currencyOryaStandardNumberFormat float))
         (Number.floatInfo currencyOryaStandardNumberFormat)
 
@@ -308,7 +308,7 @@ currencyOryaStandardNumberFormat =
 {-| -}
 currencyOryaAccounting : FloatPrinter args msg
 currencyOryaAccounting =
-    floatPrinter [ "currency", "orya", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print oryaNumberSymbols currencyOryaAccountingNumberFormat float))
         (Number.floatInfo currencyOryaAccountingNumberFormat)
 

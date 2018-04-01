@@ -34,7 +34,7 @@ import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other,
 {-| -}
 quote : Printer (Text Static args node) args node
 quote =
-    printer [ "quote" ] <|
+    printer <|
         \text ->
             concat
                 [ s "“"
@@ -46,7 +46,7 @@ quote =
 {-| -}
 quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
-    printer [ "quote", "alternate" ] <|
+    printer <|
         \text ->
             concat
                 [ s "‘"
@@ -92,7 +92,7 @@ teluNumberSymbols =
 {-| -}
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    floatPrinter [ "decimal", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
@@ -115,7 +115,7 @@ decimalLatnStandardNumberFormat =
 {-| -}
 decimalTeluStandard : FloatPrinter args msg
 decimalTeluStandard =
-    floatPrinter [ "decimal", "telu", "standard" ]
+    floatPrinter
         (\float -> s (Number.print teluNumberSymbols decimalTeluStandardNumberFormat float))
         (Number.floatInfo decimalTeluStandardNumberFormat)
 
@@ -138,7 +138,7 @@ decimalTeluStandardNumberFormat =
 {-| -}
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    floatPrinter [ "scientific", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
@@ -161,7 +161,7 @@ scientificLatnStandardNumberFormat =
 {-| -}
 scientificTeluStandard : FloatPrinter args msg
 scientificTeluStandard =
-    floatPrinter [ "scientific", "telu", "standard" ]
+    floatPrinter
         (\float -> s (Number.print teluNumberSymbols scientificTeluStandardNumberFormat float))
         (Number.floatInfo scientificTeluStandardNumberFormat)
 
@@ -184,7 +184,7 @@ scientificTeluStandardNumberFormat =
 {-| -}
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    floatPrinter [ "percent", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
@@ -207,7 +207,7 @@ percentLatnStandardNumberFormat =
 {-| -}
 percentTeluStandard : FloatPrinter args msg
 percentTeluStandard =
-    floatPrinter [ "percent", "telu", "standard" ]
+    floatPrinter
         (\float -> s (Number.print teluNumberSymbols percentTeluStandardNumberFormat float))
         (Number.floatInfo percentTeluStandardNumberFormat)
 
@@ -230,7 +230,7 @@ percentTeluStandardNumberFormat =
 {-| -}
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
-    floatPrinter [ "currency", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
@@ -253,7 +253,7 @@ currencyLatnStandardNumberFormat =
 {-| -}
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
-    floatPrinter [ "currency", "latn", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
@@ -285,7 +285,7 @@ currencyLatnAccountingNumberFormat =
 {-| -}
 currencyTeluStandard : FloatPrinter args msg
 currencyTeluStandard =
-    floatPrinter [ "currency", "telu", "standard" ]
+    floatPrinter
         (\float -> s (Number.print teluNumberSymbols currencyTeluStandardNumberFormat float))
         (Number.floatInfo currencyTeluStandardNumberFormat)
 
@@ -308,7 +308,7 @@ currencyTeluStandardNumberFormat =
 {-| -}
 currencyTeluAccounting : FloatPrinter args msg
 currencyTeluAccounting =
-    floatPrinter [ "currency", "telu", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print teluNumberSymbols currencyTeluAccountingNumberFormat float))
         (Number.floatInfo currencyTeluAccountingNumberFormat)
 

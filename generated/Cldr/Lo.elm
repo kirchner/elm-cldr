@@ -30,7 +30,7 @@ import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other,
 {-| -}
 quote : Printer (Text Static args node) args node
 quote =
-    printer [ "quote" ] <|
+    printer <|
         \text ->
             concat
                 [ s "“"
@@ -42,7 +42,7 @@ quote =
 {-| -}
 quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
-    printer [ "quote", "alternate" ] <|
+    printer <|
         \text ->
             concat
                 [ s "‘"
@@ -88,7 +88,7 @@ latnNumberSymbols =
 {-| -}
 decimalLaooStandard : FloatPrinter args msg
 decimalLaooStandard =
-    floatPrinter [ "decimal", "laoo", "standard" ]
+    floatPrinter
         (\float -> s (Number.print laooNumberSymbols decimalLaooStandardNumberFormat float))
         (Number.floatInfo decimalLaooStandardNumberFormat)
 
@@ -111,7 +111,7 @@ decimalLaooStandardNumberFormat =
 {-| -}
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    floatPrinter [ "decimal", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
@@ -134,7 +134,7 @@ decimalLatnStandardNumberFormat =
 {-| -}
 scientificLaooStandard : FloatPrinter args msg
 scientificLaooStandard =
-    floatPrinter [ "scientific", "laoo", "standard" ]
+    floatPrinter
         (\float -> s (Number.print laooNumberSymbols scientificLaooStandardNumberFormat float))
         (Number.floatInfo scientificLaooStandardNumberFormat)
 
@@ -157,7 +157,7 @@ scientificLaooStandardNumberFormat =
 {-| -}
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    floatPrinter [ "scientific", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
@@ -180,7 +180,7 @@ scientificLatnStandardNumberFormat =
 {-| -}
 percentLaooStandard : FloatPrinter args msg
 percentLaooStandard =
-    floatPrinter [ "percent", "laoo", "standard" ]
+    floatPrinter
         (\float -> s (Number.print laooNumberSymbols percentLaooStandardNumberFormat float))
         (Number.floatInfo percentLaooStandardNumberFormat)
 
@@ -203,7 +203,7 @@ percentLaooStandardNumberFormat =
 {-| -}
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    floatPrinter [ "percent", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 

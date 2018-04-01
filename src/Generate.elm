@@ -110,10 +110,7 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
                 |> List.concat
 
         printers =
-            [ delimiterPrinters
-            , numberPrinters
-            ]
-                |> List.concat
+            Dict.union delimiterPrinters numberPrinters
 
         ( delimiterFunctions, delimiterPrinters ) =
             Delimiter.generate moduleName delimiters
@@ -130,7 +127,7 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
             Maybe.map2 (Plural.generate moduleName)
                 (Maybe.map .cardinal pluralRules)
                 (Maybe.map .ordinal pluralRules)
-                |> Maybe.withDefault ( [], [] )
+                |> Maybe.withDefault ( [], Dict.empty )
     in
     ( { directory = [ "generated", "Cldr" ] ++ directory
       , name = name
@@ -161,13 +158,21 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
       }
     , [ ( "printers"
         , printers
-            |> List.map Printer.encode
-            |> Encode.list
+            |> Dict.foldl
+                (\name printer printers ->
+                    ( name, Printer.encode printer ) :: printers
+                )
+                []
+            |> Encode.object
         )
       , ( "pluralizations"
         , pluralizations
-            |> List.map Pluralization.encode
-            |> Encode.list
+            |> Dict.foldl
+                (\name pluralization pluralizations ->
+                    ( name, Pluralization.encode pluralization ) :: pluralizations
+                )
+                []
+            |> Encode.object
         )
       ]
         |> Encode.object

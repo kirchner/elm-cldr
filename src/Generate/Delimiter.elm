@@ -3,10 +3,11 @@ module Generate.Delimiter exposing (generate)
 import Data.Delimiters exposing (Delimiters)
 import Data.Function exposing (Function(Exposed, Internal))
 import Data.Printer as Printer exposing (Printer, PrinterType)
+import Dict exposing (Dict)
 import Generate.Helper as Generate
 
 
-generate : String -> Delimiters -> ( List Function, List Printer )
+generate : String -> Delimiters -> ( List Function, Dict String Printer )
 generate module_ delimiters =
     [ generateQuote module_
         "quote"
@@ -20,15 +21,21 @@ generate module_ delimiters =
         delimiters.alternateQuotationEnd
     ]
         |> List.foldr
-            (\( function, printer ) ( functions, printers ) ->
+            (\( function, ( name, printer ) ) ( functions, printers ) ->
                 ( function :: functions
-                , printer :: printers
+                , Dict.insert name printer printers
                 )
             )
-            ( [], [] )
+            ( [], Dict.empty )
 
 
-generateQuote : String -> String -> List String -> String -> String -> ( Function, Printer )
+generateQuote :
+    String
+    -> String
+    -> List String
+    -> String
+    -> String
+    -> ( Function, ( String, Printer ) )
 generateQuote module_ name icuNames quotationStart quotationEnd =
     ( Exposed
         { name = name
@@ -41,13 +48,7 @@ generateQuote module_ name icuNames quotationStart quotationEnd =
                 , arguments = []
                 , returnType = "Printer (Text Static args node) args node"
                 , body =
-                    [ [ "printer"
-                      , icuNames
-                            |> List.map Generate.string
-                            |> Generate.listOneLine
-                      , "<|"
-                      ]
-                        |> String.join " "
+                    [ "printer <|"
                     , [ "\\text ->"
                       , [ "concat"
                         , [ "s " ++ Generate.string quotationStart
@@ -67,9 +68,9 @@ generateQuote module_ name icuNames quotationStart quotationEnd =
             ]
                 |> String.join "\n"
         }
-    , { name = name
-      , module_ = module_
-      , type_ = Printer.Delimited
-      , icuNames = icuNames
-      }
+    , ( name
+      , { module_ = module_
+        , type_ = Printer.Delimited
+        }
+      )
     )

@@ -28,10 +28,8 @@ import Json.Encode as Encode exposing (Value)
 
 {-| -}
 type alias Printer =
-    { name : String
-    , module_ : String
+    { module_ : String
     , type_ : PrinterType
-    , icuNames : List String
     }
 
 
@@ -53,10 +51,8 @@ type PrinterType
 decoder : Decoder Printer
 decoder =
     Decode.succeed Printer
-        |> Decode.required "name" Decode.string
         |> Decode.required "module" Decode.string
         |> Decode.required "type" printerTypeDecoder
-        |> Decode.required "icuNames" (Decode.list Decode.string)
 
 
 printerTypeDecoder : Decoder PrinterType
@@ -95,14 +91,8 @@ printerTypeDecoder =
 {-| -}
 encode : Printer -> Value
 encode printer =
-    [ ( "name", Encode.string printer.name )
-    , ( "module", Encode.string printer.module_ )
+    [ ( "module", Encode.string printer.module_ )
     , ( "type", encodeType printer.type_ )
-    , ( "icuNames"
-      , printer.icuNames
-            |> List.map Encode.string
-            |> Encode.list
-      )
     ]
         |> Encode.object
 

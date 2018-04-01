@@ -3,6 +3,7 @@ module Generate.Plural exposing (generate)
 import Data.Function exposing (Function(Exposed, Internal))
 import Data.PluralRules exposing (..)
 import Data.Pluralization exposing (Pluralization)
+import Dict exposing (Dict)
 import Generate.Helper as Generate
 import String.Extra as String
 
@@ -11,7 +12,7 @@ generate :
     String
     -> Maybe PluralRules
     -> Maybe PluralRules
-    -> ( List Function, List Pluralization )
+    -> ( List Function, Dict String Pluralization )
 generate module_ maybeCardinal maybeOrdinal =
     let
         or second first =
@@ -28,12 +29,12 @@ generate module_ maybeCardinal maybeOrdinal =
             , generatePlural module_ "ordinal" ordinal
             ]
                 |> List.foldr
-                    (\( function, pluralization ) ( functions, pluralizations ) ->
+                    (\( function, ( name, pluralization ) ) ( functions, pluralizations ) ->
                         ( function :: functions
-                        , pluralization :: pluralizations
+                        , Dict.insert name pluralization pluralizations
                         )
                     )
-                    ( [], [] )
+                    ( [], Dict.empty )
                 |> Tuple.mapFirst
                     (\functions ->
                         [ generateSelector "cardinal" cardinal
@@ -44,10 +45,10 @@ generate module_ maybeCardinal maybeOrdinal =
         )
         (maybeCardinal |> or maybeOrdinal)
         (maybeOrdinal |> or maybeCardinal)
-        |> Maybe.withDefault ( [], [] )
+        |> Maybe.withDefault ( [], Dict.empty )
 
 
-generatePlural : String -> String -> PluralRules -> ( Function, Pluralization )
+generatePlural : String -> String -> PluralRules -> ( Function, ( String, Pluralization ) )
 generatePlural module_ kind pluralRules =
     let
         body =
@@ -154,9 +155,9 @@ generatePlural module_ kind pluralRules =
             ]
                 |> String.join "\n\n"
         }
-    , { name = kind
-      , module_ = module_
-      , pluralForms =
+    , ( kind
+      , { module_ = module_
+        , pluralForms =
             [ pluralCaseName "zero" pluralRules.zero
             , pluralCaseName "one" pluralRules.one
             , pluralCaseName "two" pluralRules.two
@@ -165,8 +166,8 @@ generatePlural module_ kind pluralRules =
             , Just "other"
             ]
                 |> List.filterMap identity
-      , icuNames = [ kind ]
-      }
+        }
+      )
     )
 
 

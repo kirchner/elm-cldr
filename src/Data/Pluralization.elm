@@ -20,10 +20,8 @@ import Json.Encode as Encode exposing (Value)
 
 {-| -}
 type alias Pluralization =
-    { name : String
-    , module_ : String
+    { module_ : String
     , pluralForms : List String
-    , icuNames : List String
     }
 
 
@@ -35,10 +33,8 @@ type alias Pluralization =
 decoder : Decoder Pluralization
 decoder =
     Decode.succeed Pluralization
-        |> Decode.required "name" Decode.string
         |> Decode.required "module" Decode.string
         |> Decode.required "pluralForms" (Decode.list Decode.string)
-        |> Decode.required "icuNames" (Decode.list Decode.string)
 
 
 
@@ -48,15 +44,9 @@ decoder =
 {-| -}
 encode : Pluralization -> Value
 encode pluralization =
-    [ ( "name", Encode.string pluralization.name )
-    , ( "module", Encode.string pluralization.module_ )
+    [ ( "module", Encode.string pluralization.module_ )
     , ( "pluralForms"
       , pluralization.pluralForms
-            |> List.map Encode.string
-            |> Encode.list
-      )
-    , ( "icuNames"
-      , pluralization.icuNames
             |> List.map Encode.string
             |> Encode.list
       )

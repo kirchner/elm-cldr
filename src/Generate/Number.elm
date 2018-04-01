@@ -15,7 +15,7 @@ generate :
     -> Dict String ScientificFormats
     -> Dict String PercentFormats
     -> Dict String CurrencyFormats
-    -> ( List Function, List Printer )
+    -> ( List Function, Dict String Printer )
 generate module_ symbols decimalFormats scientificFormats percentFormats currencyFormats =
     let
         generateFormat numberSystem names format =
@@ -63,12 +63,12 @@ generate module_ symbols decimalFormats scientificFormats percentFormats currenc
     ]
         |> List.concat
         |> List.foldr
-            (\( ( printerFunction, printer ), formatFunction ) ( functions, printers ) ->
+            (\( ( printerFunction, ( printerName, printer ) ), formatFunction ) ( functions, printers ) ->
                 ( printerFunction :: formatFunction :: functions
-                , printer :: printers
+                , Dict.insert printerName printer printers
                 )
             )
-            ( [], [] )
+            ( [], Dict.empty )
         |> Tuple.mapFirst
             (\functions ->
                 (symbols
@@ -82,7 +82,12 @@ generate module_ symbols decimalFormats scientificFormats percentFormats currenc
             )
 
 
-generateNumberPrinter : String -> String -> List String -> NumberFormat -> ( Function, Printer )
+generateNumberPrinter :
+    String
+    -> String
+    -> List String
+    -> NumberFormat
+    -> ( Function, ( String, Printer ) )
 generateNumberPrinter module_ numberSystem names numberFormat =
     let
         name =
@@ -104,12 +109,7 @@ generateNumberPrinter module_ numberSystem names numberFormat =
                 , arguments = []
                 , returnType = "FloatPrinter args msg"
                 , body =
-                    [ [ "floatPrinter"
-                      , names
-                            |> List.map Generate.string
-                            |> Generate.listOneLine
-                      ]
-                        |> String.join " "
+                    [ "floatPrinter"
                     , [ "(\\float ->"
                       , "s (Number.print "
                       , numberSystem ++ "NumberSymbols"
@@ -127,11 +127,11 @@ generateNumberPrinter module_ numberSystem names numberFormat =
             ]
                 |> String.join "\n"
         }
-    , { name = name
-      , module_ = module_
-      , type_ = Printer.Float
-      , icuNames = names
-      }
+    , ( name
+      , { module_ = module_
+        , type_ = Printer.Float
+        }
+      )
     )
 
 

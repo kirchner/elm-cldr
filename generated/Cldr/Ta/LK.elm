@@ -34,7 +34,7 @@ import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other,
 {-| -}
 quote : Printer (Text Static args node) args node
 quote =
-    printer [ "quote" ] <|
+    printer <|
         \text ->
             concat
                 [ s "“"
@@ -46,7 +46,7 @@ quote =
 {-| -}
 quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
-    printer [ "quote", "alternate" ] <|
+    printer <|
         \text ->
             concat
                 [ s "‘"
@@ -92,7 +92,7 @@ tamldecNumberSymbols =
 {-| -}
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    floatPrinter [ "decimal", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
@@ -115,7 +115,7 @@ decimalLatnStandardNumberFormat =
 {-| -}
 decimalTamldecStandard : FloatPrinter args msg
 decimalTamldecStandard =
-    floatPrinter [ "decimal", "tamldec", "standard" ]
+    floatPrinter
         (\float -> s (Number.print tamldecNumberSymbols decimalTamldecStandardNumberFormat float))
         (Number.floatInfo decimalTamldecStandardNumberFormat)
 
@@ -138,7 +138,7 @@ decimalTamldecStandardNumberFormat =
 {-| -}
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    floatPrinter [ "scientific", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
@@ -161,7 +161,7 @@ scientificLatnStandardNumberFormat =
 {-| -}
 scientificTamldecStandard : FloatPrinter args msg
 scientificTamldecStandard =
-    floatPrinter [ "scientific", "tamldec", "standard" ]
+    floatPrinter
         (\float -> s (Number.print tamldecNumberSymbols scientificTamldecStandardNumberFormat float))
         (Number.floatInfo scientificTamldecStandardNumberFormat)
 
@@ -184,7 +184,7 @@ scientificTamldecStandardNumberFormat =
 {-| -}
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    floatPrinter [ "percent", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
@@ -207,7 +207,7 @@ percentLatnStandardNumberFormat =
 {-| -}
 percentTamldecStandard : FloatPrinter args msg
 percentTamldecStandard =
-    floatPrinter [ "percent", "tamldec", "standard" ]
+    floatPrinter
         (\float -> s (Number.print tamldecNumberSymbols percentTamldecStandardNumberFormat float))
         (Number.floatInfo percentTamldecStandardNumberFormat)
 
@@ -230,7 +230,7 @@ percentTamldecStandardNumberFormat =
 {-| -}
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
-    floatPrinter [ "currency", "latn", "standard" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
@@ -253,7 +253,7 @@ currencyLatnStandardNumberFormat =
 {-| -}
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
-    floatPrinter [ "currency", "latn", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
@@ -285,7 +285,7 @@ currencyLatnAccountingNumberFormat =
 {-| -}
 currencyTamldecStandard : FloatPrinter args msg
 currencyTamldecStandard =
-    floatPrinter [ "currency", "tamldec", "standard" ]
+    floatPrinter
         (\float -> s (Number.print tamldecNumberSymbols currencyTamldecStandardNumberFormat float))
         (Number.floatInfo currencyTamldecStandardNumberFormat)
 
@@ -308,7 +308,7 @@ currencyTamldecStandardNumberFormat =
 {-| -}
 currencyTamldecAccounting : FloatPrinter args msg
 currencyTamldecAccounting =
-    floatPrinter [ "currency", "tamldec", "accounting" ]
+    floatPrinter
         (\float -> s (Number.print tamldecNumberSymbols currencyTamldecAccountingNumberFormat float))
         (Number.floatInfo currencyTamldecAccountingNumberFormat)
 
