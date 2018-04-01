@@ -6,6 +6,7 @@ import Data.Pluralization exposing (Pluralization)
 import Dict exposing (Dict)
 import Generate.Helper as Generate
 import String.Extra as String
+import Text exposing (PluralForm(Few, Many, One, Other, Two, Zero))
 
 
 generate :
@@ -158,12 +159,12 @@ generatePlural module_ kind pluralRules =
     , ( kind
       , { module_ = module_
         , pluralForms =
-            [ pluralCaseName "zero" pluralRules.zero
-            , pluralCaseName "one" pluralRules.one
-            , pluralCaseName "two" pluralRules.two
-            , pluralCaseName "few" pluralRules.few
-            , pluralCaseName "many" pluralRules.many
-            , Just "other"
+            [ pluralCaseName Zero pluralRules.zero
+            , pluralCaseName One pluralRules.one
+            , pluralCaseName Two pluralRules.two
+            , pluralCaseName Few pluralRules.few
+            , pluralCaseName Many pluralRules.many
+            , Just Other
             ]
                 |> List.filterMap identity
         }
