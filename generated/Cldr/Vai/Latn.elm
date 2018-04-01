@@ -18,11 +18,11 @@ module Cldr.Vai.Latn
 
 import Data.Numbers exposing (NumberFormat, Symbols)
 import Printer.Number as Number
-import Translation exposing (Printer, Text, concat, printer, s)
+import Text exposing (FloatPrinter, Printer, Static, Text, concat, floatPrinter, printer, s)
 
 
 {-| -}
-quote : Printer (Text args node) args node
+quote : Printer (Text Static args node) args node
 quote =
     printer [ "quote" ] <|
         \text ->
@@ -34,7 +34,7 @@ quote =
 
 
 {-| -}
-quoteAlternate : Printer (Text args node) args node
+quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
     printer [ "quote", "alternate" ] <|
         \text ->
@@ -80,11 +80,11 @@ vaiiNumberSymbols =
 
 
 {-| -}
-decimalLatnStandard : Printer Float args msg
+decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    printer [ "decimal", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float)
+    floatPrinter [ "decimal", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
 decimalLatnStandardNumberFormat : NumberFormat
@@ -103,11 +103,11 @@ decimalLatnStandardNumberFormat =
 
 
 {-| -}
-decimalVaiiStandard : Printer Float args msg
+decimalVaiiStandard : FloatPrinter args msg
 decimalVaiiStandard =
-    printer [ "decimal", "vaii", "standard" ] <|
-        \float ->
-            s (Number.print vaiiNumberSymbols decimalVaiiStandardNumberFormat float)
+    floatPrinter [ "decimal", "vaii", "standard" ]
+        (\float -> s (Number.print vaiiNumberSymbols decimalVaiiStandardNumberFormat float))
+        (Number.floatInfo decimalVaiiStandardNumberFormat)
 
 
 decimalVaiiStandardNumberFormat : NumberFormat
@@ -126,11 +126,11 @@ decimalVaiiStandardNumberFormat =
 
 
 {-| -}
-scientificLatnStandard : Printer Float args msg
+scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    printer [ "scientific", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float)
+    floatPrinter [ "scientific", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
 scientificLatnStandardNumberFormat : NumberFormat
@@ -149,11 +149,11 @@ scientificLatnStandardNumberFormat =
 
 
 {-| -}
-scientificVaiiStandard : Printer Float args msg
+scientificVaiiStandard : FloatPrinter args msg
 scientificVaiiStandard =
-    printer [ "scientific", "vaii", "standard" ] <|
-        \float ->
-            s (Number.print vaiiNumberSymbols scientificVaiiStandardNumberFormat float)
+    floatPrinter [ "scientific", "vaii", "standard" ]
+        (\float -> s (Number.print vaiiNumberSymbols scientificVaiiStandardNumberFormat float))
+        (Number.floatInfo scientificVaiiStandardNumberFormat)
 
 
 scientificVaiiStandardNumberFormat : NumberFormat
@@ -172,11 +172,11 @@ scientificVaiiStandardNumberFormat =
 
 
 {-| -}
-percentLatnStandard : Printer Float args msg
+percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    printer [ "percent", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float)
+    floatPrinter [ "percent", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (Number.floatInfo percentLatnStandardNumberFormat)
 
 
 percentLatnStandardNumberFormat : NumberFormat
@@ -195,11 +195,11 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
-percentVaiiStandard : Printer Float args msg
+percentVaiiStandard : FloatPrinter args msg
 percentVaiiStandard =
-    printer [ "percent", "vaii", "standard" ] <|
-        \float ->
-            s (Number.print vaiiNumberSymbols percentVaiiStandardNumberFormat float)
+    floatPrinter [ "percent", "vaii", "standard" ]
+        (\float -> s (Number.print vaiiNumberSymbols percentVaiiStandardNumberFormat float))
+        (Number.floatInfo percentVaiiStandardNumberFormat)
 
 
 percentVaiiStandardNumberFormat : NumberFormat

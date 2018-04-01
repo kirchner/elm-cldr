@@ -28,11 +28,11 @@ import Data.Numbers exposing (NumberFormat, Symbols)
 import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))
 import Printer.Number as Number
 import Printer.Plural as Plural
-import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, concat, plural, printer, s)
+import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other, Two, Zero), Printer, Static, Text, concat, floatPrinter, plural, printer, s)
 
 
 {-| -}
-quote : Printer (Text args node) args node
+quote : Printer (Text Static args node) args node
 quote =
     printer [ "quote" ] <|
         \text ->
@@ -44,7 +44,7 @@ quote =
 
 
 {-| -}
-quoteAlternate : Printer (Text args node) args node
+quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
     printer [ "quote", "alternate" ] <|
         \text ->
@@ -90,11 +90,11 @@ latnNumberSymbols =
 
 
 {-| -}
-decimalGujrStandard : Printer Float args msg
+decimalGujrStandard : FloatPrinter args msg
 decimalGujrStandard =
-    printer [ "decimal", "gujr", "standard" ] <|
-        \float ->
-            s (Number.print gujrNumberSymbols decimalGujrStandardNumberFormat float)
+    floatPrinter [ "decimal", "gujr", "standard" ]
+        (\float -> s (Number.print gujrNumberSymbols decimalGujrStandardNumberFormat float))
+        (Number.floatInfo decimalGujrStandardNumberFormat)
 
 
 decimalGujrStandardNumberFormat : NumberFormat
@@ -113,11 +113,11 @@ decimalGujrStandardNumberFormat =
 
 
 {-| -}
-decimalLatnStandard : Printer Float args msg
+decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    printer [ "decimal", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float)
+    floatPrinter [ "decimal", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
 decimalLatnStandardNumberFormat : NumberFormat
@@ -136,11 +136,11 @@ decimalLatnStandardNumberFormat =
 
 
 {-| -}
-scientificGujrStandard : Printer Float args msg
+scientificGujrStandard : FloatPrinter args msg
 scientificGujrStandard =
-    printer [ "scientific", "gujr", "standard" ] <|
-        \float ->
-            s (Number.print gujrNumberSymbols scientificGujrStandardNumberFormat float)
+    floatPrinter [ "scientific", "gujr", "standard" ]
+        (\float -> s (Number.print gujrNumberSymbols scientificGujrStandardNumberFormat float))
+        (Number.floatInfo scientificGujrStandardNumberFormat)
 
 
 scientificGujrStandardNumberFormat : NumberFormat
@@ -159,11 +159,11 @@ scientificGujrStandardNumberFormat =
 
 
 {-| -}
-scientificLatnStandard : Printer Float args msg
+scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    printer [ "scientific", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float)
+    floatPrinter [ "scientific", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
 scientificLatnStandardNumberFormat : NumberFormat
@@ -182,11 +182,11 @@ scientificLatnStandardNumberFormat =
 
 
 {-| -}
-percentGujrStandard : Printer Float args msg
+percentGujrStandard : FloatPrinter args msg
 percentGujrStandard =
-    printer [ "percent", "gujr", "standard" ] <|
-        \float ->
-            s (Number.print gujrNumberSymbols percentGujrStandardNumberFormat float)
+    floatPrinter [ "percent", "gujr", "standard" ]
+        (\float -> s (Number.print gujrNumberSymbols percentGujrStandardNumberFormat float))
+        (Number.floatInfo percentGujrStandardNumberFormat)
 
 
 percentGujrStandardNumberFormat : NumberFormat
@@ -205,11 +205,11 @@ percentGujrStandardNumberFormat =
 
 
 {-| -}
-percentLatnStandard : Printer Float args msg
+percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    printer [ "percent", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float)
+    floatPrinter [ "percent", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (Number.floatInfo percentLatnStandardNumberFormat)
 
 
 percentLatnStandardNumberFormat : NumberFormat
@@ -228,11 +228,11 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
-currencyGujrStandard : Printer Float args msg
+currencyGujrStandard : FloatPrinter args msg
 currencyGujrStandard =
-    printer [ "currency", "gujr", "standard" ] <|
-        \float ->
-            s (Number.print gujrNumberSymbols currencyGujrStandardNumberFormat float)
+    floatPrinter [ "currency", "gujr", "standard" ]
+        (\float -> s (Number.print gujrNumberSymbols currencyGujrStandardNumberFormat float))
+        (Number.floatInfo currencyGujrStandardNumberFormat)
 
 
 currencyGujrStandardNumberFormat : NumberFormat
@@ -251,11 +251,11 @@ currencyGujrStandardNumberFormat =
 
 
 {-| -}
-currencyGujrAccounting : Printer Float args msg
+currencyGujrAccounting : FloatPrinter args msg
 currencyGujrAccounting =
-    printer [ "currency", "gujr", "accounting" ] <|
-        \float ->
-            s (Number.print gujrNumberSymbols currencyGujrAccountingNumberFormat float)
+    floatPrinter [ "currency", "gujr", "accounting" ]
+        (\float -> s (Number.print gujrNumberSymbols currencyGujrAccountingNumberFormat float))
+        (Number.floatInfo currencyGujrAccountingNumberFormat)
 
 
 currencyGujrAccountingNumberFormat : NumberFormat
@@ -283,11 +283,11 @@ currencyGujrAccountingNumberFormat =
 
 
 {-| -}
-currencyLatnStandard : Printer Float args msg
+currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
-    printer [ "currency", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float)
+    floatPrinter [ "currency", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
+        (Number.floatInfo currencyLatnStandardNumberFormat)
 
 
 currencyLatnStandardNumberFormat : NumberFormat
@@ -306,11 +306,11 @@ currencyLatnStandardNumberFormat =
 
 
 {-| -}
-currencyLatnAccounting : Printer Float args msg
+currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
-    printer [ "currency", "latn", "accounting" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float)
+    floatPrinter [ "currency", "latn", "accounting" ]
+        (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
+        (Number.floatInfo currencyLatnAccountingNumberFormat)
 
 
 currencyLatnAccountingNumberFormat : NumberFormat
@@ -340,12 +340,12 @@ currencyLatnAccountingNumberFormat =
 {-| -}
 toCardinalForm :
     Float
-    -> String
+    -> FloatInfo
     -> PluralForm
-toCardinalForm _ count =
+toCardinalForm _ floatInfo =
     if
-        (Plural.integerDigits '.' count == 0)
-            || (Plural.absoluteValue '.' count == 1)
+        (Plural.integerDigits floatInfo == 0)
+            || (floatInfo.absoluteValue == 1)
     then
         One
     else
@@ -355,19 +355,19 @@ toCardinalForm _ count =
 {-| -}
 toOrdinalForm :
     Float
-    -> String
+    -> FloatInfo
     -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
+toOrdinalForm _ floatInfo =
+    if floatInfo.absoluteValue == 1 then
         One
     else if
-        (Plural.absoluteValue '.' count == 2)
-            || (Plural.absoluteValue '.' count == 3)
+        (floatInfo.absoluteValue == 2)
+            || (floatInfo.absoluteValue == 3)
     then
         Two
-    else if Plural.absoluteValue '.' count == 4 then
+    else if floatInfo.absoluteValue == 4 then
         Few
-    else if Plural.absoluteValue '.' count == 6 then
+    else if floatInfo.absoluteValue == 6 then
         Many
     else
         Other
@@ -375,16 +375,19 @@ toOrdinalForm _ count =
 
 {-| -}
 cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
+    (args -> Float)
+    -> FloatPrinter args msg
+    -> List ( Float, Text Static args msg )
     ->
-        { one : Text args msg
-        , other : Text args msg
+        { one : Text Static args msg
+        , other : Text Static args msg
         }
-    -> Text args msg
-cardinal printer accessor name { one, other } =
-    plural printer toCardinalForm accessor name <|
+    -> Text Static args msg
+cardinal accessor printer otherTexts { one, other } =
+    plural accessor
+        printer
+        toCardinalForm
+        otherTexts
         { zero = Nothing
         , one = Just one
         , two = Nothing
@@ -396,19 +399,22 @@ cardinal printer accessor name { one, other } =
 
 {-| -}
 ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
+    (args -> Float)
+    -> FloatPrinter args msg
+    -> List ( Float, Text Static args msg )
     ->
-        { one : Text args msg
-        , two : Text args msg
-        , few : Text args msg
-        , many : Text args msg
-        , other : Text args msg
+        { one : Text Static args msg
+        , two : Text Static args msg
+        , few : Text Static args msg
+        , many : Text Static args msg
+        , other : Text Static args msg
         }
-    -> Text args msg
-ordinal printer accessor name { one, two, few, many, other } =
-    plural printer toOrdinalForm accessor name <|
+    -> Text Static args msg
+ordinal accessor printer otherTexts { one, two, few, many, other } =
+    plural accessor
+        printer
+        toOrdinalForm
+        otherTexts
         { zero = Nothing
         , one = Just one
         , two = Just two

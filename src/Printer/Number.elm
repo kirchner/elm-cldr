@@ -1,6 +1,59 @@
-module Printer.Number exposing (print)
+module Printer.Number
+    exposing
+        ( floatInfo
+        , print
+        )
 
 import Data.Numbers exposing (NumberFormat, Symbols)
+import Text exposing (FloatInfo)
+
+
+floatInfo : NumberFormat -> Float -> FloatInfo
+floatInfo numberFormat num =
+    let
+        withPattern pattern =
+            { absoluteValue = abs num
+            , integerDigits =
+                num
+                    |> floor
+                    |> digits
+            , fractionDigits =
+                fractionalDigits
+                    pattern.minimalFractionCount
+                    pattern.maximalFractionCount
+                    0
+                    num
+            }
+
+        fractionalDigits minimal maximal printed num =
+            if printed < maximal then
+                let
+                    nextDigit =
+                        ((num * 10) |> floor) % 10
+                in
+                if printed < minimal then
+                    nextDigit :: fractionalDigits minimal maximal (printed + 1) (num * 10)
+                else if
+                    (floor (num * toFloat (10 ^ (maximal - printed)))
+                        % (10 ^ (maximal - printed))
+                    )
+                        /= 0
+                then
+                    nextDigit :: fractionalDigits minimal maximal (printed + 1) (num * 10)
+                else
+                    []
+            else
+                []
+    in
+    if num >= 0 then
+        withPattern numberFormat.positivePattern
+    else
+        case numberFormat.negativePattern of
+            Just negativePattern ->
+                withPattern negativePattern
+
+            Nothing ->
+                withPattern numberFormat.positivePattern
 
 
 print : Symbols -> NumberFormat -> Float -> String

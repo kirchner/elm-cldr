@@ -3,7 +3,6 @@ port module Main exposing (main)
 import Data
 import Generate
 import Json.Decode as Decode exposing (Value)
-import Json.Decode.Pipeline as Decode
 import Json.Encode as Encode
 import Platform
 
@@ -14,6 +13,7 @@ port reportError : Value -> Cmd msg
 port writeModule : Value -> Cmd msg
 
 
+main : Program Value {} msg
 main =
     Platform.programWithFlags
         { init = init

@@ -18,11 +18,11 @@ module Cldr.Lrc.IQ
 
 import Data.Numbers exposing (NumberFormat, Symbols)
 import Printer.Number as Number
-import Translation exposing (Printer, Text, concat, printer, s)
+import Text exposing (FloatPrinter, Printer, Static, Text, concat, floatPrinter, printer, s)
 
 
 {-| -}
-quote : Printer (Text args node) args node
+quote : Printer (Text Static args node) args node
 quote =
     printer [ "quote" ] <|
         \text ->
@@ -34,7 +34,7 @@ quote =
 
 
 {-| -}
-quoteAlternate : Printer (Text args node) args node
+quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
     printer [ "quote", "alternate" ] <|
         \text ->
@@ -80,11 +80,11 @@ latnNumberSymbols =
 
 
 {-| -}
-decimalArabextStandard : Printer Float args msg
+decimalArabextStandard : FloatPrinter args msg
 decimalArabextStandard =
-    printer [ "decimal", "arabext", "standard" ] <|
-        \float ->
-            s (Number.print arabextNumberSymbols decimalArabextStandardNumberFormat float)
+    floatPrinter [ "decimal", "arabext", "standard" ]
+        (\float -> s (Number.print arabextNumberSymbols decimalArabextStandardNumberFormat float))
+        (Number.floatInfo decimalArabextStandardNumberFormat)
 
 
 decimalArabextStandardNumberFormat : NumberFormat
@@ -103,11 +103,11 @@ decimalArabextStandardNumberFormat =
 
 
 {-| -}
-decimalLatnStandard : Printer Float args msg
+decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    printer [ "decimal", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float)
+    floatPrinter [ "decimal", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
 decimalLatnStandardNumberFormat : NumberFormat
@@ -126,11 +126,11 @@ decimalLatnStandardNumberFormat =
 
 
 {-| -}
-scientificArabextStandard : Printer Float args msg
+scientificArabextStandard : FloatPrinter args msg
 scientificArabextStandard =
-    printer [ "scientific", "arabext", "standard" ] <|
-        \float ->
-            s (Number.print arabextNumberSymbols scientificArabextStandardNumberFormat float)
+    floatPrinter [ "scientific", "arabext", "standard" ]
+        (\float -> s (Number.print arabextNumberSymbols scientificArabextStandardNumberFormat float))
+        (Number.floatInfo scientificArabextStandardNumberFormat)
 
 
 scientificArabextStandardNumberFormat : NumberFormat
@@ -149,11 +149,11 @@ scientificArabextStandardNumberFormat =
 
 
 {-| -}
-scientificLatnStandard : Printer Float args msg
+scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    printer [ "scientific", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float)
+    floatPrinter [ "scientific", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
 scientificLatnStandardNumberFormat : NumberFormat
@@ -172,11 +172,11 @@ scientificLatnStandardNumberFormat =
 
 
 {-| -}
-percentArabextStandard : Printer Float args msg
+percentArabextStandard : FloatPrinter args msg
 percentArabextStandard =
-    printer [ "percent", "arabext", "standard" ] <|
-        \float ->
-            s (Number.print arabextNumberSymbols percentArabextStandardNumberFormat float)
+    floatPrinter [ "percent", "arabext", "standard" ]
+        (\float -> s (Number.print arabextNumberSymbols percentArabextStandardNumberFormat float))
+        (Number.floatInfo percentArabextStandardNumberFormat)
 
 
 percentArabextStandardNumberFormat : NumberFormat
@@ -195,11 +195,11 @@ percentArabextStandardNumberFormat =
 
 
 {-| -}
-percentLatnStandard : Printer Float args msg
+percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    printer [ "percent", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float)
+    floatPrinter [ "percent", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (Number.floatInfo percentLatnStandardNumberFormat)
 
 
 percentLatnStandardNumberFormat : NumberFormat

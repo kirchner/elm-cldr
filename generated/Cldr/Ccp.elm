@@ -22,11 +22,11 @@ module Cldr.Ccp
 
 import Data.Numbers exposing (NumberFormat, Symbols)
 import Printer.Number as Number
-import Translation exposing (Printer, Text, concat, printer, s)
+import Text exposing (FloatPrinter, Printer, Static, Text, concat, floatPrinter, printer, s)
 
 
 {-| -}
-quote : Printer (Text args node) args node
+quote : Printer (Text Static args node) args node
 quote =
     printer [ "quote" ] <|
         \text ->
@@ -38,7 +38,7 @@ quote =
 
 
 {-| -}
-quoteAlternate : Printer (Text args node) args node
+quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
     printer [ "quote", "alternate" ] <|
         \text ->
@@ -84,11 +84,11 @@ latnNumberSymbols =
 
 
 {-| -}
-decimalCakmStandard : Printer Float args msg
+decimalCakmStandard : FloatPrinter args msg
 decimalCakmStandard =
-    printer [ "decimal", "cakm", "standard" ] <|
-        \float ->
-            s (Number.print cakmNumberSymbols decimalCakmStandardNumberFormat float)
+    floatPrinter [ "decimal", "cakm", "standard" ]
+        (\float -> s (Number.print cakmNumberSymbols decimalCakmStandardNumberFormat float))
+        (Number.floatInfo decimalCakmStandardNumberFormat)
 
 
 decimalCakmStandardNumberFormat : NumberFormat
@@ -107,11 +107,11 @@ decimalCakmStandardNumberFormat =
 
 
 {-| -}
-decimalLatnStandard : Printer Float args msg
+decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    printer [ "decimal", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float)
+    floatPrinter [ "decimal", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
 decimalLatnStandardNumberFormat : NumberFormat
@@ -130,11 +130,11 @@ decimalLatnStandardNumberFormat =
 
 
 {-| -}
-scientificCakmStandard : Printer Float args msg
+scientificCakmStandard : FloatPrinter args msg
 scientificCakmStandard =
-    printer [ "scientific", "cakm", "standard" ] <|
-        \float ->
-            s (Number.print cakmNumberSymbols scientificCakmStandardNumberFormat float)
+    floatPrinter [ "scientific", "cakm", "standard" ]
+        (\float -> s (Number.print cakmNumberSymbols scientificCakmStandardNumberFormat float))
+        (Number.floatInfo scientificCakmStandardNumberFormat)
 
 
 scientificCakmStandardNumberFormat : NumberFormat
@@ -153,11 +153,11 @@ scientificCakmStandardNumberFormat =
 
 
 {-| -}
-scientificLatnStandard : Printer Float args msg
+scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    printer [ "scientific", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float)
+    floatPrinter [ "scientific", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
 scientificLatnStandardNumberFormat : NumberFormat
@@ -176,11 +176,11 @@ scientificLatnStandardNumberFormat =
 
 
 {-| -}
-percentCakmStandard : Printer Float args msg
+percentCakmStandard : FloatPrinter args msg
 percentCakmStandard =
-    printer [ "percent", "cakm", "standard" ] <|
-        \float ->
-            s (Number.print cakmNumberSymbols percentCakmStandardNumberFormat float)
+    floatPrinter [ "percent", "cakm", "standard" ]
+        (\float -> s (Number.print cakmNumberSymbols percentCakmStandardNumberFormat float))
+        (Number.floatInfo percentCakmStandardNumberFormat)
 
 
 percentCakmStandardNumberFormat : NumberFormat
@@ -199,11 +199,11 @@ percentCakmStandardNumberFormat =
 
 
 {-| -}
-percentLatnStandard : Printer Float args msg
+percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    printer [ "percent", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float)
+    floatPrinter [ "percent", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (Number.floatInfo percentLatnStandardNumberFormat)
 
 
 percentLatnStandardNumberFormat : NumberFormat
@@ -222,11 +222,11 @@ percentLatnStandardNumberFormat =
 
 
 {-| -}
-currencyCakmStandard : Printer Float args msg
+currencyCakmStandard : FloatPrinter args msg
 currencyCakmStandard =
-    printer [ "currency", "cakm", "standard" ] <|
-        \float ->
-            s (Number.print cakmNumberSymbols currencyCakmStandardNumberFormat float)
+    floatPrinter [ "currency", "cakm", "standard" ]
+        (\float -> s (Number.print cakmNumberSymbols currencyCakmStandardNumberFormat float))
+        (Number.floatInfo currencyCakmStandardNumberFormat)
 
 
 currencyCakmStandardNumberFormat : NumberFormat
@@ -245,11 +245,11 @@ currencyCakmStandardNumberFormat =
 
 
 {-| -}
-currencyCakmAccounting : Printer Float args msg
+currencyCakmAccounting : FloatPrinter args msg
 currencyCakmAccounting =
-    printer [ "currency", "cakm", "accounting" ] <|
-        \float ->
-            s (Number.print cakmNumberSymbols currencyCakmAccountingNumberFormat float)
+    floatPrinter [ "currency", "cakm", "accounting" ]
+        (\float -> s (Number.print cakmNumberSymbols currencyCakmAccountingNumberFormat float))
+        (Number.floatInfo currencyCakmAccountingNumberFormat)
 
 
 currencyCakmAccountingNumberFormat : NumberFormat
@@ -277,11 +277,11 @@ currencyCakmAccountingNumberFormat =
 
 
 {-| -}
-currencyLatnStandard : Printer Float args msg
+currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
-    printer [ "currency", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float)
+    floatPrinter [ "currency", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
+        (Number.floatInfo currencyLatnStandardNumberFormat)
 
 
 currencyLatnStandardNumberFormat : NumberFormat
@@ -300,11 +300,11 @@ currencyLatnStandardNumberFormat =
 
 
 {-| -}
-currencyLatnAccounting : Printer Float args msg
+currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
-    printer [ "currency", "latn", "accounting" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float)
+    floatPrinter [ "currency", "latn", "accounting" ]
+        (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
+        (Number.floatInfo currencyLatnAccountingNumberFormat)
 
 
 currencyLatnAccountingNumberFormat : NumberFormat

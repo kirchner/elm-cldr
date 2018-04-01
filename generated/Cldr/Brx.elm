@@ -24,11 +24,11 @@ import Data.Numbers exposing (NumberFormat, Symbols)
 import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))
 import Printer.Number as Number
 import Printer.Plural as Plural
-import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, concat, plural, printer, s)
+import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other, Two, Zero), Printer, Static, Text, concat, floatPrinter, plural, printer, s)
 
 
 {-| -}
-quote : Printer (Text args node) args node
+quote : Printer (Text Static args node) args node
 quote =
     printer [ "quote" ] <|
         \text ->
@@ -40,7 +40,7 @@ quote =
 
 
 {-| -}
-quoteAlternate : Printer (Text args node) args node
+quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
     printer [ "quote", "alternate" ] <|
         \text ->
@@ -86,11 +86,11 @@ latnNumberSymbols =
 
 
 {-| -}
-decimalDevaStandard : Printer Float args msg
+decimalDevaStandard : FloatPrinter args msg
 decimalDevaStandard =
-    printer [ "decimal", "deva", "standard" ] <|
-        \float ->
-            s (Number.print devaNumberSymbols decimalDevaStandardNumberFormat float)
+    floatPrinter [ "decimal", "deva", "standard" ]
+        (\float -> s (Number.print devaNumberSymbols decimalDevaStandardNumberFormat float))
+        (Number.floatInfo decimalDevaStandardNumberFormat)
 
 
 decimalDevaStandardNumberFormat : NumberFormat
@@ -109,11 +109,11 @@ decimalDevaStandardNumberFormat =
 
 
 {-| -}
-decimalLatnStandard : Printer Float args msg
+decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    printer [ "decimal", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float)
+    floatPrinter [ "decimal", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
 decimalLatnStandardNumberFormat : NumberFormat
@@ -132,11 +132,11 @@ decimalLatnStandardNumberFormat =
 
 
 {-| -}
-scientificDevaStandard : Printer Float args msg
+scientificDevaStandard : FloatPrinter args msg
 scientificDevaStandard =
-    printer [ "scientific", "deva", "standard" ] <|
-        \float ->
-            s (Number.print devaNumberSymbols scientificDevaStandardNumberFormat float)
+    floatPrinter [ "scientific", "deva", "standard" ]
+        (\float -> s (Number.print devaNumberSymbols scientificDevaStandardNumberFormat float))
+        (Number.floatInfo scientificDevaStandardNumberFormat)
 
 
 scientificDevaStandardNumberFormat : NumberFormat
@@ -155,11 +155,11 @@ scientificDevaStandardNumberFormat =
 
 
 {-| -}
-scientificLatnStandard : Printer Float args msg
+scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    printer [ "scientific", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float)
+    floatPrinter [ "scientific", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
 scientificLatnStandardNumberFormat : NumberFormat
@@ -178,11 +178,11 @@ scientificLatnStandardNumberFormat =
 
 
 {-| -}
-percentDevaStandard : Printer Float args msg
+percentDevaStandard : FloatPrinter args msg
 percentDevaStandard =
-    printer [ "percent", "deva", "standard" ] <|
-        \float ->
-            s (Number.print devaNumberSymbols percentDevaStandardNumberFormat float)
+    floatPrinter [ "percent", "deva", "standard" ]
+        (\float -> s (Number.print devaNumberSymbols percentDevaStandardNumberFormat float))
+        (Number.floatInfo percentDevaStandardNumberFormat)
 
 
 percentDevaStandardNumberFormat : NumberFormat
@@ -201,11 +201,11 @@ percentDevaStandardNumberFormat =
 
 
 {-| -}
-percentLatnStandard : Printer Float args msg
+percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    printer [ "percent", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float)
+    floatPrinter [ "percent", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (Number.floatInfo percentLatnStandardNumberFormat)
 
 
 percentLatnStandardNumberFormat : NumberFormat
@@ -226,10 +226,10 @@ percentLatnStandardNumberFormat =
 {-| -}
 toCardinalForm :
     Float
-    -> String
+    -> FloatInfo
     -> PluralForm
-toCardinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
+toCardinalForm _ floatInfo =
+    if floatInfo.absoluteValue == 1 then
         One
     else
         Other
@@ -238,10 +238,10 @@ toCardinalForm _ count =
 {-| -}
 toOrdinalForm :
     Float
-    -> String
+    -> FloatInfo
     -> PluralForm
-toOrdinalForm _ count =
-    if Plural.absoluteValue '.' count == 1 then
+toOrdinalForm _ floatInfo =
+    if floatInfo.absoluteValue == 1 then
         One
     else
         Other
@@ -249,16 +249,19 @@ toOrdinalForm _ count =
 
 {-| -}
 cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
+    (args -> Float)
+    -> FloatPrinter args msg
+    -> List ( Float, Text Static args msg )
     ->
-        { one : Text args msg
-        , other : Text args msg
+        { one : Text Static args msg
+        , other : Text Static args msg
         }
-    -> Text args msg
-cardinal printer accessor name { one, other } =
-    plural printer toCardinalForm accessor name <|
+    -> Text Static args msg
+cardinal accessor printer otherTexts { one, other } =
+    plural accessor
+        printer
+        toCardinalForm
+        otherTexts
         { zero = Nothing
         , one = Just one
         , two = Nothing
@@ -270,16 +273,19 @@ cardinal printer accessor name { one, other } =
 
 {-| -}
 ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
+    (args -> Float)
+    -> FloatPrinter args msg
+    -> List ( Float, Text Static args msg )
     ->
-        { one : Text args msg
-        , other : Text args msg
+        { one : Text Static args msg
+        , other : Text Static args msg
         }
-    -> Text args msg
-ordinal printer accessor name { one, other } =
-    plural printer toOrdinalForm accessor name <|
+    -> Text Static args msg
+ordinal accessor printer otherTexts { one, other } =
+    plural accessor
+        printer
+        toOrdinalForm
+        otherTexts
         { zero = Nothing
         , one = Just one
         , two = Nothing

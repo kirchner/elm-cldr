@@ -24,11 +24,11 @@ import Data.Numbers exposing (NumberFormat, Symbols)
 import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))
 import Printer.Number as Number
 import Printer.Plural as Plural
-import Translation exposing (PluralForm(Few, Many, One, Other, Two, Zero), Printer, Text, concat, plural, printer, s)
+import Text exposing (FloatInfo, FloatPrinter, PluralForm(Few, Many, One, Other, Two, Zero), Printer, Static, Text, concat, floatPrinter, plural, printer, s)
 
 
 {-| -}
-quote : Printer (Text args node) args node
+quote : Printer (Text Static args node) args node
 quote =
     printer [ "quote" ] <|
         \text ->
@@ -40,7 +40,7 @@ quote =
 
 
 {-| -}
-quoteAlternate : Printer (Text args node) args node
+quoteAlternate : Printer (Text Static args node) args node
 quoteAlternate =
     printer [ "quote", "alternate" ] <|
         \text ->
@@ -86,11 +86,11 @@ latnNumberSymbols =
 
 
 {-| -}
-decimalKhmrStandard : Printer Float args msg
+decimalKhmrStandard : FloatPrinter args msg
 decimalKhmrStandard =
-    printer [ "decimal", "khmr", "standard" ] <|
-        \float ->
-            s (Number.print khmrNumberSymbols decimalKhmrStandardNumberFormat float)
+    floatPrinter [ "decimal", "khmr", "standard" ]
+        (\float -> s (Number.print khmrNumberSymbols decimalKhmrStandardNumberFormat float))
+        (Number.floatInfo decimalKhmrStandardNumberFormat)
 
 
 decimalKhmrStandardNumberFormat : NumberFormat
@@ -109,11 +109,11 @@ decimalKhmrStandardNumberFormat =
 
 
 {-| -}
-decimalLatnStandard : Printer Float args msg
+decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
-    printer [ "decimal", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float)
+    floatPrinter [ "decimal", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
 decimalLatnStandardNumberFormat : NumberFormat
@@ -132,11 +132,11 @@ decimalLatnStandardNumberFormat =
 
 
 {-| -}
-scientificKhmrStandard : Printer Float args msg
+scientificKhmrStandard : FloatPrinter args msg
 scientificKhmrStandard =
-    printer [ "scientific", "khmr", "standard" ] <|
-        \float ->
-            s (Number.print khmrNumberSymbols scientificKhmrStandardNumberFormat float)
+    floatPrinter [ "scientific", "khmr", "standard" ]
+        (\float -> s (Number.print khmrNumberSymbols scientificKhmrStandardNumberFormat float))
+        (Number.floatInfo scientificKhmrStandardNumberFormat)
 
 
 scientificKhmrStandardNumberFormat : NumberFormat
@@ -155,11 +155,11 @@ scientificKhmrStandardNumberFormat =
 
 
 {-| -}
-scientificLatnStandard : Printer Float args msg
+scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
-    printer [ "scientific", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float)
+    floatPrinter [ "scientific", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
 scientificLatnStandardNumberFormat : NumberFormat
@@ -178,11 +178,11 @@ scientificLatnStandardNumberFormat =
 
 
 {-| -}
-percentKhmrStandard : Printer Float args msg
+percentKhmrStandard : FloatPrinter args msg
 percentKhmrStandard =
-    printer [ "percent", "khmr", "standard" ] <|
-        \float ->
-            s (Number.print khmrNumberSymbols percentKhmrStandardNumberFormat float)
+    floatPrinter [ "percent", "khmr", "standard" ]
+        (\float -> s (Number.print khmrNumberSymbols percentKhmrStandardNumberFormat float))
+        (Number.floatInfo percentKhmrStandardNumberFormat)
 
 
 percentKhmrStandardNumberFormat : NumberFormat
@@ -201,11 +201,11 @@ percentKhmrStandardNumberFormat =
 
 
 {-| -}
-percentLatnStandard : Printer Float args msg
+percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
-    printer [ "percent", "latn", "standard" ] <|
-        \float ->
-            s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float)
+    floatPrinter [ "percent", "latn", "standard" ]
+        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (Number.floatInfo percentLatnStandardNumberFormat)
 
 
 percentLatnStandardNumberFormat : NumberFormat
@@ -226,32 +226,35 @@ percentLatnStandardNumberFormat =
 {-| -}
 toCardinalForm :
     Float
-    -> String
+    -> FloatInfo
     -> PluralForm
-toCardinalForm _ count =
+toCardinalForm _ floatInfo =
     Other
 
 
 {-| -}
 toOrdinalForm :
     Float
-    -> String
+    -> FloatInfo
     -> PluralForm
-toOrdinalForm _ count =
+toOrdinalForm _ floatInfo =
     Other
 
 
 {-| -}
 cardinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
+    (args -> Float)
+    -> FloatPrinter args msg
+    -> List ( Float, Text Static args msg )
     ->
-        { other : Text args msg
+        { other : Text Static args msg
         }
-    -> Text args msg
-cardinal printer accessor name { other } =
-    plural printer toCardinalForm accessor name <|
+    -> Text Static args msg
+cardinal accessor printer otherTexts { other } =
+    plural accessor
+        printer
+        toCardinalForm
+        otherTexts
         { zero = Nothing
         , one = Nothing
         , two = Nothing
@@ -263,15 +266,18 @@ cardinal printer accessor name { other } =
 
 {-| -}
 ordinal :
-    Printer Float args msg
-    -> (args -> Float)
-    -> String
+    (args -> Float)
+    -> FloatPrinter args msg
+    -> List ( Float, Text Static args msg )
     ->
-        { other : Text args msg
+        { other : Text Static args msg
         }
-    -> Text args msg
-ordinal printer accessor name { other } =
-    plural printer toOrdinalForm accessor name <|
+    -> Text Static args msg
+ordinal accessor printer otherTexts { other } =
+    plural accessor
+        printer
+        toOrdinalForm
+        otherTexts
         { zero = Nothing
         , one = Nothing
         , two = Nothing

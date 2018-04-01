@@ -33,13 +33,13 @@ generateQuote module_ name icuNames quotationStart quotationEnd =
     ( Exposed
         { name = name
         , imports =
-            [ "import Translation exposing (Printer, Text, concat, s, printer)" ]
+            [ "import Text exposing (Printer, Text, Static, concat, s, printer)" ]
         , implementation =
             [ "{-| -}"
             , Generate.function
                 { name = name
                 , arguments = []
-                , returnType = "Printer (Text args node) args node"
+                , returnType = "Printer (Text Static args node) args node"
                 , body =
                     [ [ "printer"
                       , icuNames

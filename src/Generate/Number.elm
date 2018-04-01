@@ -95,31 +95,32 @@ generateNumberPrinter module_ numberSystem names numberFormat =
         , imports =
             [ "import Printer.Number as Number"
             , "import Data.Numbers exposing (NumberFormat)"
-            , "import Translation exposing (Printer, s, printer)"
+            , "import Text exposing (FloatPrinter, s, floatPrinter)"
             ]
         , implementation =
             [ "{-| -}"
             , Generate.function
                 { name = name
                 , arguments = []
-                , returnType = "Printer Float args msg"
+                , returnType = "FloatPrinter args msg"
                 , body =
-                    [ [ "printer"
+                    [ [ "floatPrinter"
                       , names
                             |> List.map Generate.string
                             |> Generate.listOneLine
-                      , "<|"
                       ]
                         |> String.join " "
-                    , [ "\\float ->"
-                      , [ "s (Number.print "
-                        , numberSystem ++ "NumberSymbols"
-                        , name ++ "NumberFormat"
-                        , "float)"
-                        ]
-                            |> String.join " "
+                    , [ "(\\float ->"
+                      , "s (Number.print "
+                      , numberSystem ++ "NumberSymbols"
+                      , name ++ "NumberFormat"
+                      , "float))"
                       ]
-                        |> String.join "\n"
+                        |> String.join " "
+                    , [ "(Number.floatInfo"
+                      , name ++ "NumberFormat)"
+                      ]
+                        |> String.join " "
                     ]
                         |> String.join "\n"
                 }

@@ -7,7 +7,11 @@ import Generate.Helper as Generate
 import String.Extra as String
 
 
-generate : String -> Maybe PluralRules -> Maybe PluralRules -> ( List Function, List Pluralization )
+generate :
+    String
+    -> Maybe PluralRules
+    -> Maybe PluralRules
+    -> ( List Function, List Pluralization )
 generate module_ maybeCardinal maybeOrdinal =
     let
         or second first =
@@ -48,11 +52,10 @@ generatePlural module_ kind pluralRules =
     let
         body =
             [ [ "plural"
+              , "accessor"
               , "printer"
               , "to" ++ String.toSentenceCase kind ++ "Form"
-              , "accessor"
-              , "name"
-              , "<|"
+              , "otherTexts"
               ]
                 |> String.join " "
             , pluralCasesAssignment
@@ -87,7 +90,7 @@ generatePlural module_ kind pluralRules =
               , pluralCaseType "two" pluralRules.two
               , pluralCaseType "few" pluralRules.few
               , pluralCaseType "many" pluralRules.many
-              , Just "other : Text args msg"
+              , Just "other : Text Static args msg"
               ]
                 |> List.filterMap identity
                 |> String.join "\n ,"
@@ -99,7 +102,7 @@ generatePlural module_ kind pluralRules =
             case maybeRule of
                 Just _ ->
                     [ name
-                    , " : Text args msg"
+                    , " : Text Static args msg"
                     ]
                         |> String.concat
                         |> Just
@@ -133,19 +136,19 @@ generatePlural module_ kind pluralRules =
     ( Exposed
         { name = kind
         , imports =
-            [ "import Translation exposing (Printer, Text, plural)"
+            [ "import Text exposing (FloatPrinter, Text, Static, plural)"
             ]
         , implementation =
             [ "{-| -}"
             , Generate.function
                 { name = kind
                 , arguments =
-                    [ ( "Printer Float args msg", "printer" )
-                    , ( "(args -> Float)", "accessor" )
-                    , ( "String", "name" )
+                    [ ( "(args -> Float)", "accessor" )
+                    , ( "FloatPrinter args msg", "printer" )
+                    , ( "List ( Float, Text Static args msg )", "otherTexts" )
                     , ( pluralCasesType, pluralCasesNames )
                     ]
-                , returnType = "Text args msg"
+                , returnType = "Text Static args msg"
                 , body = body
                 }
             ]
@@ -170,7 +173,7 @@ generatePlural module_ kind pluralRules =
 generateSelector : String -> PluralRules -> Function
 generateSelector kind pluralRules =
     let
-        generateBody pluralRules =
+        body =
             case conditions pluralRules of
                 [] ->
                     "Other"
@@ -197,7 +200,7 @@ generateSelector kind pluralRules =
     Exposed
         { name = name
         , imports =
-            [ "import Translation exposing (PluralForm(Zero, One, Two, Few, Many, Other))"
+            [ "import Text exposing (FloatInfo, PluralForm(Zero, One, Two, Few, Many, Other))"
             , "import Printer.Plural as Plural"
             , "import Data.PluralRules exposing (WithTrailingZeros(WithTrailingZeros, WithoutTrailingZeros))"
             ]
@@ -207,10 +210,10 @@ generateSelector kind pluralRules =
                 { name = name
                 , arguments =
                     [ ( "Float", "_" )
-                    , ( "String", "count" )
+                    , ( "FloatInfo", "floatInfo" )
                     ]
                 , returnType = "PluralForm"
-                , body = generateBody pluralRules
+                , body = body
                 }
             ]
                 |> String.join "\n"
@@ -340,50 +343,29 @@ generateExpression expression =
 generateOperand : Bool -> String -> PluralOperand -> String
 generateOperand round decimal pluralOperand =
     [ "("
-    , String.concat <|
-        case pluralOperand of
-            AbsoluteValue ->
-                if round then
-                    [ "floor (Plural.absoluteValue "
-                    , "'"
-                    , decimal
-                    , "'"
-                    , " count)"
-                    ]
-                else
-                    [ "Plural.absoluteValue "
-                    , "'"
-                    , decimal
-                    , "'"
-                    , " count"
-                    ]
+    , case pluralOperand of
+        AbsoluteValue ->
+            if round then
+                "floor (floatInfo.absoluteValue)"
+            else
+                "floatInfo.absoluteValue"
 
-            FractionDigits withTrailingZeros ->
-                [ "Plural.fractionDigits "
-                , "'"
-                , decimal
-                , "'"
-                , " "
+        FractionDigits withTrailingZeros ->
+            String.join " "
+                [ "Plural.fractionDigits"
                 , withTrailingZeros |> toString
-                , " count"
+                , "floatInfo"
                 ]
 
-            IntegerDigits ->
-                [ "Plural.integerDigits "
-                , "'"
-                , decimal
-                , "'"
-                , " count"
-                ]
+        IntegerDigits ->
+            String.join " "
+                [ "Plural.integerDigits", "floatInfo" ]
 
-            FractionDigitCount withTrailingZeros ->
-                [ "Plural.fractionDigitCount "
-                , "'"
-                , decimal
-                , "'"
-                , " "
+        FractionDigitCount withTrailingZeros ->
+            String.join " "
+                [ "Plural.fractionDigitCount"
                 , withTrailingZeros |> toString
-                , " count"
+                , "floatInfo"
                 ]
     , ")"
     ]
