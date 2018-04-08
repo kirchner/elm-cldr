@@ -10,7 +10,7 @@ import Char
 import Data.Currencies as Currencies exposing (Currencies)
 import Data.Delimiters as Delimiters exposing (Delimiters)
 import Data.ListPatterns as ListPatterns exposing (ListPatterns)
-import Data.Numbers as Numbers exposing (Numbers)
+import Data.Numbers as Numbers exposing (NumberingSystemData, Numbers)
 import Data.PluralRules as PluralRules exposing (PluralRules)
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder, decodeString)
@@ -21,6 +21,7 @@ type alias RawData =
     { main : Dict String RawLocaleData
     , cardinals : String
     , ordinals : String
+    , numberingSystems : String
     }
 
 
@@ -38,6 +39,7 @@ rawDataDecoder =
         |> Decode.required "rawData" (Decode.dict rawLocaleDataDecoder)
         |> Decode.required "cardinals" Decode.string
         |> Decode.required "ordinals" Decode.string
+        |> Decode.required "numberingSystems" Decode.string
 
 
 rawLocaleDataDecoder : Decoder RawLocaleData
@@ -53,6 +55,7 @@ type alias Data =
     { main : Dict (List String) LocaleData
     , cardinals : Dict String PluralRules
     , ordinals : Dict String PluralRules
+    , numberingSystems : Dict String NumberingSystemData
     }
 
 
@@ -66,7 +69,7 @@ type alias LocaleData =
 
 decode : RawData -> Result String Data
 decode rawData =
-    Result.map3 Data
+    Result.map4 Data
         (Dict.foldl
             (\localeCode { delimiters, listPatterns, numbers, currencies } result ->
                 Ok LocaleData
@@ -106,6 +109,12 @@ decode rawData =
             |> Decode.decodeString
                 (Decode.at [ "supplemental", "plurals-type-ordinal" ]
                     (Decode.dict PluralRules.decoder)
+                )
+        )
+        (rawData.numberingSystems
+            |> Decode.decodeString
+                (Decode.at [ "supplemental", "numberingSystems" ]
+                    (Decode.dict Numbers.numberingSystemDataDecoder)
                 )
         )
 

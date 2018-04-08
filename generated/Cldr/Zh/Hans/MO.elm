@@ -89,7 +89,7 @@ latnNumberSymbols =
 decimalHanidecStandard : FloatPrinter args msg
 decimalHanidecStandard =
     floatPrinter
-        (\float -> s (Number.print hanidecNumberSymbols decimalHanidecStandardNumberFormat float))
+        (\float -> s (Number.print hanidecNumberSymbols [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九' ] decimalHanidecStandardNumberFormat float))
         (Number.floatInfo decimalHanidecStandardNumberFormat)
 
 
@@ -112,7 +112,7 @@ decimalHanidecStandardNumberFormat =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -135,7 +135,7 @@ decimalLatnStandardNumberFormat =
 scientificHanidecStandard : FloatPrinter args msg
 scientificHanidecStandard =
     floatPrinter
-        (\float -> s (Number.print hanidecNumberSymbols scientificHanidecStandardNumberFormat float))
+        (\float -> s (Number.print hanidecNumberSymbols [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九' ] scientificHanidecStandardNumberFormat float))
         (Number.floatInfo scientificHanidecStandardNumberFormat)
 
 
@@ -158,7 +158,7 @@ scientificHanidecStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -181,7 +181,7 @@ scientificLatnStandardNumberFormat =
 percentHanidecStandard : FloatPrinter args msg
 percentHanidecStandard =
     floatPrinter
-        (\float -> s (Number.print hanidecNumberSymbols percentHanidecStandardNumberFormat float))
+        (\float -> s (Number.print hanidecNumberSymbols [ '〇', '一', '二', '三', '四', '五', '六', '七', '八', '九' ] percentHanidecStandardNumberFormat float))
         (Number.floatInfo percentHanidecStandardNumberFormat)
 
 
@@ -204,7 +204,7 @@ percentHanidecStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 

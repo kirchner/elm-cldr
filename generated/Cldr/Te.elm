@@ -93,7 +93,7 @@ teluNumberSymbols =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -116,7 +116,7 @@ decimalLatnStandardNumberFormat =
 decimalTeluStandard : FloatPrinter args msg
 decimalTeluStandard =
     floatPrinter
-        (\float -> s (Number.print teluNumberSymbols decimalTeluStandardNumberFormat float))
+        (\float -> s (Number.print teluNumberSymbols [ '౦', '౧', '౨', '౩', '౪', '౫', '౬', '౭', '౮', '౯' ] decimalTeluStandardNumberFormat float))
         (Number.floatInfo decimalTeluStandardNumberFormat)
 
 
@@ -139,7 +139,7 @@ decimalTeluStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -162,7 +162,7 @@ scientificLatnStandardNumberFormat =
 scientificTeluStandard : FloatPrinter args msg
 scientificTeluStandard =
     floatPrinter
-        (\float -> s (Number.print teluNumberSymbols scientificTeluStandardNumberFormat float))
+        (\float -> s (Number.print teluNumberSymbols [ '౦', '౧', '౨', '౩', '౪', '౫', '౬', '౭', '౮', '౯' ] scientificTeluStandardNumberFormat float))
         (Number.floatInfo scientificTeluStandardNumberFormat)
 
 
@@ -185,7 +185,7 @@ scientificTeluStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 
@@ -208,7 +208,7 @@ percentLatnStandardNumberFormat =
 percentTeluStandard : FloatPrinter args msg
 percentTeluStandard =
     floatPrinter
-        (\float -> s (Number.print teluNumberSymbols percentTeluStandardNumberFormat float))
+        (\float -> s (Number.print teluNumberSymbols [ '౦', '౧', '౨', '౩', '౪', '౫', '౬', '౭', '౮', '౯' ] percentTeluStandardNumberFormat float))
         (Number.floatInfo percentTeluStandardNumberFormat)
 
 
@@ -231,7 +231,7 @@ percentTeluStandardNumberFormat =
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
 
@@ -254,7 +254,7 @@ currencyLatnStandardNumberFormat =
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
 
@@ -286,7 +286,7 @@ currencyLatnAccountingNumberFormat =
 currencyTeluStandard : FloatPrinter args msg
 currencyTeluStandard =
     floatPrinter
-        (\float -> s (Number.print teluNumberSymbols currencyTeluStandardNumberFormat float))
+        (\float -> s (Number.print teluNumberSymbols [ '౦', '౧', '౨', '౩', '౪', '౫', '౬', '౭', '౮', '౯' ] currencyTeluStandardNumberFormat float))
         (Number.floatInfo currencyTeluStandardNumberFormat)
 
 
@@ -309,7 +309,7 @@ currencyTeluStandardNumberFormat =
 currencyTeluAccounting : FloatPrinter args msg
 currencyTeluAccounting =
     floatPrinter
-        (\float -> s (Number.print teluNumberSymbols currencyTeluAccountingNumberFormat float))
+        (\float -> s (Number.print teluNumberSymbols [ '౦', '౧', '౨', '౩', '౪', '౫', '౬', '౭', '౮', '౯' ] currencyTeluAccountingNumberFormat float))
         (Number.floatInfo currencyTeluAccountingNumberFormat)
 
 

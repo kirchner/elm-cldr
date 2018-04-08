@@ -89,7 +89,7 @@ latnNumberSymbols =
 decimalKhmrStandard : FloatPrinter args msg
 decimalKhmrStandard =
     floatPrinter
-        (\float -> s (Number.print khmrNumberSymbols decimalKhmrStandardNumberFormat float))
+        (\float -> s (Number.print khmrNumberSymbols [ '០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩' ] decimalKhmrStandardNumberFormat float))
         (Number.floatInfo decimalKhmrStandardNumberFormat)
 
 
@@ -112,7 +112,7 @@ decimalKhmrStandardNumberFormat =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -135,7 +135,7 @@ decimalLatnStandardNumberFormat =
 scientificKhmrStandard : FloatPrinter args msg
 scientificKhmrStandard =
     floatPrinter
-        (\float -> s (Number.print khmrNumberSymbols scientificKhmrStandardNumberFormat float))
+        (\float -> s (Number.print khmrNumberSymbols [ '០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩' ] scientificKhmrStandardNumberFormat float))
         (Number.floatInfo scientificKhmrStandardNumberFormat)
 
 
@@ -158,7 +158,7 @@ scientificKhmrStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -181,7 +181,7 @@ scientificLatnStandardNumberFormat =
 percentKhmrStandard : FloatPrinter args msg
 percentKhmrStandard =
     floatPrinter
-        (\float -> s (Number.print khmrNumberSymbols percentKhmrStandardNumberFormat float))
+        (\float -> s (Number.print khmrNumberSymbols [ '០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩' ] percentKhmrStandardNumberFormat float))
         (Number.floatInfo percentKhmrStandardNumberFormat)
 
 
@@ -204,7 +204,7 @@ percentKhmrStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 

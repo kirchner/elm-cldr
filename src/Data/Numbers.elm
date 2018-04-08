@@ -37,11 +37,16 @@ module Data.Numbers
             , Tibt
             , Vaii
             )
+        , NumberingSystemData
+            ( Algorithmic
+            , Numeric
+            )
         , Numbers
         , PercentFormats
         , ScientificFormats
         , Symbols
         , decoder
+        , numberingSystemDataDecoder
         )
 
 import Dict exposing (Dict)
@@ -94,6 +99,11 @@ type NumberingSystem
     | Thai
     | Tibt
     | Vaii
+
+
+type NumberingSystemData
+    = Numeric { digits : List Char }
+    | Algorithmic { rules : String }
 
 
 type alias Symbols =
@@ -435,6 +445,26 @@ numberingSystemDecoder =
             )
 
 
+numberingSystemDataDecoder : Decoder NumberingSystemData
+numberingSystemDataDecoder =
+    Decode.field "_type" Decode.string
+        |> Decode.andThen
+            (\type_ ->
+                case type_ of
+                    "numeric" ->
+                        Decode.field "_digits" Decode.string
+                            |> Decode.map String.toList
+                            |> Decode.map (\digits -> Numeric { digits = digits })
+
+                    "algorithmic" ->
+                        Decode.field "_rules" Decode.string
+                            |> Decode.map (\rules -> Algorithmic { rules = rules })
+
+                    _ ->
+                        Decode.fail ("'" ++ type_ ++ "' is not a valid numbering system type")
+            )
+
+
 symbolsDecoder : Decoder Symbols
 symbolsDecoder =
     Decode.succeed Symbols
@@ -491,6 +521,7 @@ decimalFormatDecoder =
         |> decimalPluralFormsDecoder "100000000000000-count"
 
 
+decimalPluralFormsDecoder : String -> Decoder (DecimalPluralForms -> a) -> Decoder a
 decimalPluralFormsDecoder count =
     Decode.custom
         (Decode.succeed DecimalPluralForms

@@ -93,7 +93,7 @@ tamldecNumberSymbols =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -116,7 +116,7 @@ decimalLatnStandardNumberFormat =
 decimalTamldecStandard : FloatPrinter args msg
 decimalTamldecStandard =
     floatPrinter
-        (\float -> s (Number.print tamldecNumberSymbols decimalTamldecStandardNumberFormat float))
+        (\float -> s (Number.print tamldecNumberSymbols [ '௦', '௧', '௨', '௩', '௪', '௫', '௬', '௭', '௮', '௯' ] decimalTamldecStandardNumberFormat float))
         (Number.floatInfo decimalTamldecStandardNumberFormat)
 
 
@@ -139,7 +139,7 @@ decimalTamldecStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -162,7 +162,7 @@ scientificLatnStandardNumberFormat =
 scientificTamldecStandard : FloatPrinter args msg
 scientificTamldecStandard =
     floatPrinter
-        (\float -> s (Number.print tamldecNumberSymbols scientificTamldecStandardNumberFormat float))
+        (\float -> s (Number.print tamldecNumberSymbols [ '௦', '௧', '௨', '௩', '௪', '௫', '௬', '௭', '௮', '௯' ] scientificTamldecStandardNumberFormat float))
         (Number.floatInfo scientificTamldecStandardNumberFormat)
 
 
@@ -185,7 +185,7 @@ scientificTamldecStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 
@@ -208,7 +208,7 @@ percentLatnStandardNumberFormat =
 percentTamldecStandard : FloatPrinter args msg
 percentTamldecStandard =
     floatPrinter
-        (\float -> s (Number.print tamldecNumberSymbols percentTamldecStandardNumberFormat float))
+        (\float -> s (Number.print tamldecNumberSymbols [ '௦', '௧', '௨', '௩', '௪', '௫', '௬', '௭', '௮', '௯' ] percentTamldecStandardNumberFormat float))
         (Number.floatInfo percentTamldecStandardNumberFormat)
 
 
@@ -231,7 +231,7 @@ percentTamldecStandardNumberFormat =
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
 
@@ -254,7 +254,7 @@ currencyLatnStandardNumberFormat =
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
 
@@ -286,7 +286,7 @@ currencyLatnAccountingNumberFormat =
 currencyTamldecStandard : FloatPrinter args msg
 currencyTamldecStandard =
     floatPrinter
-        (\float -> s (Number.print tamldecNumberSymbols currencyTamldecStandardNumberFormat float))
+        (\float -> s (Number.print tamldecNumberSymbols [ '௦', '௧', '௨', '௩', '௪', '௫', '௬', '௭', '௮', '௯' ] currencyTamldecStandardNumberFormat float))
         (Number.floatInfo currencyTamldecStandardNumberFormat)
 
 
@@ -309,7 +309,7 @@ currencyTamldecStandardNumberFormat =
 currencyTamldecAccounting : FloatPrinter args msg
 currencyTamldecAccounting =
     floatPrinter
-        (\float -> s (Number.print tamldecNumberSymbols currencyTamldecAccountingNumberFormat float))
+        (\float -> s (Number.print tamldecNumberSymbols [ '௦', '௧', '௨', '௩', '௪', '௫', '௬', '௭', '௮', '௯' ] currencyTamldecAccountingNumberFormat float))
         (Number.floatInfo currencyTamldecAccountingNumberFormat)
 
 

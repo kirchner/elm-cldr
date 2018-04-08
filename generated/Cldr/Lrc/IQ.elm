@@ -83,7 +83,7 @@ latnNumberSymbols =
 decimalArabextStandard : FloatPrinter args msg
 decimalArabextStandard =
     floatPrinter
-        (\float -> s (Number.print arabextNumberSymbols decimalArabextStandardNumberFormat float))
+        (\float -> s (Number.print arabextNumberSymbols [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ] decimalArabextStandardNumberFormat float))
         (Number.floatInfo decimalArabextStandardNumberFormat)
 
 
@@ -106,7 +106,7 @@ decimalArabextStandardNumberFormat =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -129,7 +129,7 @@ decimalLatnStandardNumberFormat =
 scientificArabextStandard : FloatPrinter args msg
 scientificArabextStandard =
     floatPrinter
-        (\float -> s (Number.print arabextNumberSymbols scientificArabextStandardNumberFormat float))
+        (\float -> s (Number.print arabextNumberSymbols [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ] scientificArabextStandardNumberFormat float))
         (Number.floatInfo scientificArabextStandardNumberFormat)
 
 
@@ -152,7 +152,7 @@ scientificArabextStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -175,7 +175,7 @@ scientificLatnStandardNumberFormat =
 percentArabextStandard : FloatPrinter args msg
 percentArabextStandard =
     floatPrinter
-        (\float -> s (Number.print arabextNumberSymbols percentArabextStandardNumberFormat float))
+        (\float -> s (Number.print arabextNumberSymbols [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ] percentArabextStandardNumberFormat float))
         (Number.floatInfo percentArabextStandardNumberFormat)
 
 
@@ -198,7 +198,7 @@ percentArabextStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 

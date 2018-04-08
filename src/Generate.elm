@@ -3,7 +3,7 @@ module Generate exposing (run)
 import Data exposing (Data)
 import Data.Delimiters exposing (Delimiters)
 import Data.Function as Function
-import Data.Numbers exposing (Numbers)
+import Data.Numbers exposing (NumberingSystemData, Numbers)
 import Data.PluralRules exposing (PluralRules)
 import Data.Pluralization as Pluralization
 import Data.Printer as Printer
@@ -59,6 +59,7 @@ run data =
 
                     mainCode :: rest ->
                         generateLocaleModule localeCode
+                            data.numberingSystems
                             (Dict.get mainCode pluralRules)
                             localeData.delimiters
                             localeData.numbers
@@ -74,6 +75,7 @@ run data =
 
 generateLocaleModule :
     List String
+    -> Dict String NumberingSystemData
     ->
         Maybe
             { cardinal : Maybe PluralRules
@@ -82,7 +84,7 @@ generateLocaleModule :
     -> Delimiters
     -> Numbers
     -> ( File, Value )
-generateLocaleModule localeCode pluralRules delimiters numbers =
+generateLocaleModule localeCode numberingSystems pluralRules delimiters numbers =
     let
         sanitizedLocaleCode =
             localeCode
@@ -117,6 +119,7 @@ generateLocaleModule localeCode pluralRules delimiters numbers =
 
         ( numberFunctions, numberPrinters ) =
             Number.generate moduleName
+                numberingSystems
                 numbers.symbols
                 numbers.decimalFormats
                 numbers.scientificFormats

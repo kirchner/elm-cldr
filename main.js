@@ -25,7 +25,8 @@ localeCodes.forEach(function(localeCode) {
 var worker = Elm.Main.worker({
   "rawData": rawData,
   "cardinals": fs.readFileSync("./cldr-core/supplemental/plurals.json", "utf-8"),
-  "ordinals": fs.readFileSync("./cldr-core/supplemental/ordinals.json", "utf-8")
+  "ordinals": fs.readFileSync("./cldr-core/supplemental/ordinals.json", "utf-8"),
+  "numberingSystems": fs.readFileSync("./cldr-core/supplemental/numberingSystems.json", "utf-8")
 });
 
 

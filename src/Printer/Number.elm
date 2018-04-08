@@ -56,8 +56,8 @@ floatInfo numberFormat num =
                 withPattern numberFormat.positivePattern
 
 
-print : Symbols -> NumberFormat -> Float -> String
-print symbols numberFormat num =
+print : Symbols -> List Char -> NumberFormat -> Float -> String
+print symbols digitSymbols numberFormat num =
     let
         printWithPattern pattern num =
             [ pattern.prefix
@@ -92,10 +92,15 @@ print symbols numberFormat num =
             in
             [ String.repeat leadingZeroCount "0"
             , integerDigits
-                |> List.map toString
-                |> String.concat
+                |> List.filterMap printDigit
+                |> String.fromList
             ]
                 |> String.concat
+
+        printDigit digit =
+            digitSymbols
+                |> List.drop digit
+                |> List.head
 
         fractionalPart numberPattern num =
             [ fractionalDigits

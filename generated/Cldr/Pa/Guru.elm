@@ -93,7 +93,7 @@ latnNumberSymbols =
 decimalGuruStandard : FloatPrinter args msg
 decimalGuruStandard =
     floatPrinter
-        (\float -> s (Number.print guruNumberSymbols decimalGuruStandardNumberFormat float))
+        (\float -> s (Number.print guruNumberSymbols [ '੦', '੧', '੨', '੩', '੪', '੫', '੬', '੭', '੮', '੯' ] decimalGuruStandardNumberFormat float))
         (Number.floatInfo decimalGuruStandardNumberFormat)
 
 
@@ -116,7 +116,7 @@ decimalGuruStandardNumberFormat =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -139,7 +139,7 @@ decimalLatnStandardNumberFormat =
 scientificGuruStandard : FloatPrinter args msg
 scientificGuruStandard =
     floatPrinter
-        (\float -> s (Number.print guruNumberSymbols scientificGuruStandardNumberFormat float))
+        (\float -> s (Number.print guruNumberSymbols [ '੦', '੧', '੨', '੩', '੪', '੫', '੬', '੭', '੮', '੯' ] scientificGuruStandardNumberFormat float))
         (Number.floatInfo scientificGuruStandardNumberFormat)
 
 
@@ -162,7 +162,7 @@ scientificGuruStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -185,7 +185,7 @@ scientificLatnStandardNumberFormat =
 percentGuruStandard : FloatPrinter args msg
 percentGuruStandard =
     floatPrinter
-        (\float -> s (Number.print guruNumberSymbols percentGuruStandardNumberFormat float))
+        (\float -> s (Number.print guruNumberSymbols [ '੦', '੧', '੨', '੩', '੪', '੫', '੬', '੭', '੮', '੯' ] percentGuruStandardNumberFormat float))
         (Number.floatInfo percentGuruStandardNumberFormat)
 
 
@@ -208,7 +208,7 @@ percentGuruStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 
@@ -231,7 +231,7 @@ percentLatnStandardNumberFormat =
 currencyGuruStandard : FloatPrinter args msg
 currencyGuruStandard =
     floatPrinter
-        (\float -> s (Number.print guruNumberSymbols currencyGuruStandardNumberFormat float))
+        (\float -> s (Number.print guruNumberSymbols [ '੦', '੧', '੨', '੩', '੪', '੫', '੬', '੭', '੮', '੯' ] currencyGuruStandardNumberFormat float))
         (Number.floatInfo currencyGuruStandardNumberFormat)
 
 
@@ -254,7 +254,7 @@ currencyGuruStandardNumberFormat =
 currencyGuruAccounting : FloatPrinter args msg
 currencyGuruAccounting =
     floatPrinter
-        (\float -> s (Number.print guruNumberSymbols currencyGuruAccountingNumberFormat float))
+        (\float -> s (Number.print guruNumberSymbols [ '੦', '੧', '੨', '੩', '੪', '੫', '੬', '੭', '੮', '੯' ] currencyGuruAccountingNumberFormat float))
         (Number.floatInfo currencyGuruAccountingNumberFormat)
 
 
@@ -277,7 +277,7 @@ currencyGuruAccountingNumberFormat =
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
 
@@ -300,7 +300,7 @@ currencyLatnStandardNumberFormat =
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
 

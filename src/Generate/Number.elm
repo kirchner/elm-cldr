@@ -10,16 +10,17 @@ import String.Extra as String
 
 generate :
     String
+    -> Dict String NumberingSystemData
     -> Dict String Symbols
     -> Dict String DecimalFormats
     -> Dict String ScientificFormats
     -> Dict String PercentFormats
     -> Dict String CurrencyFormats
     -> ( List Function, Dict String Printer )
-generate module_ symbols decimalFormats scientificFormats percentFormats currencyFormats =
+generate module_ numberingSystems symbols decimalFormats scientificFormats percentFormats currencyFormats =
     let
         generateFormat numberSystem names format =
-            ( generateNumberPrinter module_ numberSystem names format
+            ( generateNumberPrinter module_ numberingSystems numberSystem names format
             , generateNumberFormat names format
             )
     in
@@ -84,16 +85,25 @@ generate module_ symbols decimalFormats scientificFormats percentFormats currenc
 
 generateNumberPrinter :
     String
+    -> Dict String NumberingSystemData
     -> String
     -> List String
     -> NumberFormat
     -> ( Function, ( String, Printer ) )
-generateNumberPrinter module_ numberSystem names numberFormat =
+generateNumberPrinter module_ numberingSystems numberSystem names numberFormat =
     let
         name =
             names
                 |> String.join "-"
                 |> String.camelize
+
+        digitSymbols =
+            case Dict.get numberSystem numberingSystems of
+                Just (Numeric { digits }) ->
+                    digits
+
+                _ ->
+                    []
     in
     ( Exposed
         { name = name
@@ -113,6 +123,13 @@ generateNumberPrinter module_ numberSystem names numberFormat =
                     , [ "(\\float ->"
                       , "s (Number.print "
                       , numberSystem ++ "NumberSymbols"
+                      , [ "[ "
+                        , digitSymbols
+                            |> List.map (\char -> "'" ++ String.fromList [ char ] ++ "'")
+                            |> String.join ", "
+                        , " ]"
+                        ]
+                            |> String.concat
                       , name ++ "NumberFormat"
                       , "float))"
                       ]

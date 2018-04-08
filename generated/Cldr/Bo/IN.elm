@@ -89,7 +89,7 @@ tibtNumberSymbols =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -112,7 +112,7 @@ decimalLatnStandardNumberFormat =
 decimalTibtStandard : FloatPrinter args msg
 decimalTibtStandard =
     floatPrinter
-        (\float -> s (Number.print tibtNumberSymbols decimalTibtStandardNumberFormat float))
+        (\float -> s (Number.print tibtNumberSymbols [ '༠', '༡', '༢', '༣', '༤', '༥', '༦', '༧', '༨', '༩' ] decimalTibtStandardNumberFormat float))
         (Number.floatInfo decimalTibtStandardNumberFormat)
 
 
@@ -135,7 +135,7 @@ decimalTibtStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -158,7 +158,7 @@ scientificLatnStandardNumberFormat =
 scientificTibtStandard : FloatPrinter args msg
 scientificTibtStandard =
     floatPrinter
-        (\float -> s (Number.print tibtNumberSymbols scientificTibtStandardNumberFormat float))
+        (\float -> s (Number.print tibtNumberSymbols [ '༠', '༡', '༢', '༣', '༤', '༥', '༦', '༧', '༨', '༩' ] scientificTibtStandardNumberFormat float))
         (Number.floatInfo scientificTibtStandardNumberFormat)
 
 
@@ -181,7 +181,7 @@ scientificTibtStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 
@@ -204,7 +204,7 @@ percentLatnStandardNumberFormat =
 percentTibtStandard : FloatPrinter args msg
 percentTibtStandard =
     floatPrinter
-        (\float -> s (Number.print tibtNumberSymbols percentTibtStandardNumberFormat float))
+        (\float -> s (Number.print tibtNumberSymbols [ '༠', '༡', '༢', '༣', '༤', '༥', '༦', '༧', '༨', '༩' ] percentTibtStandardNumberFormat float))
         (Number.floatInfo percentTibtStandardNumberFormat)
 
 

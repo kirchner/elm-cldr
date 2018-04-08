@@ -93,7 +93,7 @@ oryaNumberSymbols =
 decimalLatnStandard : FloatPrinter args msg
 decimalLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols decimalLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] decimalLatnStandardNumberFormat float))
         (Number.floatInfo decimalLatnStandardNumberFormat)
 
 
@@ -116,7 +116,7 @@ decimalLatnStandardNumberFormat =
 decimalOryaStandard : FloatPrinter args msg
 decimalOryaStandard =
     floatPrinter
-        (\float -> s (Number.print oryaNumberSymbols decimalOryaStandardNumberFormat float))
+        (\float -> s (Number.print oryaNumberSymbols [ '୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯' ] decimalOryaStandardNumberFormat float))
         (Number.floatInfo decimalOryaStandardNumberFormat)
 
 
@@ -139,7 +139,7 @@ decimalOryaStandardNumberFormat =
 scientificLatnStandard : FloatPrinter args msg
 scientificLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols scientificLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] scientificLatnStandardNumberFormat float))
         (Number.floatInfo scientificLatnStandardNumberFormat)
 
 
@@ -162,7 +162,7 @@ scientificLatnStandardNumberFormat =
 scientificOryaStandard : FloatPrinter args msg
 scientificOryaStandard =
     floatPrinter
-        (\float -> s (Number.print oryaNumberSymbols scientificOryaStandardNumberFormat float))
+        (\float -> s (Number.print oryaNumberSymbols [ '୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯' ] scientificOryaStandardNumberFormat float))
         (Number.floatInfo scientificOryaStandardNumberFormat)
 
 
@@ -185,7 +185,7 @@ scientificOryaStandardNumberFormat =
 percentLatnStandard : FloatPrinter args msg
 percentLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols percentLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] percentLatnStandardNumberFormat float))
         (Number.floatInfo percentLatnStandardNumberFormat)
 
 
@@ -208,7 +208,7 @@ percentLatnStandardNumberFormat =
 percentOryaStandard : FloatPrinter args msg
 percentOryaStandard =
     floatPrinter
-        (\float -> s (Number.print oryaNumberSymbols percentOryaStandardNumberFormat float))
+        (\float -> s (Number.print oryaNumberSymbols [ '୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯' ] percentOryaStandardNumberFormat float))
         (Number.floatInfo percentOryaStandardNumberFormat)
 
 
@@ -231,7 +231,7 @@ percentOryaStandardNumberFormat =
 currencyLatnStandard : FloatPrinter args msg
 currencyLatnStandard =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnStandardNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnStandardNumberFormat float))
         (Number.floatInfo currencyLatnStandardNumberFormat)
 
 
@@ -254,7 +254,7 @@ currencyLatnStandardNumberFormat =
 currencyLatnAccounting : FloatPrinter args msg
 currencyLatnAccounting =
     floatPrinter
-        (\float -> s (Number.print latnNumberSymbols currencyLatnAccountingNumberFormat float))
+        (\float -> s (Number.print latnNumberSymbols [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] currencyLatnAccountingNumberFormat float))
         (Number.floatInfo currencyLatnAccountingNumberFormat)
 
 
@@ -286,7 +286,7 @@ currencyLatnAccountingNumberFormat =
 currencyOryaStandard : FloatPrinter args msg
 currencyOryaStandard =
     floatPrinter
-        (\float -> s (Number.print oryaNumberSymbols currencyOryaStandardNumberFormat float))
+        (\float -> s (Number.print oryaNumberSymbols [ '୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯' ] currencyOryaStandardNumberFormat float))
         (Number.floatInfo currencyOryaStandardNumberFormat)
 
 
@@ -309,7 +309,7 @@ currencyOryaStandardNumberFormat =
 currencyOryaAccounting : FloatPrinter args msg
 currencyOryaAccounting =
     floatPrinter
-        (\float -> s (Number.print oryaNumberSymbols currencyOryaAccountingNumberFormat float))
+        (\float -> s (Number.print oryaNumberSymbols [ '୦', '୧', '୨', '୩', '୪', '୫', '୬', '୭', '୮', '୯' ] currencyOryaAccountingNumberFormat float))
         (Number.floatInfo currencyOryaAccountingNumberFormat)
 
 
