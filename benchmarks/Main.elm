@@ -2,34 +2,28 @@ module Main exposing (main)
 
 import Benchmark exposing (..)
 import Benchmark.Runner exposing (BenchmarkProgram, program)
-import Localized exposing (..)
-import Localized.Fil exposing (..)
+import Cldr.Ar.AE exposing (..)
+import Text exposing (..)
 
 
-staticMessage args =
-    [ cardinal .count
-        { one = [ s "one" ]
-        , other = [ s "other" ]
-        }
-    ]
-        |> printWith args
-
-
-dynamicMessage args =
-    [ cardinalDynamic .count
-        { one = [ s "one" ]
-        , other = [ s "other" ]
-        }
-    ]
-        |> printWith args
+withCount : Text Static { args | count : Float } node
+withCount =
+    float .count decimalArabStandard
 
 
 suite : Benchmark
 suite =
-    describe "plural parts"
-        [ Benchmark.compare "static and dynamic"
-            (benchmark1 "print staticMessage" staticMessage { count = 1 })
-            (benchmark1 "print dynamicMessage" dynamicMessage { count = 1 })
+    describe "cldr"
+        [ Benchmark.compare "number format"
+            "cldr"
+            (\_ ->
+                withCount
+                    |> asStringWith { count = 1234567890 }
+            )
+            "toString"
+            (\_ ->
+                toString 1234567890
+            )
         ]
 
 
